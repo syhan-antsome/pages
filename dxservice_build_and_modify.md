@@ -136,3 +136,5 @@ DxService/src/main/resources/static/
 - **SPA 라우팅 지원**: 존재하지 않는 경로 요청 시 `index.html` 반환
 - **정적 파일 캐싱**: 3600초 캐시 설정
 - **리소스 핸들러**: `/**` 패턴으로 모든 요청 처리
+---
+<center><b># END #</b></center>
