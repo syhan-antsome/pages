@@ -63,8 +63,6 @@ chmod +x build.sh
 ```bash
 java -jar DxService-0.0.1-SNAPSHOT.war
 ```
-
----
 ---
 <!-- pagebreak -->
 
