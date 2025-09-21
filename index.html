@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>문서 목록 - GitHub Pages</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background-color: #f8f9fa;
+            color: #333;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+        .document-list {
+            list-style: none;
+            padding: 0;
+        }
+        .document-item {
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+            background: #f8f9fa;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .document-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.2);
+        }
+        .document-link {
+            display: block;
+            padding: 20px 25px;
+            text-decoration: none;
+            color: #2c3e50;
+        }
+        .document-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .document-desc {
+            color: #7f8c8d;
+            font-size: 0.9em;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ecf0f1;
+            color: #95a5a6;
+            font-size: 0.9em;
+        }
+        .github-link {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .github-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📚 문서 목록</h1>
+        <p class="subtitle">GitHub Pages로 호스팅되는 문서들</p>
+        
+        <ul class="document-list">
+            <li class="document-item">
+                <a href="hello.html" class="document-link">
+                    <div class="document-title">👋 Hello</div>
+                    <div class="document-desc">간단한 인사 페이지</div>
+                </a>
+            </li>
+            
+            <li class="document-item">
+                <a href="dxservice_build_and_modify.html" class="document-link">
+                    <div class="document-title">🔧 DX Service Build and Modify</div>
+                    <div class="document-desc">DX 서비스 빌드 및 수정 가이드</div>
+                </a>
+            </li>
+            
+            <li class="document-item">
+                <a href="service_mng.html" class="document-link">
+                    <div class="document-title">⚙️ 서비스생성가이드</div>
+                    <div class="document-desc">서비스 생성 및 관리 가이드</div>
+                </a>
+            </li>
+        </ul>
+        
+        <div class="footer">
+            <p>
+                이 페이지는 <a href="https://github.com/syhan-antsome/pages" class="github-link">GitHub Pages</a>로 호스팅됩니다.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
