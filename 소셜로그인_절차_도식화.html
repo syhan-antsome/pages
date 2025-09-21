@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>&#x1f510; &#xc18c;&#xc15c; &#xb85c;&#xadf8;&#xc778; &#xc2dc;&#xc2a4;&#xd15c; &#xac00;&#xc774;&#xb4dc;</title>
+  <style>
+    /* From extension vscode.github */
+    /*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+    .vscode-dark img[src$=\#gh-light-mode-only],
+    .vscode-light img[src$=\#gh-dark-mode-only],
+    .vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+    .vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+      display: none;
+    }
+  </style>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet"
+    type="text/css">
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+  </style>
+  <style>
+    .task-list-item {
+      list-style-type: none;
+    }
+
+    .task-list-item-checkbox {
+      margin-left: -20px;
+      vertical-align: middle;
+      pointer-events: none;
+    }
+  </style>
+  <style>
+    :root {
+      --color-note: #0969da;
+      --color-tip: #1a7f37;
+      --color-warning: #9a6700;
+      --color-severe: #bc4c00;
+      --color-caution: #d1242f;
+      --color-important: #8250df;
+    }
+  </style>
+  <style>
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --color-note: #2f81f7;
+        --color-tip: #3fb950;
+        --color-warning: #d29922;
+        --color-severe: #db6d28;
+        --color-caution: #f85149;
+        --color-important: #a371f7;
+      }
+    }
+  </style>
+  <style>
+    .markdown-alert {
+      padding: 0.5rem 1rem;
+      margin-bottom: 16px;
+      color: inherit;
+      border-left: .25em solid #888;
+    }
+
+    .markdown-alert>:first-child {
+      margin-top: 0
+    }
+
+    .markdown-alert>:last-child {
+      margin-bottom: 0
+    }
+
+    .markdown-alert .markdown-alert-title {
+      display: flex;
+      font-weight: 500;
+      align-items: center;
+      line-height: 1
+    }
+
+    .markdown-alert .markdown-alert-title .octicon {
+      margin-right: 0.5rem;
+      display: inline-block;
+      overflow: visible !important;
+      vertical-align: text-bottom;
+      fill: currentColor;
+    }
+
+    .markdown-alert.markdown-alert-note {
+      border-left-color: var(--color-note);
+    }
+
+    .markdown-alert.markdown-alert-note .markdown-alert-title {
+      color: var(--color-note);
+    }
+
+    .markdown-alert.markdown-alert-important {
+      border-left-color: var(--color-important);
+    }
+
+    .markdown-alert.markdown-alert-important .markdown-alert-title {
+      color: var(--color-important);
+    }
+
+    .markdown-alert.markdown-alert-warning {
+      border-left-color: var(--color-warning);
+    }
+
+    .markdown-alert.markdown-alert-warning .markdown-alert-title {
+      color: var(--color-warning);
+    }
+
+    .markdown-alert.markdown-alert-tip {
+      border-left-color: var(--color-tip);
+    }
+
+    .markdown-alert.markdown-alert-tip .markdown-alert-title {
+      color: var(--color-tip);
+    }
+
+    .markdown-alert.markdown-alert-caution {
+      border-left-color: var(--color-caution);
+    }
+
+    .markdown-alert.markdown-alert-caution .markdown-alert-title {
+      color: var(--color-caution);
+    }
+  </style>
+
+</head>
+
+<body class="vscode-body vscode-light">
+  <h1 id="-소셜-로그인-시스템-가이드">🔐 소셜 로그인 시스템 가이드</h1>
+  <h2 id="-목차">📋 목차</h2>
+  <ol>
+    <li><a href="#1-%EC%A0%84%EC%B2%B4-%EA%B5%AC%EC%A1%B0-%EA%B0%9C%EC%9A%94">전체 구조 개요</a></li>
+    <li><a href="#2-3%EB%8B%A8%EA%B3%84-%EC%9E%90%EB%8F%99-%ED%8C%90%EB%8B%A8-%EB%A1%9C%EC%A7%81">3단계 자동 판단 로직</a></li>
+    <li><a href="#3-%ED%94%8C%EB%9E%AB%ED%8F%BC%EB%B3%84-%ED%95%B5%EC%8B%AC-%EC%B0%A8%EC%9D%B4%EC%A0%90">플랫폼별 핵심 차이점</a>
+    </li>
+    <li><a
+        href="#4-%ED%94%8C%EB%9E%AB%ED%8F%BC%EB%B3%84-%EC%A3%BC%EC%9A%94-%EC%B0%A8%EC%9D%B4%EC%A0%90-%EC%9A%94%EC%95%BD">플랫폼별
+        주요 차이점 요약</a></li>
+    <li><a href="#5-%EC%A3%BC%EC%9A%94-api-%EC%8A%A4%ED%8E%99">주요 API 스펙</a></li>
+    <li><a href="#6-%ED%95%B5%EC%8B%AC-%EC%84%A4%EC%A0%95-%EC%A0%95%EB%B3%B4">핵심 설정 정보</a></li>
+    <li><a href="#7-%EA%B0%9C%EB%B0%9C-%ED%99%98%EA%B2%BD-%ED%85%8C%EC%8A%A4%ED%8A%B8">개발 환경 테스트</a></li>
+  </ol>
+  <hr>
+  <h2 id="1-전체-구조-개요">1. 전체 구조 개요</h2>
+  <h3 id="11-시스템-아키텍처-다이어그램">1.1 시스템 아키텍처 다이어그램</h3>
+  <pre class="mermaid">graph TB
+    A[프론트엔드] --&gt; B[AuthService:8082]
+    B --&gt; C[Google OAuth]
+    B --&gt; D[카카오 OAuth]
+    B --&gt; E[네이버 OAuth]
+    B --&gt; F[MySQL Database]
+    B --&gt; G[Redis Cache]
+    
+    subgraph &quot;DB Tables&quot;
+        F --&gt; H[members]
+        F --&gt; I[member_social_accounts]
+    end
+    
+    subgraph &quot;토큰 관리&quot;
+        G --&gt; J[Access Token]
+        G --&gt; K[Refresh Token]
+    end
+</pre>
+  <h3 id="12-전체-처리-플로우">1.2 전체 처리 플로우</h3>
+  <pre><code>사용자 소셜 로그인 요청
+    ↓
+소셜 플랫폼에서 토큰 획득 (ID Token/Access Token)
+    ↓
+AuthService로 토큰 전송
+    ↓
+3단계 자동 판단 로직 실행
+    ↓
+결과에 따른 처리:
+├─ 기존 회원 → 즉시 로그인 (JWT 토큰 발급)
+├─ 신규 회원 → 회원가입 후 로그인
+└─ 정보 부족 → 추가 정보 입력 요청
+</code></pre>
+  <hr>
+  <h2 id="2-3단계-자동-판단-로직">2. 3단계 자동 판단 로직</h2>
+  <h3 id="21-판단-순서와-로직">2.1 판단 순서와 로직</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>단계</th>
+        <th>조건</th>
+        <th>결과</th>
+        <th>추가 처리</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>1단계</strong></td>
+        <td>소셜 ID로 기존 소셜 계정 찾기</td>
+        <td>기존 소셜 사용자</td>
+        <td>즉시 로그인</td>
+      </tr>
+      <tr>
+        <td><strong>2단계</strong></td>
+        <td>이메일로 기존 일반 회원 찾기</td>
+        <td>기존 일반 사용자</td>
+        <td>소셜 계정 연결</td>
+      </tr>
+      <tr>
+        <td><strong>3단계</strong></td>
+        <td>필수 정보 검증</td>
+        <td>신규 사용자</td>
+        <td>회원가입 처리</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="22-핵심-코드-socialuserservicejava">2.2 핵심 코드 (SocialUserService.java)</h3>
+  <pre><code class="language-java"><span class="hljs-keyword">public</span> UserSocialResult <span class="hljs-title function_">findOrCreateUserBySocial</span><span class="hljs-params">(SocialUserInfo socialInfo)</span> {
+    <span class="hljs-comment">// 1단계: 소셜 ID로 기존 계정 조회</span>
+    Optional&lt;MemberSocialAccount&gt; existingSocial = 
+        memberSocialAccountRepository.findByProviderAndSocialId(
+            socialInfo.getProvider(), socialInfo.getSocialId());
+    
+    <span class="hljs-keyword">if</span> (existingSocial.isPresent()) {
+        log.info(<span class="hljs-string">&quot;🔍 1단계: 기존 소셜 계정 발견&quot;</span>);
+        <span class="hljs-keyword">return</span> UserSocialResult.existingUser(existingSocial.get().getMember());
+    }
+    
+    <span class="hljs-comment">// 2단계: 이메일로 기존 일반 회원 조회</span>
+    <span class="hljs-keyword">if</span> (socialInfo.getEmail() != <span class="hljs-literal">null</span>) {
+        Optional&lt;Member&gt; existingMember = memberRepository.findByEmail(socialInfo.getEmail());
+        <span class="hljs-keyword">if</span> (existingMember.isPresent()) {
+            log.info(<span class="hljs-string">&quot;📧 2단계: 기존 이메일 회원 발견 - 소셜 계정 연결&quot;</span>);
+            <span class="hljs-keyword">return</span> linkSocialAccount(existingMember.get(), socialInfo);
+        }
+    }
+    
+    <span class="hljs-comment">// 3단계: 신규 회원 생성</span>
+    log.info(<span class="hljs-string">&quot;🆕 3단계: 신규 회원 생성&quot;</span>);
+    <span class="hljs-keyword">return</span> createNewSocialUser(socialInfo);
+}
+</code></pre>
+  <hr>
+  <h2 id="3-플랫폼별-핵심-차이점">3. 플랫폼별 핵심 차이점</h2>
+  <h3 id="31-google-소셜-인증-절차">3.1 Google 소셜 인증 절차</h3>
+  <h4 id="311-google-인증-플로우-다이어그램">3.1.1 Google 인증 플로우 다이어그램</h4>
+  <pre class="mermaid">sequenceDiagram
+    participant U as 사용자
+    participant F as 프론트엔드
+    participant G as Google OAuth
+    participant A as AuthService
+    participant D as Database
+    
+    U-&gt;&gt;F: Google 로그인 버튼 클릭
+    F-&gt;&gt;G: GSI 라이브러리로 인증 요청
+    G-&gt;&gt;U: Google 계정 선택/로그인 UI
+    U-&gt;&gt;G: 계정 선택 및 권한 동의
+    G-&gt;&gt;F: ID Token 전달 (JWT)
+    F-&gt;&gt;A: POST /api/auth/social/google&lt;br/&gt;{idToken: &quot;eyJ...&quot;}
+    A-&gt;&gt;G: ID Token 검증 요청
+    G-&gt;&gt;A: 사용자 정보 반환
+    A-&gt;&gt;D: 3단계 자동 판단 로직 실행
+    D-&gt;&gt;A: 회원 상태 결과
+    A-&gt;&gt;F: JWT Access/Refresh Token
+    F-&gt;&gt;U: 로그인 완료 처리
+</pre>
+  <h4 id="312-google-핵심-구현">3.1.2 Google 핵심 구현</h4>
+  <pre><code class="language-javascript"><span class="hljs-comment">// 프론트엔드: ID Token 방식</span>
+google.<span class="hljs-property">accounts</span>.<span class="hljs-property">id</span>.<span class="hljs-title function_">initialize</span>({
+    <span class="hljs-attr">client_id</span>: <span class="hljs-string">&quot;642010742671-4tnfj6vsfp6aemq7bj4dfgn0m185v6he.apps.googleusercontent.com&quot;</span>,
+    <span class="hljs-attr">callback</span>: <span class="hljs-function">(<span class="hljs-params">response</span>) =&gt;</span> {
+        <span class="hljs-comment">// ID Token을 백엔드로 전송</span>
+        <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;/api/auth/social/google&#x27;</span>, {
+            <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>,
+            <span class="hljs-attr">body</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>({ <span class="hljs-attr">idToken</span>: response.<span class="hljs-property">credential</span> })
+        });
+    }
+});
+</code></pre>
+  <pre><code class="language-java"><span class="hljs-comment">// 백엔드: ID Token 검증</span>
+<span class="hljs-keyword">public</span> SocialUserInfo <span class="hljs-title function_">getUserInfo</span><span class="hljs-params">(String idToken)</span> {
+    <span class="hljs-type">GoogleIdToken</span> <span class="hljs-variable">googleIdToken</span> <span class="hljs-operator">=</span> verifier.verify(idToken);
+    GoogleIdToken.<span class="hljs-type">Payload</span> <span class="hljs-variable">payload</span> <span class="hljs-operator">=</span> googleIdToken.getPayload();
+    
+    <span class="hljs-keyword">return</span> SocialUserInfo.builder()
+        .provider(<span class="hljs-string">&quot;google&quot;</span>)
+        .socialId(payload.getSubject())
+        .email(payload.getEmail())
+        .name((String) payload.get(<span class="hljs-string">&quot;name&quot;</span>))
+        .build();
+}
+</code></pre>
+  <h3 id="32-카카오-소셜-인증-절차">3.2 카카오 소셜 인증 절차</h3>
+  <h4 id="321-카카오-인증-플로우-다이어그램">3.2.1 카카오 인증 플로우 다이어그램</h4>
+  <pre class="mermaid">sequenceDiagram
+    participant U as 사용자
+    participant F as 프론트엔드
+    participant K as 카카오 OAuth
+    participant A as AuthService
+    participant D as Database
+    
+    U-&gt;&gt;F: 카카오 로그인 버튼 클릭
+    F-&gt;&gt;K: Kakao SDK로 인증 요청
+    K-&gt;&gt;U: 카카오 로그인 팝업/페이지
+    U-&gt;&gt;K: 카카오 계정 로그인 및 권한 동의
+    K-&gt;&gt;F: Access Token 전달
+    F-&gt;&gt;A: POST /api/auth/social/kakao&lt;br/&gt;{accessToken: &quot;kEWG...&quot;}
+    A-&gt;&gt;K: Access Token으로 사용자 정보 요청&lt;br/&gt;GET /v2/user/me
+    K-&gt;&gt;A: 사용자 정보 응답 (JSON)
+    A-&gt;&gt;D: 3단계 자동 판단 로직 실행
+    D-&gt;&gt;A: 회원 상태 결과
+    A-&gt;&gt;F: JWT Access/Refresh Token
+    F-&gt;&gt;U: 로그인 완료 처리
+</pre>
+  <h4 id="322-카카오-핵심-구현">3.2.2 카카오 핵심 구현</h4>
+  <pre><code class="language-javascript"><span class="hljs-comment">// 프론트엔드: Access Token 방식</span>
+<span class="hljs-title class_">Kakao</span>.<span class="hljs-property">Auth</span>.<span class="hljs-title function_">login</span>({
+    <span class="hljs-attr">success</span>: <span class="hljs-function">(<span class="hljs-params">authObj</span>) =&gt;</span> {
+        <span class="hljs-comment">// Access Token을 백엔드로 전송</span>
+        <span class="hljs-title function_">fetch</span>(<span class="hljs-string">&#x27;/api/auth/social/kakao&#x27;</span>, {
+            <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>,
+            <span class="hljs-attr">body</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>({ <span class="hljs-attr">accessToken</span>: authObj.<span class="hljs-property">access_token</span> })
+        });
+    }
+});
+</code></pre>
+  <pre><code class="language-java"><span class="hljs-comment">// 백엔드: 카카오 API 호출</span>
+<span class="hljs-keyword">public</span> SocialUserInfo <span class="hljs-title function_">getUserInfo</span><span class="hljs-params">(String accessToken)</span> {
+    <span class="hljs-type">String</span> <span class="hljs-variable">url</span> <span class="hljs-operator">=</span> <span class="hljs-string">&quot;https://kapi.kakao.com/v2/user/me&quot;</span>;
+    <span class="hljs-type">HttpHeaders</span> <span class="hljs-variable">headers</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpHeaders</span>();
+    headers.setBearerAuth(accessToken);
+    
+    ResponseEntity&lt;Map&gt; response = restTemplate.exchange(url, HttpMethod.GET, 
+        <span class="hljs-keyword">new</span> <span class="hljs-title class_">HttpEntity</span>&lt;&gt;(headers), Map.class);
+    
+    Map&lt;String, Object&gt; kakaoAccount = (Map) response.getBody().get(<span class="hljs-string">&quot;kakao_account&quot;</span>);
+    <span class="hljs-keyword">return</span> SocialUserInfo.builder()
+        .provider(<span class="hljs-string">&quot;kakao&quot;</span>)
+        .socialId(response.getBody().get(<span class="hljs-string">&quot;id&quot;</span>).toString())
+        .email((String) kakaoAccount.get(<span class="hljs-string">&quot;email&quot;</span>))
+        .build();
+}
+</code></pre>
+  <h3 id="33-네이버-소셜-인증-절차-팝업-방식">3.3 네이버 소셜 인증 절차 (팝업 방식)</h3>
+  <h4 id="331-네이버-인증-플로우-다이어그램">3.3.1 네이버 인증 플로우 다이어그램</h4>
+  <pre class="mermaid">sequenceDiagram
+    participant U as 사용자
+    participant F as 프론트엔드
+    participant P as 팝업창
+    participant N as 네이버 OAuth
+    participant A as AuthService
+    participant D as Database
+    
+    U-&gt;&gt;F: 네이버 로그인 버튼 클릭
+    F-&gt;&gt;P: window.open()으로 팝업 창 오픈&lt;br/&gt;GET /naver/login?state=random
+    P-&gt;&gt;A: 네이버 인증 URL 요청
+    A-&gt;&gt;P: 네이버 OAuth URL로 리다이렉트
+    P-&gt;&gt;N: 네이버 로그인 페이지 표시
+    U-&gt;&gt;N: 네이버 계정 로그인 및 권한 동의
+    N-&gt;&gt;P: Authorization Code와 함께 콜백&lt;br/&gt;GET /naver/callback?code=xxx&amp;state=xxx
+    P-&gt;&gt;A: Authorization Code 전달
+    A-&gt;&gt;N: Authorization Code로 Access Token 요청&lt;br/&gt;POST /oauth2.0/token
+    N-&gt;&gt;A: Access Token 응답
+    A-&gt;&gt;N: Access Token으로 사용자 정보 요청&lt;br/&gt;GET /v1/nid/me
+    N-&gt;&gt;A: 사용자 정보 응답 (JSON)
+    A-&gt;&gt;D: 3단계 자동 판단 로직 실행
+    D-&gt;&gt;A: 회원 상태 결과
+    A-&gt;&gt;P: 결과를 담은 HTML 페이지 반환
+    P-&gt;&gt;F: postMessage()로 결과 전달
+    F-&gt;&gt;P: 팝업 창 닫기
+    F-&gt;&gt;U: 로그인 완료 처리
+</pre>
+  <h4 id="332-네이버-핵심-구현-팝업--postmessage">3.3.2 네이버 핵심 구현 (팝업 + postMessage)</h4>
+  <pre><code class="language-javascript"><span class="hljs-comment">// 프론트엔드: 팝업 + postMessage</span>
+<span class="hljs-keyword">function</span> <span class="hljs-title function_">naverLogin</span>(<span class="hljs-params"></span>) {
+    <span class="hljs-keyword">const</span> popup = <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">open</span>(
+        <span class="hljs-string">&#x27;http://localhost:8082/api/auth/social/naver/login&#x27;</span>,
+        <span class="hljs-string">&#x27;naverLogin&#x27;</span>,
+        <span class="hljs-string">&#x27;width=500,height=600&#x27;</span>
+    );
+    
+    <span class="hljs-comment">// 팝업에서 메시지 수신</span>
+    <span class="hljs-variable language_">window</span>.<span class="hljs-title function_">addEventListener</span>(<span class="hljs-string">&#x27;message&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">event</span>) =&gt;</span> {
+        <span class="hljs-keyword">if</span> (event.<span class="hljs-property">data</span>.<span class="hljs-property">type</span> === <span class="hljs-string">&#x27;NAVER_LOGIN_SUCCESS&#x27;</span>) {
+            <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-string">&#x27;네이버 로그인 성공:&#x27;</span>, event.<span class="hljs-property">data</span>.<span class="hljs-property">result</span>);
+            popup.<span class="hljs-title function_">close</span>();
+        }
+    });
+}
+</code></pre>
+  <pre><code class="language-java"><span class="hljs-comment">// 백엔드: OAuth 2.0 플로우</span>
+<span class="hljs-meta">@GetMapping(&quot;/naver/login&quot;)</span>
+<span class="hljs-keyword">public</span> String <span class="hljs-title function_">naverLogin</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam</span> String state)</span> {
+    <span class="hljs-type">String</span> <span class="hljs-variable">authUrl</span> <span class="hljs-operator">=</span> buildAuthorizationUrl(state);
+    <span class="hljs-keyword">return</span> <span class="hljs-string">&quot;redirect:&quot;</span> + authUrl;
+}
+
+<span class="hljs-meta">@GetMapping(&quot;/naver/callback&quot;)</span>
+<span class="hljs-keyword">public</span> String <span class="hljs-title function_">naverCallback</span><span class="hljs-params">(<span class="hljs-meta">@RequestParam</span> String code, <span class="hljs-meta">@RequestParam</span> String state)</span> {
+    <span class="hljs-type">String</span> <span class="hljs-variable">accessToken</span> <span class="hljs-operator">=</span> getAccessToken(code, state);
+    <span class="hljs-type">SocialUserInfo</span> <span class="hljs-variable">userInfo</span> <span class="hljs-operator">=</span> getUserInfo(accessToken);
+    
+    <span class="hljs-comment">// 팝업에 결과 전달하는 HTML 반환</span>
+    <span class="hljs-keyword">return</span> generatePopupResponseHtml(userInfo);
+}
+</code></pre>
+  <h2 id="4-플랫폼별-주요-차이점-요약">4. 플랫폼별 주요 차이점 요약</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>구분</th>
+        <th>Google</th>
+        <th>카카오</th>
+        <th>네이버</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>인증 방식</strong></td>
+        <td>ID Token (JWT)</td>
+        <td>Access Token</td>
+        <td>OAuth 2.0 Code Flow</td>
+      </tr>
+      <tr>
+        <td><strong>프론트엔드 구현</strong></td>
+        <td>GSI 라이브러리</td>
+        <td>Kakao SDK</td>
+        <td>팝업 + postMessage</td>
+      </tr>
+      <tr>
+        <td><strong>토큰 검증</strong></td>
+        <td>Google에서 직접 검증</td>
+        <td>카카오 API로 정보 조회</td>
+        <td>Code → Token → 정보 조회</td>
+      </tr>
+      <tr>
+        <td><strong>보안 수준</strong></td>
+        <td>높음 (서명된 JWT)</td>
+        <td>중간 (Bearer Token)</td>
+        <td>높음 (CSRF 방지)</td>
+      </tr>
+      <tr>
+        <td><strong>구현 복잡도</strong></td>
+        <td>쉬움</td>
+        <td>쉬움</td>
+        <td>복잡함 (팝업 통신)</td>
+      </tr>
+      <tr>
+        <td><strong>백엔드 API 호출</strong></td>
+        <td>1회 (토큰 검증)</td>
+        <td>1회 (사용자 정보)</td>
+        <td>2회 (토큰 + 정보)</td>
+      </tr>
+    </tbody>
+  </table>
+  <h3 id="41-플랫폼별-핵심-특징">4.1 플랫폼별 핵심 특징</h3>
+  <h4 id="-google">🔵 Google</h4>
+  <ul>
+    <li><strong>장점</strong>: ID Token이 서명되어 있어 안전하고 검증이 간단</li>
+    <li><strong>단점</strong>: Google 계정이 없는 사용자는 사용 불가</li>
+    <li><strong>특이사항</strong>: 클라이언트에서 직접 ID Token을 받아 백엔드로 전송</li>
+  </ul>
+  <h4 id="-카카오">🟡 카카오</h4>
+  <ul>
+    <li><strong>장점</strong>: 한국 사용자 접근성이 높음, SDK 사용이 간편</li>
+    <li><strong>단점</strong>: Access Token 탈취 시 보안 위험</li>
+    <li><strong>특이사항</strong>: JavaScript Key 사용, REST API로 사용자 정보 조회</li>
+  </ul>
+  <h4 id="-네이버">🟢 네이버</h4>
+  <ul>
+    <li><strong>장점</strong>: CSRF 방지를 위한 state 파라미터 사용으로 보안성 높음</li>
+    <li><strong>단점</strong>: 팝업 구현으로 인한 복잡성, 팝업 차단 시 문제 발생 가능</li>
+    <li><strong>특이사항</strong>: 전체 OAuth 2.0 플로우를 거쳐야 하며 팝업 통신 필요</li>
+  </ul>
+  <hr>
+  <h2 id="5-주요-api-스펙">5. 주요 API 스펙</h2>
+  <h3 id="51-공통-요청-형식">5.1 공통 요청 형식</h3>
+  <pre><code class="language-json"><span class="hljs-comment">// POST /api/auth/social/{provider}</span>
+<span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;idToken&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;eyJhbGciOiJSUzI1NiIs...&quot;</span><span class="hljs-punctuation">,</span>     <span class="hljs-comment">// Google만</span>
+  <span class="hljs-attr">&quot;accessToken&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;kEWG7tLkJc3eD...&quot;</span><span class="hljs-punctuation">,</span>        <span class="hljs-comment">// 카카오, 네이버</span>
+  <span class="hljs-attr">&quot;deviceInfo&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;platform&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;WEB_BROWSER&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;deviceId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;browser-12345&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;appVersion&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1.0.0&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+  <h3 id="52-공통-응답-형식">5.2 공통 응답 형식</h3>
+  <pre><code class="language-json"><span class="hljs-comment">// 성공 응답</span>
+<span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;member&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;email&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;user@example.com&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;사용자&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;profileImageUrl&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://...&quot;</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;token&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;accessToken&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;eyJhbGciOiJIUzI1NiIs...&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;refreshToken&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;eyJhbGciOiJIUzI1NiIs...&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;expiresIn&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3600</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;isNewUser&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;needsAdditionalInfo&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+  <h3 id="53-에러-응답">5.3 에러 응답</h3>
+  <pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;error&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;code&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;INVALID_SOCIAL_TOKEN&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;소셜 토큰이 유효하지 않습니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+  <h2 id="6-핵심-설정-정보">6. 핵심 설정 정보</h2>
+  <h3 id="61-applicationyml-핵심-설정">6.1 application.yml 핵심 설정</h3>
+  <pre><code class="language-yaml"><span class="hljs-attr">server:</span>
+  <span class="hljs-attr">port:</span> <span class="hljs-number">8082</span>
+
+<span class="hljs-comment"># JWT 설정</span>
+<span class="hljs-attr">jwt:</span>
+  <span class="hljs-attr">secret:</span> <span class="hljs-string">akc-b2c-jwt-secret-key-2024-very-long-and-secure</span>
+  <span class="hljs-attr">access-token-expiration:</span> <span class="hljs-number">3600000</span>   <span class="hljs-comment"># 1시간</span>
+  <span class="hljs-attr">refresh-token-expiration:</span> <span class="hljs-number">604800000</span> <span class="hljs-comment"># 7일</span>
+
+<span class="hljs-comment"># 소셜 로그인 설정</span>
+<span class="hljs-attr">social:</span>
+  <span class="hljs-attr">google:</span>
+    <span class="hljs-attr">client-id:</span> <span class="hljs-number">642010742671</span><span class="hljs-string">-4tnfj6vsfp6aemq7bj4dfgn0m185v6he.apps.googleusercontent.com</span>
+    <span class="hljs-attr">dev-mode:</span> <span class="hljs-literal">false</span>  <span class="hljs-comment"># 개발 시 true로 설정</span>
+    
+  <span class="hljs-attr">kakao:</span>
+    <span class="hljs-attr">client-id:</span> <span class="hljs-string">62beeadf5fa92745c25ade678f079981</span>
+    <span class="hljs-attr">dev-mode:</span> <span class="hljs-literal">false</span>
+    
+  <span class="hljs-attr">naver:</span>
+    <span class="hljs-attr">client-id:</span> <span class="hljs-string">J7MtZsl9898OFMhgKDur</span>
+    <span class="hljs-attr">redirect-uri:</span> <span class="hljs-string">http://localhost:8082/api/auth/social/naver/callback</span>
+    <span class="hljs-attr">dev-mode:</span> <span class="hljs-literal">false</span>
+</code></pre>
+  <h3 id="62-데이터베이스-핵심-구조">6.2 데이터베이스 핵심 구조</h3>
+  <pre><code class="language-sql"><span class="hljs-comment">-- 회원 테이블</span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> members (
+  id <span class="hljs-type">bigint</span> <span class="hljs-keyword">PRIMARY</span> KEY AUTO_INCREMENT,
+  member_uuid <span class="hljs-type">varchar</span>(<span class="hljs-number">36</span>) <span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+  email <span class="hljs-type">varchar</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">UNIQUE</span>,
+  name <span class="hljs-type">varchar</span>(<span class="hljs-number">50</span>),
+  user_id <span class="hljs-type">varchar</span>(<span class="hljs-number">30</span>) <span class="hljs-keyword">UNIQUE</span>,
+  member_type <span class="hljs-type">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">&#x27;SOCIAL&#x27;</span>,  <span class="hljs-comment">-- GENERAL, SOCIAL</span>
+  status <span class="hljs-type">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">DEFAULT</span> <span class="hljs-string">&#x27;ACTIVE&#x27;</span>
+);
+
+<span class="hljs-comment">-- 소셜 계정 테이블  </span>
+<span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> member_social_accounts (
+  id <span class="hljs-type">bigint</span> <span class="hljs-keyword">PRIMARY</span> KEY AUTO_INCREMENT,
+  member_id <span class="hljs-type">bigint</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,
+  provider <span class="hljs-type">varchar</span>(<span class="hljs-number">20</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,    <span class="hljs-comment">-- GOOGLE, KAKAO, NAVER</span>
+  social_id <span class="hljs-type">varchar</span>(<span class="hljs-number">100</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>,  <span class="hljs-comment">-- 소셜 플랫폼 고유 ID</span>
+  email <span class="hljs-type">varchar</span>(<span class="hljs-number">100</span>),
+  <span class="hljs-keyword">UNIQUE</span> KEY uk_social_account (provider, social_id),
+  <span class="hljs-keyword">FOREIGN</span> KEY (member_id) <span class="hljs-keyword">REFERENCES</span> members(id)
+);
+</code></pre>
+  <h2 id="7-개발-환경-테스트">7. 개발 환경 테스트</h2>
+  <h3 id="71-개발-모드-활성화">7.1 개발 모드 활성화</h3>
+  <pre><code class="language-yaml"><span class="hljs-comment"># application-local.yml</span>
+<span class="hljs-attr">social:</span>
+  <span class="hljs-attr">google:</span>
+    <span class="hljs-attr">dev-mode:</span> <span class="hljs-literal">true</span>     <span class="hljs-comment"># 더미 데이터 사용</span>
+  <span class="hljs-attr">kakao:</span>
+    <span class="hljs-attr">dev-mode:</span> <span class="hljs-literal">true</span>     
+  <span class="hljs-attr">naver:</span>
+    <span class="hljs-attr">dev-mode:</span> <span class="hljs-literal">true</span>     
+</code></pre>
+  <h3 id="72-개발용-더미-토큰">7.2 개발용 더미 토큰</h3>
+  <pre><code class="language-javascript"><span class="hljs-comment">// 프론트엔드에서 사용할 개발용 토큰</span>
+<span class="hljs-keyword">const</span> <span class="hljs-variable constant_">DEV_TOKENS</span> = {
+  <span class="hljs-attr">google</span>: <span class="hljs-string">&#x27;dummy_google_token_dev_mode&#x27;</span>,
+  <span class="hljs-attr">kakao</span>: <span class="hljs-string">&#x27;dummy_kakao_token_dev_mode&#x27;</span>, 
+  <span class="hljs-attr">naver</span>: <span class="hljs-string">&#x27;dummy_naver_token_dev_mode&#x27;</span>
+};
+
+<span class="hljs-comment">// 개발 환경 테스트 함수</span>
+<span class="hljs-keyword">const</span> <span class="hljs-title function_">testSocialLogin</span> = (<span class="hljs-params">provider</span>) =&gt; {
+  <span class="hljs-title function_">fetch</span>(<span class="hljs-string">`http://localhost:8082/api/auth/social/<span class="hljs-subst">${provider}</span>`</span>, {
+    <span class="hljs-attr">method</span>: <span class="hljs-string">&#x27;POST&#x27;</span>,
+    <span class="hljs-attr">headers</span>: { <span class="hljs-string">&#x27;Content-Type&#x27;</span>: <span class="hljs-string">&#x27;application/json&#x27;</span> },
+    <span class="hljs-attr">body</span>: <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">stringify</span>({
+      <span class="hljs-attr">idToken</span>: provider === <span class="hljs-string">&#x27;google&#x27;</span> ? <span class="hljs-variable constant_">DEV_TOKENS</span>[provider] : <span class="hljs-literal">undefined</span>,
+      <span class="hljs-attr">accessToken</span>: provider !== <span class="hljs-string">&#x27;google&#x27;</span> ? <span class="hljs-variable constant_">DEV_TOKENS</span>[provider] : <span class="hljs-literal">undefined</span>
+    })
+  });
+};
+</code></pre>
+  <h3 id="73-테스트-페이지">7.3 테스트 페이지</h3>
+  <p><code>social-login-test.html</code> 파일이 프로젝트 루트에 준비되어 있어 로컬에서 바로 테스트 가능합니다.</p>
+  <hr>
+  <h2 id="-핵심-포인트">🎯 핵심 포인트</h2>
+  <ol>
+    <li><strong>3단계 자동 판단</strong>: 소셜 ID → 이메일 → 신규 가입 순서로 처리</li>
+    <li><strong>플랫폼별 차이</strong>: Google(ID Token), 카카오(Access Token), 네이버(OAuth 팝업)</li>
+    <li><strong>개발 편의성</strong>: dev-mode로 실제 소셜 로그인 없이 테스트 가능</li>
+    <li><strong>일관된 API</strong>: 모든 플랫폼이 동일한 응답 형식 사용</li>
+  </ol>
+  <p>이 문서는 실제 구현된 코드를 기반으로 핵심 내용만 정리했습니다. 📋✨</p>
+
+  <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+
+</body>
+
+</html>
