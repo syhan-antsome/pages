@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>AKC B2C &#xc8fc;&#xcc28;&#xc7a5; MSA &#xd50c;&#xb7ab;&#xd3fc; &#xac1c;&#xbc1c; &#xc911;&#xac04;&#xbcf4;&#xace0;&#xc11c;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="akc-b2c-주차장-msa-플랫폼-개발-중간보고서">AKC B2C 주차장 MSA 플랫폼 개발 중간보고서</h1>
+<p><strong>프로젝트명</strong>: AKC B2C (Amano Korea Corporation Business-to-Consumer)<br>
+<strong>개발기간</strong>: 2024년 ~ 현재 진행 중<br>
+<strong>보고일자</strong>: 2025년 9월 24일</p>
+<hr>
+<h2 id="-프로젝트-개요">📋 <strong>프로젝트 개요</strong></h2>
+<p>AKC B2C는 아마노코리아의 B2C(Business-to-Consumer) 주차장 서비스를 위한 <strong>마이크로서비스 아키텍처(MSA)</strong> 기반 플랫폼입니다. 사용자 중심의 주차장 관리, 결제, 알림 시스템을 클라우드 네이티브 환경에서 확장 가능하고 유지보수가 용이한 구조로 개발하고 있습니다.</p>
+<h3 id="핵심-목표"><strong>핵심 목표</strong></h3>
+<ol>
+<li><strong>확장성</strong>: 마이크로서비스 아키텍처를 통한 서비스별 독립적 확장</li>
+<li><strong>가용성</strong>: 컨테이너 기반 배포로 높은 가용성 보장</li>
+<li><strong>사용자 경험</strong>: 직관적이고 편리한 주차장 서비스 제공</li>
+<li><strong>통합성</strong>: 소셜 로그인, 외부 결제 시스템 등 다양한 서비스 통합</li>
+</ol>
+<hr>
+<h2 id="️-시스템-아키텍처">🏗️ <strong>시스템 아키텍처</strong></h2>
+<h3 id="마이크로서비스-구성"><strong>마이크로서비스 구성</strong></h3>
+<p>현재 <strong>7개의 독립적인 마이크로서비스</strong>로 구성되어 있으며, 각 서비스는 특정 비즈니스 도메인을 담당합니다.</p>
+<pre class="mermaid">graph TD
+    Frontend[Frontend&lt;br/&gt;React/TypeScript] 
+    Admin[Admin Panel&lt;br/&gt;관리자]
+    Nginx[Nginx&lt;br/&gt;Reverse Proxy]
+    
+    Auth[AuthService&lt;br/&gt;인증]
+    Member[MemberService&lt;br/&gt;회원관리]
+    AdminSvc[AdminService&lt;br/&gt;관리]
+    Parking[ParkingService&lt;br/&gt;주차관리]
+    Notification[NotificationService&lt;br/&gt;알림]
+    Payment[PaymentService&lt;br/&gt;결제처리]
+    Coupon[CouponService&lt;br/&gt;쿠폰관리]
+    Common[CommonModule&lt;br/&gt;공통 라이브러리]
+    
+    Frontend --&gt; Nginx
+    Admin --&gt; Nginx
+    
+    Nginx --&gt; Auth
+    Nginx --&gt; Member
+    Nginx --&gt; AdminSvc
+    Nginx --&gt; Parking
+    Nginx --&gt; Notification
+    Nginx --&gt; Payment
+    Nginx --&gt; Coupon
+    
+    Auth -.-&gt; Common
+    Member -.-&gt; Common
+    AdminSvc -.-&gt; Common
+    Parking -.-&gt; Common
+    Notification -.-&gt; Common
+    Payment -.-&gt; Common
+    Coupon -.-&gt; Common
+    
+    classDef frontend fill:#e1f5fe
+    classDef gateway fill:#f3e5f5
+    classDef service fill:#e8f5e8
+    classDef common fill:#fff3e0
+    
+    class Frontend,Admin frontend
+    class Nginx gateway
+    class Auth,Member,AdminSvc,Parking,Notification,Payment,Coupon service
+    class Common common
+</pre>
+<h3 id="인프라-구성"><strong>인프라 구성</strong></h3>
+<table>
+<thead>
+<tr>
+<th>컴포넌트</th>
+<th>기술스택</th>
+<th>용도</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>API Gateway</strong></td>
+<td>Nginx</td>
+<td>리버스 프록시, 로드밸런싱</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td><strong>데이터베이스</strong></td>
+<td>MySQL 8.0</td>
+<td>관계형 데이터 저장</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td><strong>캐시</strong></td>
+<td>Redis 7</td>
+<td>세션, 토큰 캐싱</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td><strong>메시지큐</strong></td>
+<td>Apache Kafka</td>
+<td>서비스 간 비동기 통신</td>
+<td>✅ 완료</td>
+</tr>
+<tr>
+<td><strong>컨테이너화</strong></td>
+<td>Docker &amp; Docker Compose</td>
+<td>서비스 배포 관리</td>
+<td>✅ 완료</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="-서비스별-개발-현황">🚀 <strong>서비스별 개발 현황</strong></h2>
+<h3 id="1-authservice-인증-서비스---진행-중-80"><strong>1. AuthService (인증 서비스) - 진행 중 80%</strong></h3>
+<p><strong>주요 기능</strong>:</p>
+<ul>
+<li>✅ 이메일/비밀번호 로그인 및 회원가입</li>
+<li>✅ JWT 토큰 관리 (생성, 검증, 갱신, 무효화)</li>
+<li>✅ 소셜 로그인 (Google, Kakao, Naver)</li>
+<li>🔄 비밀번호 재설정 및 회원 탈퇴</li>
+<li>🔄 결제 이력 관리</li>
+</ul>
+<h3 id="2-memberservice-회원-관리-서비스---진행-중-70"><strong>2. MemberService (회원 관리 서비스) - 진행 중 70%</strong></h3>
+<p><strong>주요 기능</strong>:</p>
+<ul>
+<li>✅ 회원 정보 관리 (CRUD)</li>
+<li>✅ 회원 목록 조회 (페이징, 검색, 정렬)</li>
+<li>✅ 회원 상태 관리 (활성, 비활성, 정지)</li>
+<li>🔄 법인웹 회원 정보 관리</li>
+<li>🔄 통계 데이터 및 관리자 대시보드</li>
+</ul>
+<h3 id="3-adminservice-관리자-서비스---진행-중-80"><strong>3. AdminService (관리자 서비스) - 진행 중 80%</strong></h3>
+<p><strong>주요 기능</strong>:</p>
+<ul>
+<li>✅ 관리자 인증 및 권한 관리</li>
+<li>✅ 관리자 계정 관리</li>
+<li>🔄 시스템 모니터링</li>
+<li>✅ 사용자 관리 기능</li>
+</ul>
+<h3 id="4-parkingservice-주차장-주차권-관리-서비스---진행-중-50"><strong>4. ParkingService (주차장, 주차권 관리 서비스) - 진행 중 50%</strong></h3>
+<p><strong>주요 기능</strong>:</p>
+<ul>
+<li>✅ 주차장 정보 관리</li>
+<li>✅ 주차 공간 상태 관리</li>
+<li>✅ 주차장 검색 및 조회</li>
+<li>🔄 주차권 구매관리 기능</li>
+<li>🔄 내부 주차권 검색 및 조회</li>
+<li>✅ 내부주차장 검색 및 조회</li>
+<li>✅ 이미지 및 메타데이터 관리</li>
+<li>🔄 kakfa 연동 테스트</li>
+</ul>
+<h3 id="5-notificationservice-알림-서비스---진행-중-90"><strong>5. NotificationService (알림 서비스) - 진행 중 90%</strong></h3>
+<p><strong>주요 기능</strong>:</p>
+<ul>
+<li>✅ 이메일 알림 (Gmail SMTP 연동)</li>
+<li>✅ 푸시 알림 (Firebase 연동)</li>
+<li>🔄 Kafka 이벤트 기반 알림</li>
+<li>✅ 알림 이력 관리</li>
+<li>🔄 알림 연동 테스트</li>
+</ul>
+<h3 id="6-paymentservice-결제-서비스---진행-중-50"><strong>6. PaymentService (결제 서비스) - 진행 중 50%</strong></h3>
+<p><strong>주요 기능</strong>:</p>
+<ul>
+<li>✅ 결제 게이트웨이 연동 (설계 완료)</li>
+<li>🔄 결제 이력 관리</li>
+<li>🔄 환불 처리 시스템</li>
+<li>🔄 구독 관리</li>
+</ul>
+<h3 id="7-couponservice-쿠폰-서비스---진행-중-40"><strong>7. CouponService (쿠폰 서비스) - 진행 중 40%</strong></h3>
+<p><strong>주요 기능</strong>:</p>
+<ul>
+<li>✅ 쿠폰 생성 및 관리 (설계 완료)</li>
+<li>🔄 할인 정책 엔진 및 스케쥴</li>
+<li>🔄 쿠폰 사용 이력</li>
+</ul>
+<hr>
+<h2 id="️-기술-스택">🛠️ <strong>기술 스택</strong></h2>
+<h3 id="backend"><strong>Backend</strong></h3>
+<ul>
+<li><strong>Framework</strong>: Spring Boot 3.2.6</li>
+<li><strong>Language</strong>: Java 17</li>
+<li><strong>Build Tool</strong>: Gradle 8.14.1</li>
+<li><strong>Database</strong>: MySQL 8.0</li>
+<li><strong>Cache</strong>: Redis 7</li>
+<li><strong>Message Queue</strong>: Apache Kafka 7.4.0</li>
+<li><strong>Security</strong>: Spring Security + JWT</li>
+<li><strong>Documentation</strong>: SpringDoc OpenAPI 3</li>
+</ul>
+<h3 id="infrastructure"><strong>Infrastructure</strong></h3>
+<ul>
+<li><strong>Containerization</strong>: Docker &amp; Docker Compose</li>
+<li><strong>Reverse Proxy</strong>: Nginx Alpine</li>
+<li><strong>Service Discovery</strong>: DNS 기반 서비스 발견</li>
+<li><strong>Orchestration</strong>: Docker Compose (개발환경)</li>
+</ul>
+<h3 id="external-integrations"><strong>External Integrations</strong></h3>
+<ul>
+<li><strong>소셜 로그인</strong>: Google OAuth 2.0, Kakao API, Naver API</li>
+<li><strong>이메일</strong>: Gmail SMTP</li>
+<li><strong>푸시 알림</strong>: Firebase Cloud Messaging (FCM)</li>
+<li><strong>결제</strong>: 추후 PG사 연동 예정</li>
+</ul>
+<hr>
+<h2 id="-개발-현황-전체-진행률-65">📊 <strong>개발 현황 (전체 진행률: 65%)</strong></h2>
+<h3 id="서비스별-개발-상태-7개"><strong>서비스별 개발 상태 (7개)</strong></h3>
+<ul>
+<li>🔄 <strong>AuthService</strong>: 인증/인가 + 소셜 로그인 (80% 완료)</li>
+<li>🔄 <strong>MemberService</strong>: 회원 관리 + 통계 (70% 완료)</li>
+<li>🔄 <strong>AdminService</strong>: 관리자 기능 (80% 완료)</li>
+<li>🔄 <strong>ParkingService</strong>: 주차장, 주차권 관리 (50% 완료)</li>
+<li>🔄 <strong>NotificationService</strong>: 알림 시스템 (90% 완료)</li>
+<li>🔄 <strong>PaymentService</strong>: 결제 처리 (50% 완료)</li>
+<li>🔄 <strong>CouponService</strong>: 쿠폰 관리 (40% 완료)</li>
+</ul>
+<h3 id="인프라-현황"><strong>인프라 현황</strong></h3>
+<ul>
+<li>🔄 <strong>컨테이너화</strong>: 모든 서비스 Docker 컨테이너 구성 (연동 테스트 진행 중)</li>
+<li>🔄 <strong>서비스 메시 구성</strong>: Nginx 리버스 프록시 라우팅 (성능 테스트 진행 중)</li>
+<li>🔄 <strong>데이터베이스</strong>: MySQL 8.0 설정 및 스키마 구성 (데이터 마이그레이션 진행 중)</li>
+<li>🔄 <strong>캐싱 시스템</strong>: Redis 7 클러스터 구성 (캐시 최적화 진행 중)</li>
+<li>🔄 <strong>메시지 큐</strong>: Kafka 클러스터 구성 및 토픽 설정 (이벤트 연동 테스트 진행 중)</li>
+</ul>
+<hr>
+<h2 id="-다음-단계-계획">🎯 <strong>다음 단계 계획</strong></h2>
+<h3 id="주요-계획"><strong>주요 계획</strong></h3>
+<ol>
+<li><strong>CouponService 완료</strong>: 할인 쿠폰 시스템 구현</li>
+<li><strong>CI/CD 파이프라인</strong>: GitHub Actions 기반 자동 배포</li>
+<li><strong>모니터링 시스템</strong>: 로그 수집 및 메트릭 모니터링</li>
+<li><strong>성능 최적화</strong>: 서비스별 성능 튜닝</li>
+<li><strong>고가용성 구성</strong>: 다중 인스턴스 배포</li>
+<li><strong>사용자 테스트</strong>: 베타 테스트 및 피드백 반영</li>
+<li><strong>상용화 준비</strong>: 운영 환경 최종 점검</li>
+</ol>
+<hr>
+<h2 id="-기술적-성과">📈 <strong>기술적 성과</strong></h2>
+<h3 id="아키텍처-혁신"><strong>아키텍처 혁신</strong></h3>
+<ul>
+<li><strong>마이크로서비스 전환</strong>: 모놀리식에서 MSA로 성공적 전환</li>
+<li><strong>컨테이너 네이티브</strong>: Docker 기반 클라우드 네이티브 구조</li>
+<li><strong>이벤트 기반 아키텍처</strong>: Kafka를 통한 느슨한 결합</li>
+</ul>
+<h3 id="개발-생산성-향상"><strong>개발 생산성 향상</strong></h3>
+<ul>
+<li><strong>공통 모듈화</strong>: CommonModule로 중복 코드 제거</li>
+<li><strong>표준화된 API</strong>: 일관된 응답 형식 및 에러 처리</li>
+<li><strong>자동화된 빌드</strong>: Gradle 멀티 프로젝트 구성</li>
+</ul>
+<h3 id="보안-강화"><strong>보안 강화</strong></h3>
+<ul>
+<li><strong>JWT 기반 인증</strong>: 상태 비저장 인증 구조</li>
+<li><strong>소셜 로그인 통합</strong>: 3개 주요 플랫폼 지원</li>
+<li><strong>환경 변수 관리</strong>: 민감 정보 보안 강화</li>
+</ul>
+<hr>
+<h2 id="-결론">📋 <strong>결론</strong></h2>
+<p>AKC B2C 프로젝트는 <strong>현재 약 60% 완료</strong> 상태로, 핵심 인프라와 주요 서비스들이 안정적으로 구현되었습니다. 마이크로서비스 아키텍처의 장점을 활용하여 <strong>확장성</strong>, <strong>유지보수성</strong>, <strong>안정성</strong>을 모두 확보한 상태입니다.</p>
+<p>특히 <strong>AuthService</strong>와 <strong>MemberService</strong>의 완성도가 높아 사용자 관리 기능이 완전히 작동하며, <strong>소셜 로그인</strong> 기능까지 포함하여 현대적인 사용자 경험을 제공할 준비가 되었습니다.</p>
+<p>향후 <strong>예약</strong>, <strong>결제</strong>, <strong>쿠폰</strong> 시스템을 순차적으로 완성하여 <strong>2025년 말</strong>까지 완전한 주차장 서비스 플랫폼을 구축할 예정입니다.</p>
+<hr>
+<p><strong>보고서 작성일</strong>: 2025년 9월 24일<br>
+<strong>작성자</strong>: 개발팀<br>
+<strong>검토자</strong>: 프로젝트 매니저</p>
+
+            
+            
+        </body>
+        </html>
