@@ -1,0 +1,1328 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#xc544;&#xb9c8;&#xb178; &#xbc95;&#xc778; &#xc6f9; API &#xba85;&#xc138;&#xc11c; - &#xd1b5;&#xd569;&#xbcf8;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="아마노-법인-웹-api-명세서---통합본">아마노 법인 웹 API 명세서 - 통합본</h1>
+<h2 id="상세-목차">상세 목차</h2>
+<table>
+<thead>
+<tr>
+<th>대분류</th>
+<th>중분류</th>
+<th>링크</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>1. 랜딩 페이지</strong></td>
+<td></td>
+<td><a href="#1-%EB%9E%9C%EB%94%A9-%ED%8E%98%EC%9D%B4%EC%A7%80">📍</a></td>
+</tr>
+<tr>
+<td></td>
+<td>1.1 주차장 리스트 조회</td>
+<td><a href="#11-%EC%A3%BC%EC%B0%A8%EC%9E%A5-%EB%A6%AC%EC%8A%A4%ED%8A%B8-%EC%A1%B0%ED%9A%8C">🔗</a></td>
+</tr>
+<tr>
+<td></td>
+<td>1.2 이벤트/공지/FAQ 조회</td>
+<td><a href="#12-%EC%9D%B4%EB%B2%A4%ED%8A%B8%EA%B3%B5%EC%A7%80faq-%EB%A6%AC%EC%8A%A4%ED%8A%B8-%EC%A1%B0%ED%9A%8C-%EC%B5%9C%EC%8B%A0-5%EA%B1%B4">🔗</a></td>
+</tr>
+<tr>
+<td></td>
+<td>1.3 이벤트 배너 조회</td>
+<td><a href="#13-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EB%B0%B0%EB%84%88-%EC%A1%B0%ED%9A%8C">🔗</a></td>
+</tr>
+<tr>
+<td><strong>2. 주차장 상세</strong></td>
+<td></td>
+<td><a href="#2-%EC%A3%BC%EC%B0%A8%EC%9E%A5-%EC%83%81%EC%84%B8">📍</a></td>
+</tr>
+<tr>
+<td></td>
+<td>2.1 주차장 상세 조회</td>
+<td><a href="#21-%EC%A3%BC%EC%B0%A8%EC%9E%A5-%EC%83%81%EC%84%B8-%EC%A1%B0%ED%9A%8C">🔗</a></td>
+</tr>
+<tr>
+<td></td>
+<td>2.2 주차권 수량 확인 조회</td>
+<td><a href="#22-%EC%A3%BC%EC%B0%A8%EA%B6%8C-%EC%88%98%EB%9F%89-%ED%99%95%EC%9D%B8-%EC%A1%B0%ED%9A%8C">🔗</a></td>
+</tr>
+<tr>
+<td><strong>3. 주차장 즐겨찾기</strong></td>
+<td></td>
+<td><a href="#3-%EC%A3%BC%EC%B0%A8%EC%9E%A5-%EC%A6%90%EA%B2%A8%EC%B0%BE%EA%B8%B0">📍</a></td>
+</tr>
+<tr>
+<td></td>
+<td>3.1 즐겨찾기 주차장 리스트 조회</td>
+<td><a href="#31-%EC%A6%90%EA%B2%A8%EC%B0%BE%EA%B8%B0-%EC%A3%BC%EC%B0%A8%EC%9E%A5-%EB%A6%AC%EC%8A%A4%ED%8A%B8-%EC%A1%B0%ED%9A%8C">🔗</a></td>
+</tr>
+<tr>
+<td></td>
+<td>3.2 주차장 즐겨찾기 등록</td>
+<td><a href="#32-%EC%A3%BC%EC%B0%A8%EC%9E%A5-%EC%A6%90%EA%B2%A8%EC%B0%BE%EA%B8%B0-%EB%93%B1%EB%A1%9D">🔗</a></td>
+</tr>
+<tr>
+<td></td>
+<td>3.3 주차장 즐겨찾기 삭제</td>
+<td><a href="#33-%EC%A3%BC%EC%B0%A8%EC%9E%A5-%EC%A6%90%EA%B2%A8%EC%B0%BE%EA%B8%B0-%EC%82%AD%EC%A0%9C">🔗</a></td>
+</tr>
+<tr>
+<td><strong>4. 계정 관련 API</strong></td>
+<td></td>
+<td><a href="#4-%EA%B3%84%EC%A0%95-%EA%B4%80%EB%A0%A8-api">📍</a></td>
+</tr>
+<tr>
+<td></td>
+<td>4.1 아이디 찾기</td>
+<td><a href="#41-%EC%95%84%EC%9D%B4%EB%94%94-%EC%B0%BE%EA%B8%B0">🔗</a></td>
+</tr>
+<tr>
+<td></td>
+<td>4.2 비밀번호 변경가능 여부 확인</td>
+<td><a href="#42-%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EB%B3%80%EA%B2%BD%EA%B0%80%EB%8A%A5-%EC%97%AC%EB%B6%80-%ED%99%95%EC%9D%B8">🔗</a></td>
+</tr>
+<tr>
+<td></td>
+<td>4.3 비밀번호 재설정</td>
+<td><a href="#43-%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EC%9E%AC%EC%84%A4%EC%A0%95">🔗</a></td>
+</tr>
+<tr>
+<td></td>
+<td>4.4 회원 탈퇴</td>
+<td><a href="#44-%ED%9A%8C%EC%9B%90-%ED%83%88%ED%87%B4">🔗</a></td>
+</tr>
+<tr>
+<td><strong>5. 회원가입 API</strong></td>
+<td></td>
+<td><a href="#5-%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85-api">📍</a></td>
+</tr>
+<tr>
+<td></td>
+<td>5.1 약관 내용 조회</td>
+<td><a href="#51-%EC%95%BD%EA%B4%80-%EB%82%B4%EC%9A%A9-%EC%A1%B0%ED%9A%8C">🔗</a></td>
+</tr>
+<tr>
+<td></td>
+<td>5.2 회원가입</td>
+<td><a href="#52-%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85">🔗</a></td>
+</tr>
+<tr>
+<td><strong>6. 알림</strong></td>
+<td></td>
+<td><a href="#6-%EC%95%8C%EB%A6%BC">📍</a></td>
+</tr>
+<tr>
+<td></td>
+<td>6.1 알림 리스트 조회</td>
+<td><a href="#61-%EC%95%8C%EB%A6%BC-%EB%A6%AC%EC%8A%A4%ED%8A%B8-%EC%A1%B0%ED%9A%8C">🔗</a></td>
+</tr>
+<tr>
+<td></td>
+<td>6.2 알림 읽음 상태 업데이트</td>
+<td><a href="#62-%EC%95%8C%EB%A6%BC-%EC%9D%BD%EC%9D%8C-%EC%83%81%ED%83%9C-%EC%97%85%EB%8D%B0%EC%9D%B4%ED%8A%B8">🔗</a></td>
+</tr>
+<tr>
+<td><strong>7. 이용문의 - 공지사항</strong></td>
+<td></td>
+<td><a href="#7-%EC%9D%B4%EC%9A%A9%EB%AC%B8%EC%9D%98---%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD">📍</a></td>
+</tr>
+<tr>
+<td></td>
+<td>7.1 공지사항 리스트 조회</td>
+<td><a href="#71-%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD-%EB%A6%AC%EC%8A%A4%ED%8A%B8-%EC%A1%B0%ED%9A%8C">🔗</a></td>
+</tr>
+<tr>
+<td></td>
+<td>7.2 공지사항 상세 조회</td>
+<td><a href="#72-%EA%B3%B5%EC%A7%80%EC%82%AC%ED%95%AD-%EC%83%81%EC%84%B8-%EC%A1%B0%ED%9A%8C">🔗</a></td>
+</tr>
+<tr>
+<td><strong>8. 이용문의 - 이벤트</strong></td>
+<td></td>
+<td><a href="#8-%EC%9D%B4%EC%9A%A9%EB%AC%B8%EC%9D%98---%EC%9D%B4%EB%B2%A4%ED%8A%B8">📍</a></td>
+</tr>
+<tr>
+<td></td>
+<td>8.1 이벤트 리스트 조회</td>
+<td><a href="#81-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EB%A6%AC%EC%8A%A4%ED%8A%B8-%EC%A1%B0%ED%9A%8C">🔗</a></td>
+</tr>
+<tr>
+<td></td>
+<td>8.2 이벤트 상세 조회</td>
+<td><a href="#82-%EC%9D%B4%EB%B2%A4%ED%8A%B8-%EC%83%81%EC%84%B8-%EC%A1%B0%ED%9A%8C">🔗</a></td>
+</tr>
+<tr>
+<td><strong>9. 이용문의 - FAQ</strong></td>
+<td></td>
+<td><a href="#9-%EC%9D%B4%EC%9A%A9%EB%AC%B8%EC%9D%98---faq">📍</a></td>
+</tr>
+<tr>
+<td></td>
+<td>9.1 FAQ 리스트 조회</td>
+<td><a href="#91-faq-%EB%A6%AC%EC%8A%A4%ED%8A%B8-%EC%A1%B0%ED%9A%8C">🔗</a></td>
+</tr>
+<tr>
+<td><strong>10. 마이페이지 - 동/호수 관리</strong></td>
+<td></td>
+<td><a href="#10-%EB%A7%88%EC%9D%B4%ED%8E%98%EC%9D%B4%EC%A7%80---%EB%8F%99%ED%98%B8%EC%88%98-%EA%B4%80%EB%A6%AC">📍</a></td>
+</tr>
+<tr>
+<td></td>
+<td>10.1 동/호수 리스트 조회</td>
+<td><a href="#101-%EB%8F%99%ED%98%B8%EC%88%98-%EB%A6%AC%EC%8A%A4%ED%8A%B8-%EC%A1%B0%ED%9A%8C">🔗</a></td>
+</tr>
+<tr>
+<td></td>
+<td>10.2 동/호수 등록</td>
+<td><a href="#102-%EB%8F%99%ED%98%B8%EC%88%98-%EB%93%B1%EB%A1%9D">🔗</a></td>
+</tr>
+<tr>
+<td></td>
+<td>10.3 동/호수 삭제</td>
+<td><a href="#103-%EB%8F%99%ED%98%B8%EC%88%98-%EC%82%AD%EC%A0%9C">🔗</a></td>
+</tr>
+<tr>
+<td></td>
+<td>10.4 주차장 조회 (동/호수 등록용)</td>
+<td><a href="#104-%EC%A3%BC%EC%B0%A8%EC%9E%A5-%EC%A1%B0%ED%9A%8C-%EB%8F%99%ED%98%B8%EC%88%98-%EB%93%B1%EB%A1%9D%EC%9A%A9">🔗</a></td>
+</tr>
+<tr>
+<td><strong>11. 마이페이지 - 차량 등록 관리</strong></td>
+<td></td>
+<td><a href="#11-%EB%A7%88%EC%9D%B4%ED%8E%98%EC%9D%B4%EC%A7%80---%EC%B0%A8%EB%9F%89-%EB%93%B1%EB%A1%9D-%EA%B4%80%EB%A6%AC">📍</a></td>
+</tr>
+<tr>
+<td></td>
+<td>11.1 차량 리스트 조회</td>
+<td><a href="#111-%EC%B0%A8%EB%9F%89-%EB%A6%AC%EC%8A%A4%ED%8A%B8-%EC%A1%B0%ED%9A%8C">🔗</a></td>
+</tr>
+<tr>
+<td></td>
+<td>11.2 차량 등록 (단건)</td>
+<td><a href="#112-%EC%B0%A8%EB%9F%89-%EB%93%B1%EB%A1%9D-%EB%8B%A8%EA%B1%B4">🔗</a></td>
+</tr>
+<tr>
+<td></td>
+<td>11.3 차량 삭제</td>
+<td><a href="#113-%EC%B0%A8%EB%9F%89-%EC%82%AD%EC%A0%9C">🔗</a></td>
+</tr>
+<tr>
+<td><strong>12. 마이페이지 - 기본정보</strong></td>
+<td></td>
+<td><a href="#12-%EB%A7%88%EC%9D%B4%ED%8E%98%EC%9D%B4%EC%A7%80---%EA%B8%B0%EB%B3%B8%EC%A0%95%EB%B3%B4">📍</a></td>
+</tr>
+<tr>
+<td></td>
+<td>12.1 내 정보 조회</td>
+<td><a href="#121-%EB%82%B4-%EC%A0%95%EB%B3%B4-%EC%A1%B0%ED%9A%8C">🔗</a></td>
+</tr>
+<tr>
+<td></td>
+<td>12.2 내 정보 수정</td>
+<td><a href="#122-%EB%82%B4-%EC%A0%95%EB%B3%B4-%EC%88%98%EC%A0%95">🔗</a></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1-랜딩-페이지">1. 랜딩 페이지</h2>
+<p>법인웹 첫 페이지. 지도와 지도에 표시된 주차장 리스트, 내가 즐겨찾기한 주차장, 새로운 소식, 이벤트 배너가 표시됩니다.</p>
+<h3 id="11-주차장-리스트-조회">1.1 주차장 리스트 조회</h3>
+<p>지도와 연동된 주차장 리스트 조회</p>
+<h4 id="api-정보">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>GET</code></li>
+<li><strong>인증</strong>: JWT 토큰 (선택사항)</li>
+</ul>
+<h4 id="request-parameters">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;latitude&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">37.5665</span><span class="hljs-punctuation">,</span> 
+  <span class="hljs-attr">&quot;longitude&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">126.9780</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;parkingLotName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;아마노&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;region&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;종로구&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-comment">// 페이징이 필요할까요..?</span>
+  <span class="hljs-attr">&quot;page&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;pageSize&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">8</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;parkingLots&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pl-001&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;아마노 주차장 1호점&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;address&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;서울 종로구 세종로 81-3&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;image&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://example.com/parking-lot-image.jpg&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;price&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">2000</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;latitude&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">37.5665</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;longitude&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">126.9780</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;isFavorite&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;pagination&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;currentPage&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;totalPages&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;totalItems&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">80</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;pageSize&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">8</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="12-이벤트공지faq-리스트-조회-최신-5건">1.2 이벤트/공지/FAQ 리스트 조회 (최신 5건)</h3>
+<h4 id="api-정보-1">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>GET</code></li>
+</ul>
+<h4 id="request-parameters-1">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;limit&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">5</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-1">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;noticeItems&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;author&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;관리자&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;시스템 점검 안내&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2024.01.10&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;new&quot;</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;eventItems&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;신규 회원 첫 주차 50% 할인&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2024.02.29&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ongoing&quot;</span> <span class="hljs-comment">// 진행중, 종료</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;faqItems&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;주차권 구매는 어떻게 하나요?&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;answer&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;앱에서 원하는 주차장을 선택하신 후...&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;category&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;주차권&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2024.01.15&quot;</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="13-이벤트-배너-조회">1.3 이벤트 배너 조회</h3>
+<h4 id="api-정보-2">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>GET</code></li>
+</ul>
+<h4 id="response-2">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;eventBanners&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;banner-001&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;imageUrl&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://example.com/event-banner-1.jpg&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;linkUrl&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;/events/new-member-discount&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;displayOrder&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<hr>
+<h2 id="2-주차장-상세">2. 주차장 상세</h2>
+<p>랜딩 페이지에서 주차장을 선택하면 나오는 주차장 상세 화면입니다. 주차권을 선택해서 구매/결제 프로세스를 시작합니다.</p>
+<h3 id="21-주차장-상세-조회">2.1 주차장 상세 조회</h3>
+<h4 id="api-정보-3">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>GET</code></li>
+</ul>
+<h4 id="request-parameters-2">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pl-001&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-3">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;아마노 주차장 1호점&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;address&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;서울 종로구 세종로 81-3&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;phone&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;02-1234-1234&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;lastUpdated&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025. 08. 29(금) 14:11&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;isFavorite&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;features&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;기계식&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;자주식&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;리프트&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;노상&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;복합&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;부설주&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;전기&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;carTypes&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;label&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;승용(소형)&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;code&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;car-s&quot;</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;label&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;승용(중형)&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;code&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;car-m&quot;</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;label&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;SUV&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;code&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;suv&quot;</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;label&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;화물(중형)&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;code&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;truck-m&quot;</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;label&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;화물(대형)&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;code&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;truck-l&quot;</span> <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;operatingHours&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;day&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;월요일&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;hours&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;00:00~24:00&quot;</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;day&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;화요일&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;hours&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;00:00~24:00&quot;</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;day&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;수요일&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;hours&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;00:00~24:00&quot;</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;day&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;목요일&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;hours&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;00:00~24:00&quot;</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;day&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;금요일&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;hours&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;00:00~24:00&quot;</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;day&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;토요일&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;hours&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;00:00~24:00&quot;</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;day&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;일요일&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;hours&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;00:00~24:00&quot;</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;day&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;공휴일&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;hours&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;00:00~24:00&quot;</span> <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;pricing&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;label&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;기본요금&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;10분/500원&quot;</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;label&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;무료회차&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;10분/무료&quot;</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;label&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;일최대요금&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;80000원&quot;</span> <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">{</span> <span class="hljs-attr">&quot;label&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;출차시간&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-attr">&quot;value&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;10분&quot;</span> <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;notice&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;안녕하세요 저희 주차장은 신규 결제시 승인후 사용이 가능한 주차장입니다. 신규결제시 3일 전에 미리 주차권을 구매하시는 기다림 없이 사용이 가능합니다.&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;images&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-string">&quot;https://c.animaapp.com/mfqlhxftrWTeQN/img/parkinglot-image1.svg&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;https://c.animaapp.com/mfqlhxftrWTeQN/img/parkinglot-image2.svg&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;https://c.animaapp.com/mfqlhxftrWTeQN/img/parkinglot-image3.svg&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;https://c.animaapp.com/mfqlhxftrWTeQN/img/parkinglot-image4.svg&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;https://c.animaapp.com/mfqlhxftrWTeQN/img/parkinglot-image5.svg&quot;</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;parkingPasses&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;정기권(구독)&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;approval_required&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-comment">// 구독인지 일반인지</span>
+        <span class="hljs-attr">&quot;approval&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-comment">// 승인이 필요한지</span>
+        <span class="hljs-attr">&quot;usageTime&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;00:00~23:59&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;stock&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;999&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-comment">// 남은 수량</span>
+        <span class="hljs-attr">&quot;price&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;9999000&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span> <span class="hljs-comment">// 매진인지 구매 가능한지</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;caution&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;using&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;본 상품의 유효기간은 구매 당일 00 사전정산기 사용시 주차권 적용이 불가능합니다.&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;refund&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;아마노 App을 통해 구매 결정하신 상품에 대해서만 취소 및 환불이 가능합니다.&quot;</span>   
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="22-주차권-수량-확인-조회">2.2 주차권 수량 확인 조회</h3>
+<h4 id="api-정보-4">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>GET</code></li>
+</ul>
+<h4 id="request-parameters-3">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pass-001&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-4">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pass-001&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;stock&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;999&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<hr>
+<h2 id="3-주차장-즐겨찾기">3. 주차장 즐겨찾기</h2>
+<h3 id="31-즐겨찾기-주차장-리스트-조회">3.1 즐겨찾기 주차장 리스트 조회</h3>
+<h4 id="api-정보-5">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>GET</code></li>
+<li><strong>인증</strong>: JWT 토큰 (필수)</li>
+</ul>
+<h4 id="request-parameters-4">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;page&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;pageSize&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">8</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-5">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;favoriteParkingLots&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;fpl-001&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;즐겨찾기 주차장 1&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;address&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;서울 강남구 테헤란로 123&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;image&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://example.com/favorite-parking.jpg&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;price&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1500</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;latitude&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">37.5013</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;longitude&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">127.0396</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;addedDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2024.01.15&quot;</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;pagination&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;currentPage&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;totalPages&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">5</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;totalItems&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">40</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;pageSize&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">8</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="32-주차장-즐겨찾기-등록">3.2 주차장 즐겨찾기 등록</h3>
+<h4 id="api-정보-6">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>POST</code></li>
+<li><strong>인증</strong>: JWT 토큰 (필수)</li>
+</ul>
+<h4 id="request-body">Request Body</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;parkingLotId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pl-001&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-6">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;즐겨찾기에 추가되었습니다.&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;fpl-002&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;parkingLotId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pl-001&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="33-주차장-즐겨찾기-삭제">3.3 주차장 즐겨찾기 삭제</h3>
+<h4 id="api-정보-7">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>DELETE</code></li>
+<li><strong>인증</strong>: JWT 토큰 (필수)</li>
+</ul>
+<h4 id="request-parameters-5">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;parkingLotId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;pl-001&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-7">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;즐겨찾기에서 제거되었습니다.&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<hr>
+<h2 id="4-계정-관련-api">4. 계정 관련 API</h2>
+<h3 id="41-아이디-찾기">4.1 아이디 찾기</h3>
+<h4 id="api-정보-8">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: POST</li>
+<li><strong>인증</strong>: 불필요</li>
+</ul>
+<h4 id="request-parameters-6">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;businessNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>     <span class="hljs-comment">// 사업자번호 (10자리, 하이픈 제외)</span>
+  <span class="hljs-attr">&quot;phoneNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span>         <span class="hljs-comment">// 휴대폰 번호 (하이픈 제외)</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-8">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;userId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;user***1&quot;</span>  <span class="hljs-comment">// 아스터리스크로 가려진 아이디</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;아이디 조회가 완료되었습니다.&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="42-비밀번호-변경가능-여부-확인">4.2 비밀번호 변경가능 여부 확인</h3>
+<h4 id="api-정보-9">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: POST</li>
+<li><strong>인증</strong>: 불필요</li>
+</ul>
+<h4 id="request-parameters-7">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;userId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>            <span class="hljs-comment">// 사용자 아이디</span>
+  <span class="hljs-attr">&quot;businessNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>    <span class="hljs-comment">// 사업자번호 (10자리, 하이픈 제외)</span>
+  <span class="hljs-attr">&quot;phoneNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span>        <span class="hljs-comment">// 휴대폰 번호 (하이픈 제외)</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-9">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;canChangePassword&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>    <span class="hljs-comment">// 비밀번호 변경 가능 여부</span>
+    <span class="hljs-attr">&quot;resetToken&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span>        <span class="hljs-comment">// 비밀번호 재설정용 임시 토큰 (가능한 경우에만 제공)</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;비밀번호 변경이 가능합니다.&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="43-비밀번호-재설정">4.3 비밀번호 재설정</h3>
+<h4 id="api-정보-10">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: PUT</li>
+<li><strong>인증</strong>: JWT 토큰 (필수) 또는 resetToken</li>
+</ul>
+<h4 id="request-parameters-8">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;newPassword&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>       <span class="hljs-comment">// 신규 비밀번호 (8자 이상, 영문+숫자+특수문자 조합)</span>
+  <span class="hljs-attr">&quot;resetToken&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span>         <span class="hljs-comment">// 비밀번호 재설정용 토큰 (JWT 토큰 없는 경우 필수)</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-10">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;비밀번호가 성공적으로 변경되었습니다.&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="44-회원-탈퇴">4.4 회원 탈퇴</h3>
+<h4 id="api-정보-11">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: DELETE</li>
+<li><strong>인증</strong>: JWT 토큰 (필수)</li>
+</ul>
+<h4 id="request-parameters-9">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;reason&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span><span class="hljs-punctuation">,</span>            <span class="hljs-comment">// 탈퇴 사유 (선택)</span>
+  <span class="hljs-attr">&quot;password&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;string&quot;</span>           <span class="hljs-comment">// 현재 비밀번호 (확인용)</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-11">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;회원 탈퇴가 완료되었습니다.&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;withdrawalDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025-10-14T10:30:00Z&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;dataRetentionPeriod&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;30일&quot;</span> <span class="hljs-comment">// 개인정보 보관 기간</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<hr>
+<h2 id="5-회원가입-api">5. 회원가입 API</h2>
+<h3 id="51-약관-내용-조회">5.1 약관 내용 조회</h3>
+<h4 id="api-정보-12">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: GET</li>
+<li><strong>인증</strong>: 불필요</li>
+</ul>
+<h4 id="request-parameters-10">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;termId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;terms|privacy|location|optional-location&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-12">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;아마노파킹 이용약관&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;제1조 (목적)...&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="52-회원가입">5.2 회원가입</h3>
+<h4 id="api-정보-13">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: POST</li>
+<li><strong>URL</strong>: <code>/api/v1/auth/signup</code></li>
+<li><strong>인증</strong>: 불필요</li>
+</ul>
+<h4 id="request-parameters-11">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;userId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;testuser123&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;password&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;password123!&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;phoneNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;01012345678&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;companyName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;(주)테스트컴퍼니&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;businessNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1234567890&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;businessCertFiles&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;file_id_1&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;file_id_2&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;email&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;test@company.com&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;optionAgreement&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;sms&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;phone&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-13">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;userId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;testuser123&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;회원가입이 완료되었습니다.&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<hr>
+<h2 id="6-알림">6. 알림</h2>
+<p>사용자에게 제공되는 상품 알림과 그 외 알림을 관리하는 기능입니다.</p>
+<h3 id="61-알림-리스트-조회">6.1 알림 리스트 조회</h3>
+<h4 id="api-정보-14">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>GET</code></li>
+<li><strong>인증</strong>: JWT 토큰 (필수)</li>
+</ul>
+<h4 id="response-14">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;productNotifications&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;product&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;구매완료&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;주차장 상품이 결제되었습니다.&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;subtitle&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;[아마노타워 월 정기권]이 35,000원 결제 되었습니다.&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025. 07. 10&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;orderNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;isRead&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;createdAt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025-07-10T10:30:00Z&quot;</span>
+      <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">2</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;product&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;만료예정&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;정기권이 7일 후 만료됩니다.&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;subtitle&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;[아마노타워 월 정기권]의 유효기간이 2025.07.17에 종료됩니다.&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025. 07. 09&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;orderNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;isRead&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;createdAt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025-07-09T09:00:00Z&quot;</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;etcNotifications&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">5</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;etc&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;공지사항&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;여름 정기권 할인 이벤트&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;subtitle&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;7월 한정! 모든 정기권 20% 할인 혜택을 놓치지 마세요.&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025. 07. 05&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;isRead&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;createdAt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025-07-05T08:00:00Z&quot;</span>
+      <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">6</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;type&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;etc&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;이벤트&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;시스템 점검 안내&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;subtitle&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025.07.15(월) 02:00~06:00 시스템 점검이 예정되어 있습니다.&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;date&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025. 07. 04&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;isRead&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;createdAt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025-07-04T12:00:00Z&quot;</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="62-알림-읽음-상태-업데이트">6.2 알림 읽음 상태 업데이트</h3>
+<h4 id="api-정보-15">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>PUT</code></li>
+<li><strong>인증</strong>: JWT 토큰 (필수)</li>
+</ul>
+<h4 id="request-body-1">Request Body</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;ids&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1,2,3,4&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;isRead&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-15">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;알림 읽음 상태가 업데이트되었습니다.&quot;</span><span class="hljs-punctuation">,</span>
+  
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<hr>
+<h2 id="7-이용문의---공지사항">7. 이용문의 - 공지사항</h2>
+<h3 id="71-공지사항-리스트-조회">7.1 공지사항 리스트 조회</h3>
+<h4 id="api-정보-16">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>GET</code></li>
+</ul>
+<h4 id="request-parameters-12">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;page&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;pageSize&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;keyword&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;시스템&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-comment">// 제목, 내용</span>
+  <span class="hljs-attr">&quot;sortBy&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;date&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;sortOrder&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;desc&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-16">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;notices&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;시스템 점검 안내&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;author&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;관리자&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;createdDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2024.01.10&quot;</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;pagination&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;currentPage&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;totalPages&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">20</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;totalItems&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">200</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;pageSize&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="72-공지사항-상세-조회">7.2 공지사항 상세 조회</h3>
+<h4 id="api-정보-17">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>GET</code></li>
+</ul>
+<h4 id="request-parameters-13">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-17">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;시스템 점검 안내&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;author&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;관리자&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;createdDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2024.01.10&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&lt;p&gt;시스템 점검으로 인해...&lt;/p&gt;&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;attachments&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;att-001&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;filename&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;점검안내.pdf&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;fileUrl&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://example.com/files/notice.pdf&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;fileSize&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1024000</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<hr>
+<h2 id="8-이용문의---이벤트">8. 이용문의 - 이벤트</h2>
+<h3 id="81-이벤트-리스트-조회">8.1 이벤트 리스트 조회</h3>
+<h4 id="api-정보-18">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>GET</code></li>
+</ul>
+<h4 id="request-parameters-14">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;page&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;pageSize&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;keyword&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;할인&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-comment">// 제목, 내용</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ongoing&quot;</span> 
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-18">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;events&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;신규 회원 첫 주차 50% 할인&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;author&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;이벤트팀&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;createdDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2024.02.29&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ongoing&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;startDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2024.02.01&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;endDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2024.02.29&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;thumbnail&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;https://example.com/event-detail-1.jpg&quot;</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;pagination&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;currentPage&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;totalPages&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">15</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;totalItems&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">150</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;pageSize&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="82-이벤트-상세-조회">8.2 이벤트 상세 조회</h3>
+<h4 id="api-정보-19">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>GET</code></li>
+</ul>
+<h4 id="request-parameters-15">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-19">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;신규 회원 첫 주차 50% 할인&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;author&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;이벤트팀&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;createdDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2024.02.29&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;content&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&lt;p&gt;신규 회원을 위한 특별 할인...&lt;/p&gt;&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;ongoing&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;startDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2024.02.01&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;endDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2024.02.29&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;detailImages&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-string">&quot;https://example.com/event-detail-1.jpg&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-string">&quot;https://example.com/event-detail-2.jpg&quot;</span>
+    <span class="hljs-punctuation">]</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<hr>
+<h2 id="9-이용문의---faq">9. 이용문의 - FAQ</h2>
+<h3 id="91-faq-리스트-조회">9.1 FAQ 리스트 조회</h3>
+<h4 id="api-정보-20">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>GET</code></li>
+</ul>
+<h4 id="response-20">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;faqs&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;title&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;주차권 구매는 어떻게 하나요?&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;answer&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;앱에서 원하는 주차장을 선택하신 후 주차권을 선택하여 결제하시면 됩니다.&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;category&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;parking&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;createdDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2024.01.15&quot;</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<hr>
+<h2 id="10-마이페이지---동호수-관리">10. 마이페이지 - 동/호수 관리</h2>
+<p>내 주차장 등록하는 페이지입니다. 입주민인 경우 어느 아파트의 몇 동 몇 호인지 관리합니다.</p>
+<h3 id="101-동호수-리스트-조회">10.1 동/호수 리스트 조회</h3>
+<h4 id="api-정보-21">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>GET</code></li>
+<li><strong>인증</strong>: JWT 토큰 (필수)</li>
+</ul>
+<h4 id="response-21">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;parkingUnits&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">6</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;parkingName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;아마노코리아1호점&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;building&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;101&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;unit&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1004&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;registrationDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025.09.02&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;승인완료&quot;</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;totalCount&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">6</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="102-동호수-등록">10.2 동/호수 등록</h3>
+<h4 id="api-정보-22">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>POST</code></li>
+<li><strong>인증</strong>: JWT 토큰 (필수)</li>
+</ul>
+<h4 id="request-body-2">Request Body</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;parkingLotId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;parking_001&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;building&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;101&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;unit&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1004&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;files&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;base64_encoded_file_data&quot;</span><span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-22">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;동/호수가 성공적으로 등록되었습니다.&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">7</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;parkingName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;아마노코리아1호점&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;building&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;101&quot;</span><span class="hljs-punctuation">,</span> 
+    <span class="hljs-attr">&quot;unit&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1004&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;registrationDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025. 09. 19&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;승인대기&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="103-동호수-삭제">10.3 동/호수 삭제</h3>
+<h4 id="api-정보-23">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>DELETE</code></li>
+<li><strong>인증</strong>: JWT 토큰 (필수)</li>
+</ul>
+<h4 id="request-parameters-16">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">6</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-23">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;동/호수가 성공적으로 삭제되었습니다.&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="104-주차장-조회-동호수-등록용">10.4 주차장 조회 (동/호수 등록용)</h3>
+<p>주차장 검색을 위한 api</p>
+<h4 id="api-정보-24">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>GET</code></li>
+<li></li>
+</ul>
+<h4 id="request-parameters-17">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;page&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;pageSize&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;keyword&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;현대주차장&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-comment">// 주차장명 또는 주소</span>
+
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-24">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;parkingLotOptions&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;parking_001&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;아마노코리아1호점&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;address&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;서울시 강남구 테헤란로 123&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;buildings&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;101&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;102&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;103&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;104&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;105&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;units&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+          <span class="hljs-attr">&quot;101&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;101&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;102&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;103&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;104&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;105&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;201&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;202&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+          <span class="hljs-attr">&quot;102&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;101&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;102&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;103&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;104&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;105&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;201&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;202&quot;</span><span class="hljs-punctuation">]</span>
+        <span class="hljs-punctuation">}</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<hr>
+<h2 id="11-마이페이지---차량-등록-관리">11. 마이페이지 - 차량 등록 관리</h2>
+<p>내 차량을 관리하는 페이지입니다.</p>
+<h3 id="111-차량-리스트-조회">11.1 차량 리스트 조회</h3>
+<h4 id="api-정보-25">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>GET</code></li>
+<li><strong>인증</strong>: JWT 토큰 (필수)</li>
+</ul>
+<h4 id="response-25">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;cars&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;carNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;123가1234&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;carType&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;suv&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;carName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;카니발&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;registrationDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025. 09. 02&quot;</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="112-차량-등록-단건">11.2 차량 등록 (단건)</h3>
+<h4 id="api-정보-26">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>POST</code></li>
+<li><strong>인증</strong>: JWT 토큰 (필수)</li>
+</ul>
+<h4 id="request-body-단건-등록">Request Body (단건 등록)</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;carNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;123가1234&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;carType&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;suv&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;carName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;카니발&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-단건-등록">Response (단건 등록)</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;차량이 성공적으로 등록되었습니다.&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">11</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;carNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;123가1234&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;carType&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;suv&quot;</span><span class="hljs-punctuation">,</span> 
+    <span class="hljs-attr">&quot;carName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;카니발&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;registrationDate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025. 09. 19&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="request-body-일괄-등록">Request Body (일괄 등록)</h4>
+<p>일괄등록이 있으면 단건 등록이 필요 없어 보이네요</p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;cars&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;carNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;123가1234&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;carType&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;suv&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;carName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;카니발&quot;</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;carNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;456나5678&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;carType&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;sedan&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;carName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;아반떼&quot;</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-일괄-등록">Response (일괄 등록)</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;차량이 일괄 등록되었습니다.&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;successCount&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;failedCount&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">2</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;failedItems&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+      <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;carNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;잘못된번호&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;reason&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;올바르지 않은 차량번호 형식&quot;</span>
+      <span class="hljs-punctuation">}</span>
+    <span class="hljs-punctuation">]</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="113-차량-삭제">11.3 차량 삭제</h3>
+<h4 id="api-정보-27">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: <code>DELETE</code></li>
+<li><strong>인증</strong>: JWT 토큰 (필수)</li>
+</ul>
+<h4 id="request-parameters-18">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-26">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;success&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;차량이 성공적으로 삭제되었습니다.&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<hr>
+<h2 id="12-마이페이지---기본정보">12. 마이페이지 - 기본정보</h2>
+<h3 id="121-내-정보-조회">12.1 내 정보 조회</h3>
+<h4 id="api-정보-28">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: GET</li>
+<li><strong>인증</strong>: JWT 토큰 (필수)</li>
+</ul>
+<h4 id="response-27">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;userInfo&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;userId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;abcd1234&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;companyName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;(주)테스트컴퍼니&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;businessNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1234567890&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;businessCertFiles&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;file_id_1&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;file_id_2&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;email&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;test@company.com&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;phoneNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;01012345678&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;bankInfo&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;bank&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;kb&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;accountNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;123-456-789012&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;accountHolder&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;테스트컴퍼니&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;accountFiles&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;file_id_1&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;file_id_2&quot;</span><span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;optionAgreement&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;sms&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;phone&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="122-내-정보-수정">12.2 내 정보 수정</h3>
+<h4 id="api-정보-29">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: PUT</li>
+<li><strong>인증</strong>: JWT 토큰 (필수)</li>
+</ul>
+<h4 id="request-parameters-19">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;userInfo&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;companyName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;(주)수정된컴퍼니&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;email&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;updated@company.com&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;phoneNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;01098765432&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;businessNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;1234567890&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;businessCertFiles&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;file_id_1&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;file_id_2&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;password&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;&quot;</span>
+
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;bankInfo&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+        <span class="hljs-attr">&quot;bank&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;kb&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;accountNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;123-456-789012&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;accountHolder&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;테스트컴퍼니&quot;</span><span class="hljs-punctuation">,</span>
+        <span class="hljs-attr">&quot;accountFiles&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;file_id_1&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;file_id_2&quot;</span><span class="hljs-punctuation">]</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;optionAgreement&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;sms&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;phone&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-28">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;정보가 성공적으로 수정되었습니다.&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;updatedAt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025-09-23T10:30:00Z&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h2 id="13-중복-체크-api">13. 중복 체크 API</h2>
+<h3 id="131-차량-등록-중복-체크">13.1 차량 등록 중복 체크</h3>
+<h4 id="api-정보-30">API 정보</h4>
+<ul>
+<li><strong>Method</strong>: POST</li>
+<li><strong>인증</strong>: JWT 토큰 (필수)</li>
+</ul>
+<h4 id="request-parameters-20">Request Parameters</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;carNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;123가1234&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h4 id="response-29">Response</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;isDuplicate&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;사용 가능한 차량번호입니다.&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<hr>
+
+            
+            
+        </body>
+        </html>
