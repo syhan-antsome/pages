@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x1f9f9; Docker &#xb514;&#xc2a4;&#xd06c; &#xc815;&#xb9ac; &#xba85;&#xb839;&#xc5b4;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="-docker-디스크-정리-명령어">🧹 Docker 디스크 정리 명령어</h2>
+<h3 id="1️⃣-현재-디스크-사용량-확인">1️⃣ 현재 디스크 사용량 확인</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># Docker가 사용 중인 디스크 확인</span>
+docker system <span class="hljs-built_in">df</span>
+
+<span class="hljs-comment"># 상세 정보</span>
+docker system <span class="hljs-built_in">df</span> -v
+</code></pre>
+<h3 id="2️⃣-안전한-정리-사용하지-않는-것만">2️⃣ 안전한 정리 (사용하지 않는 것만)</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># 사용하지 않는 모든 것 정리 (안전, 추천)</span>
+docker system prune -a
+
+<span class="hljs-comment"># 볼륨까지 포함해서 정리 (주의!)</span>
+docker system prune -a --volumes
+
+<span class="hljs-comment"># 빌드 캐시만 정리</span>
+docker builder prune -a
+</code></pre>
+<h3 id="3️⃣-개별-정리">3️⃣ 개별 정리</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># 1. 중지된 컨테이너 모두 삭제</span>
+docker container prune
+
+<span class="hljs-comment"># 2. 사용하지 않는 이미지 삭제</span>
+docker image prune -a
+
+<span class="hljs-comment"># 3. 사용하지 않는 볼륨 삭제 (주의!)</span>
+docker volume prune
+
+<span class="hljs-comment"># 4. 사용하지 않는 네트워크 삭제</span>
+docker network prune
+
+<span class="hljs-comment"># 5. 빌드 캐시 삭제</span>
+docker builder prune
+</code></pre>
+<h3 id="4️⃣-강력한-정리-모든-것-삭제">4️⃣ 강력한 정리 (모든 것 삭제)</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># ⚠️ 경고: 실행 중인 컨테이너 제외하고 모두 삭제</span>
+docker system prune -a -f --volumes
+
+<span class="hljs-comment"># 모든 컨테이너 중지 후 삭제</span>
+docker stop $(docker ps -aq)
+docker <span class="hljs-built_in">rm</span> $(docker ps -aq)
+
+<span class="hljs-comment"># 모든 이미지 삭제</span>
+docker rmi $(docker images -q)
+
+<span class="hljs-comment"># 모든 볼륨 삭제 (데이터베이스 데이터도 삭제됨!)</span>
+docker volume <span class="hljs-built_in">rm</span> $(docker volume <span class="hljs-built_in">ls</span> -q)
+</code></pre>
+<h2 id="-추천하는-정리-순서-개발-서버">🎯 추천하는 정리 순서 (개발 서버)</h2>
+<pre><code class="language-bash"><span class="hljs-comment"># 1. 현재 상태 확인</span>
+docker system <span class="hljs-built_in">df</span>
+
+<span class="hljs-comment"># 2. 서비스 중지 (필요시)</span>
+docker-compose -f docker-compose.full.yml down
+
+<span class="hljs-comment"># 3. 안전하게 정리 (대화형)</span>
+docker system prune -a
+
+<span class="hljs-comment"># 입력 프롬프트가 나오면 &#x27;y&#x27; 입력</span>
+<span class="hljs-comment"># WARNING! This will remove:</span>
+<span class="hljs-comment">#   - all stopped containers</span>
+<span class="hljs-comment">#   - all networks not used by at least one container</span>
+<span class="hljs-comment">#   - all images without at least one container associated to them</span>
+<span class="hljs-comment">#   - all build cache</span>
+<span class="hljs-comment"># Are you sure you want to continue? [y/N] y</span>
+
+<span class="hljs-comment"># 4. 결과 확인</span>
+docker system <span class="hljs-built_in">df</span>
+
+<span class="hljs-comment"># 5. 서비스 재시작</span>
+docker-compose -f docker-compose.full.yml up -d
+</code></pre>
+<h2 id="-각-항목별-공간-확보-효과">📊 각 항목별 공간 확보 효과</h2>
+<pre><code class="language-bash"><span class="hljs-comment"># Images (가장 많은 공간 차지)</span>
+docker image prune -a
+<span class="hljs-comment"># 예상: 5-20GB 확보</span>
+
+<span class="hljs-comment"># Build cache (두 번째로 많음)</span>
+docker builder prune -a
+<span class="hljs-comment"># 예상: 2-10GB 확보</span>
+
+<span class="hljs-comment"># Containers (적은 편)</span>
+docker container prune
+<span class="hljs-comment"># 예상: 100MB-1GB</span>
+
+<span class="hljs-comment"># Volumes (데이터베이스 포함, 주의!)</span>
+docker volume prune
+<span class="hljs-comment"># 예상: 1-5GB (하지만 데이터 손실 가능)</span>
+</code></pre>
+<h2 id="-디스크-공간-추가-확보">💾 디스크 공간 추가 확보</h2>
+<pre><code class="language-bash"><span class="hljs-comment"># 1. 시스템 전체 디스크 확인</span>
+<span class="hljs-built_in">df</span> -h
+
+<span class="hljs-comment"># 2. Docker가 차지하는 정확한 크기</span>
+<span class="hljs-built_in">du</span> -sh /var/lib/docker
+
+<span class="hljs-comment"># 3. 로그 파일 정리</span>
+find /var/lib/docker/containers/ -name <span class="hljs-string">&quot;*.log&quot;</span> -<span class="hljs-built_in">exec</span> <span class="hljs-built_in">truncate</span> -s 0 {} \;
+
+<span class="hljs-comment"># 4. 오래된 빌드 아티팩트 삭제</span>
+<span class="hljs-built_in">cd</span> /root/akc-b2c
+./gradlew clean
+<span class="hljs-built_in">rm</span> -rf ~/.gradle/caches/
+</code></pre>
+<h2 id="-즉시-실행할-명령어-안전">🔧 즉시 실행할 명령어 (안전)</h2>
+<pre><code class="language-bash"><span class="hljs-comment"># 한 줄로 정리 (대화형 확인 있음)</span>
+docker system prune -a &amp;&amp; docker builder prune -a
+
+<span class="hljs-comment"># 확인 없이 바로 정리 (-f 플래그)</span>
+docker system prune -a -f &amp;&amp; docker builder prune -a -f
+</code></pre>
+<h2 id="️-주의사항">⚠️ 주의사항</h2>
+<ol>
+<li>
+<p><strong><code>docker volume prune</code>은 조심!</strong></p>
+<ul>
+<li>MySQL 데이터가 볼륨에 있다면 데이터베이스가 초기화됩니다</li>
+<li>백업 후 실행하세요</li>
+</ul>
+</li>
+<li>
+<p><strong>실행 중인 서비스는 영향 없음</strong></p>
+<ul>
+<li><code>prune</code> 명령어는 사용 중인 리소스는 삭제하지 않습니다</li>
+</ul>
+</li>
+<li>
+<p><strong>정리 후 재빌드 필요</strong></p>
+<ul>
+<li>이미지를 삭제하면 다음 <code>docker-compose up</code> 시 다시 빌드됩니다</li>
+</ul>
+</li>
+</ol>
+<p>먼저 <code>docker system df</code>로 확인하고, <code>docker system prune -a</code>를 실행해보세요! 결과를 알려주시면 추가 조치를 알려드리겠습니다. 🚀</p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
