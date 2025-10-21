@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#xbe4c;&#xb4dc; &amp; &#xbc30;&#xd3ec; &#xac00;&#xc774;&#xb4dc;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="빌드--배포-가이드">빌드 &amp; 배포 가이드</h1>
+<p>이 가이드는 로컬(개발자), 개발 서버, 운영 서버에서의 빌드 및 배포 명령어를 다룹니다.</p>
+<hr>
+<h2 id="사전-준비사항">사전 준비사항</h2>
+<ul>
+<li>Java 17</li>
+<li>Gradle 8.x</li>
+<li>Docker &amp; Docker Compose</li>
+<li>Docker Buildx (멀티 아키텍처 빌드용)</li>
+<li>Docker Hub 계정 (현재 <code>newsyhan</code>으로 로그인됨)</li>
+</ul>
+<hr>
+<h2 id="1-로컬-개발자">1) 로컬 (개발자)</h2>
+<h3 id="docker-없이-앱-실행-빠른-반복-개발">Docker 없이 앱 실행 (빠른 반복 개발)</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># UnifiedService를 Gradle로 직접 실행</span>
+./gradlew :UnifiedService:bootRun
+</code></pre>
+<h3 id="fat-jar-빌드">Fat JAR 빌드</h3>
+<pre><code class="language-bash">./gradlew :UnifiedService:bootJar
+<span class="hljs-comment"># 출력: UnifiedService/build/libs/*.jar</span>
+</code></pre>
+<h3 id="docker로-빌드--실행-로컬-테스트">Docker로 빌드 &amp; 실행 (로컬 테스트)</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># 이미지 빌드 (단일 아키텍처, 로컬)</span>
+docker build -t newsyhan/akc-b2c-unified-service:<span class="hljs-built_in">local</span> -f UnifiedService/Dockerfile .
+
+<span class="hljs-comment"># 컨테이너 실행 (/uploads 볼륨 제공)</span>
+docker run --<span class="hljs-built_in">rm</span> -p 8089:8089 \
+  -e SPRING_PROFILES_ACTIVE=docker \
+  -e DB_USERNAME=antsome -e DB_PASSWORD=<span class="hljs-string">&#x27;Q1w2e3r4%^&#x27;</span> \
+  -v $(<span class="hljs-built_in">pwd</span>)/uploads:/uploads \
+  newsyhan/akc-b2c-unified-service:<span class="hljs-built_in">local</span>
+</code></pre>
+<p><strong>참고:</strong> 디버깅 시 로그는 콘솔로 확인하세요. 로컬 빌드에서는 호스트 로그 디렉토리를 생성하지 않아도 됩니다.</p>
+<hr>
+<h2 id="2-개발-서버-리소스-제약---권장-워크플로우">2) 개발 서버 (리소스 제약) - 권장 워크플로우</h2>
+<p>전략: 이미지를 로컬(또는 CI)에서 빌드하고 Docker Hub에 푸시한 후, 개발 서버에서 pull &amp; 실행</p>
+<h3 id="빌드--푸시-로컬">빌드 &amp; 푸시 (로컬)</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># buildx builder 확인 및 생성</span>
+docker buildx create --use --name multiplatform-builder || <span class="hljs-literal">true</span>
+docker buildx inspect --bootstrap
+
+<span class="hljs-comment"># 멀티 아키텍처 이미지 빌드 &amp; 푸시</span>
+./build-and-push.sh
+</code></pre>
+<p><code>build-and-push.sh</code>는 <code>linux/amd64</code>와 <code>linux/arm64</code>용으로 빌드하고 <code>newsyhan/akc-b2c-unified-service:latest</code> 및 타임스탬프 태그를 푸시합니다.</p>
+<h3 id="개발-서버에서-배포">개발 서버에서 배포</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># 개발 서버에서</span>
+<span class="hljs-built_in">cd</span> /root/syhan/amano/akc-b2c
+<span class="hljs-comment"># 개발용 compose 사용 (로그용 tmpfs)</span>
+docker-compose -f docker-compose.unified.production.yml pull
+docker-compose -f docker-compose.unified.production.yml up -d
+
+<span class="hljs-comment"># 상태 확인</span>
+docker-compose -f docker-compose.unified.production.yml ps
+docker-compose -f docker-compose.unified.production.yml logs -f unified-service
+</code></pre>
+<p><strong>참고:</strong></p>
+<ul>
+<li>개발용 compose는 <code>/app/logs</code>에 <code>tmpfs</code>를 사용하여 권한 문제를 회피하고 속도를 높입니다.</li>
+<li>tmpfs는 휘발성이므로 재시작 시 로그가 삭제됩니다. 개발/테스트 환경에만 사용하세요.</li>
+</ul>
+<hr>
+<h2 id="3-운영-서버-로그-영구-보관-보안">3) 운영 서버 (로그 영구 보관, 보안)</h2>
+<h3 id="서버-준비-최초-1회">서버 준비 (최초 1회)</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># 로그 디렉토리 생성 및 소유권 설정 (컨테이너 사용자 UID 1000 가정)</span>
+sudo <span class="hljs-built_in">mkdir</span> -p /var/log/akc-b2c
+sudo <span class="hljs-built_in">chown</span> -R 1000:1000 /var/log/akc-b2c
+sudo <span class="hljs-built_in">chmod</span> 755 /var/log/akc-b2c
+
+<span class="hljs-comment"># 환경 변수 예제 복사 및 수정</span>
+<span class="hljs-built_in">cp</span> .env.production.example .env.production
+<span class="hljs-comment"># .env.production을 실제 비밀번호 및 토큰으로 수정</span>
+</code></pre>
+<h3 id="배포">배포</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># Pull &amp; 실행 (운영용 compose)</span>
+docker-compose -f docker-compose.unified.prod.yml --env-file .env.production pull
+docker-compose -f docker-compose.unified.prod.yml --env-file .env.production up -d
+
+<span class="hljs-comment"># 상태 확인</span>
+docker-compose -f docker-compose.unified.prod.yml ps
+<span class="hljs-comment"># Health Check</span>
+curl http://localhost:8089/actuator/health
+<span class="hljs-comment"># 로그 확인 (호스트)</span>
+<span class="hljs-built_in">tail</span> -f /var/log/akc-b2c/parking-service.log
+</code></pre>
+<p><strong>참고:</strong></p>
+<ul>
+<li>비밀은 <code>.env.production</code>에 저장하고 git에 커밋하지 마세요.</li>
+<li>디스크 용량 확보를 위해 호스트에서 <code>logrotate</code>를 설정하세요.</li>
+<li>DB/Redis 접근을 제한하기 위해 네트워크/방화벽 규칙을 고려하세요.</li>
+</ul>
+<hr>
+<h2 id="4-롤백">4) 롤백</h2>
+<p>새 이미지에 문제가 있는 경우 이전 이미지 태그를 사용하세요:</p>
+<pre><code class="language-bash"><span class="hljs-comment"># 서버에서</span>
+docker pull newsyhan/akc-b2c-unified-service:20251021-&lt;timestamp&gt;
+<span class="hljs-comment"># compose 이미지 태그를 업데이트하거나 로컬에서 재태그</span>
+<span class="hljs-comment"># 그런 다음 up -d로 이전 태그 실행</span>
+</code></pre>
+<hr>
+<h2 id="5-cicd-github-actions-간단-예제">5) CI/CD (GitHub Actions 간단 예제)</h2>
+<p><code>.github/workflows/docker-build.yml</code>을 생성하여 <code>feature-parking</code>에 병합 시 자동으로 빌드 및 푸시할 수 있습니다 (선택 사항; 필요시 템플릿 제공 가능).</p>
+<hr>
+<h2 id="6-트러블슈팅">6) 트러블슈팅</h2>
+<ul>
+<li>로그 작성 권한 거부 → 호스트 <code>/var/log/akc-b2c</code>가 존재하고 올바른 소유권(UID:GID 1000:1000, 컨테이너 사용자 <code>spring</code>)인지 확인</li>
+<li>data.sql 오류 → 운영 및 개발 환경에서 DB가 이미 초기화된 경우 <code>spring.sql.init.mode: never</code>로 설정</li>
+<li>이미지 매니페스트 오류 → <code>docker buildx</code>를 사용하여 멀티 아키텍처 이미지 푸시</li>
+</ul>
+<hr>
+<p>추가로 필요하시면:</p>
+<ul>
+<li>GitHub Actions 워크플로우 파일 생성</li>
+<li><code>logrotate</code> 설정 스니펫 추가</li>
+<li><code>.env.production</code> 샘플 (비밀은 커밋하지 않음)</li>
+</ul>
+<hr>
+<p><em>생성된 파일: <code>PROBLEMS_AND_IMPROVEMENTS.md</code>, <code>BUILD_GUIDE.md</code></em></p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
