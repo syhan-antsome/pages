@@ -145,14 +145,14 @@
 docker system <span class="hljs-built_in">df</span>
 
 <span class="hljs-comment"># 상세 정보</span>
-docker system <span class="hljs-built_in">df</span> -v
+[위험!! mysql 데이터 삭제됨] docker system <span class="hljs-built_in">df</span> -v
 </code></pre>
 <h3 id="2️⃣-안전한-정리-사용하지-않는-것만">2️⃣ 안전한 정리 (사용하지 않는 것만)</h3>
 <pre><code class="language-bash"><span class="hljs-comment"># 사용하지 않는 모든 것 정리 (안전, 추천)</span>
-docker system prune -a
+[위험!! mysql 데이터 삭제됨] docker system prune -a
 
 <span class="hljs-comment"># 볼륨까지 포함해서 정리 (주의!)</span>
-docker system prune -a --volumes
+[위험!! mysql 데이터 삭제됨] docker system prune -a --volumes
 
 <span class="hljs-comment"># 빌드 캐시만 정리</span>
 docker builder prune -a
