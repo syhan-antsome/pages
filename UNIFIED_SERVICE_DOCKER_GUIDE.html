@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>UnifiedService Docker &#xc2e4;&#xd589; &#xac00;&#xc774;&#xb4dc;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="unifiedservice-docker-실행-가이드">UnifiedService Docker 실행 가이드</h1>
+<h2 id="-개요">📋 개요</h2>
+<p>UnifiedService를 Docker 환경에서 실행하는 방법을 설명합니다.</p>
+<h2 id="-빠른-시작">🚀 빠른 시작</h2>
+<h3 id="1-docker-이미지-빌드-및-실행-원스톱">1. Docker 이미지 빌드 및 실행 (원스톱)</h3>
+<pre><code class="language-bash">docker-compose -f docker-compose.unified.yml up --build -d
+</code></pre>
+<h3 id="2-로그-확인">2. 로그 확인</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># 전체 로그 확인</span>
+docker-compose -f docker-compose.unified.yml logs -f
+
+<span class="hljs-comment"># UnifiedService 로그만 확인</span>
+docker-compose -f docker-compose.unified.yml logs -f unified-service
+
+<span class="hljs-comment"># MySQL 로그 확인</span>
+docker-compose -f docker-compose.unified.yml logs -f mysql
+
+<span class="hljs-comment"># Redis 로그 확인</span>
+docker-compose -f docker-compose.unified.yml logs -f redis
+</code></pre>
+<h3 id="3-서비스-상태-확인">3. 서비스 상태 확인</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># 컨테이너 상태 확인</span>
+docker-compose -f docker-compose.unified.yml ps
+
+<span class="hljs-comment"># Health Check 확인</span>
+curl http://localhost:8089/actuator/health
+</code></pre>
+<h2 id="-단계별-실행-방법">📝 단계별 실행 방법</h2>
+<h3 id="step-1-프로젝트-빌드-선택사항">Step 1: 프로젝트 빌드 (선택사항)</h3>
+<p>로컬에서 먼저 테스트하려면:</p>
+<pre><code class="language-bash">./gradlew :UnifiedService:clean :UnifiedService:build -x <span class="hljs-built_in">test</span>
+</code></pre>
+<h3 id="step-2-docker-compose로-인프라-먼저-시작-선택사항">Step 2: Docker Compose로 인프라 먼저 시작 (선택사항)</h3>
+<p>MySQL과 Redis만 먼저 시작하려면:</p>
+<pre><code class="language-bash">docker-compose -f docker-compose.unified.yml up -d mysql redis
+</code></pre>
+<h3 id="step-3-전체-서비스-시작">Step 3: 전체 서비스 시작</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># 백그라운드 실행</span>
+docker-compose -f docker-compose.unified.yml up -d
+
+<span class="hljs-comment"># 포어그라운드 실행 (로그 실시간 확인)</span>
+docker-compose -f docker-compose.unified.yml up
+</code></pre>
+<h3 id="step-4-서비스-중지">Step 4: 서비스 중지</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># 서비스 중지 (컨테이너 삭제)</span>
+docker-compose -f docker-compose.unified.yml down
+
+<span class="hljs-comment"># 볼륨까지 삭제 (데이터베이스 데이터도 삭제됨)</span>
+docker-compose -f docker-compose.unified.yml down -v
+</code></pre>
+<h2 id="-트러블슈팅">🔧 트러블슈팅</h2>
+<h3 id="1-이미지-재빌드">1. 이미지 재빌드</h3>
+<p>캐시 없이 완전히 새로 빌드:</p>
+<pre><code class="language-bash">docker-compose -f docker-compose.unified.yml build --no-cache unified-service
+docker-compose -f docker-compose.unified.yml up -d
+</code></pre>
+<h3 id="2-특정-컨테이너-재시작">2. 특정 컨테이너 재시작</h3>
+<pre><code class="language-bash">docker-compose -f docker-compose.unified.yml restart unified-service
+</code></pre>
+<h3 id="3-컨테이너-내부-접속">3. 컨테이너 내부 접속</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># UnifiedService 컨테이너 접속</span>
+docker <span class="hljs-built_in">exec</span> -it akc-unified-service sh
+
+<span class="hljs-comment"># MySQL 컨테이너 접속</span>
+docker <span class="hljs-built_in">exec</span> -it akc-mysql mysql -u antsome -p
+</code></pre>
+<h3 id="4-로그-상세-확인">4. 로그 상세 확인</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># 최근 100줄만 보기</span>
+docker-compose -f docker-compose.unified.yml logs --<span class="hljs-built_in">tail</span>=100 unified-service
+
+<span class="hljs-comment"># 특정 시간 이후 로그</span>
+docker-compose -f docker-compose.unified.yml logs --since 10m unified-service
+</code></pre>
+<h3 id="5-메모리-사용량-확인">5. 메모리 사용량 확인</h3>
+<pre><code class="language-bash">docker stats akc-unified-service
+</code></pre>
+<h2 id="-api-엔드포인트">🌐 API 엔드포인트</h2>
+<p>UnifiedService가 정상 실행되면 다음 포트로 접근 가능합니다:</p>
+<ul>
+<li>
+<p><strong>UnifiedService</strong>: <a href="http://localhost:8089">http://localhost:8089</a></p>
+<ul>
+<li>Auth API: <a href="http://localhost:8089/api/auth/">http://localhost:8089/api/auth/</a>*</li>
+<li>Admin API: <a href="http://localhost:8089/api/admins/">http://localhost:8089/api/admins/</a>*</li>
+<li>Member API: <a href="http://localhost:8089/api/members/">http://localhost:8089/api/members/</a>*</li>
+<li>Parking API: <a href="http://localhost:8089/api/parkings/">http://localhost:8089/api/parkings/</a>*</li>
+<li>Notification API: <a href="http://localhost:8089/api/notifications/">http://localhost:8089/api/notifications/</a>*</li>
+<li>Coupon API: <a href="http://localhost:8089/api/coupons/">http://localhost:8089/api/coupons/</a>*</li>
+<li>Health Check: <a href="http://localhost:8089/actuator/health">http://localhost:8089/actuator/health</a></li>
+</ul>
+</li>
+<li>
+<p><strong>MySQL</strong>: localhost:3306</p>
+</li>
+<li>
+<p><strong>Redis</strong>: localhost:6379</p>
+</li>
+</ul>
+<h2 id="-서비스-구성">📊 서비스 구성</h2>
+<h3 id="docker-composeunifiedyml-포함-서비스">docker-compose.unified.yml 포함 서비스</h3>
+<ol>
+<li><strong>mysql</strong>: MySQL 8.0 데이터베이스</li>
+<li><strong>redis</strong>: Redis 7 캐시</li>
+<li><strong>unified-service</strong>: 통합된 6개 마이크로서비스</li>
+</ol>
+<h3 id="메모리-설정">메모리 설정</h3>
+<ul>
+<li><strong>제한</strong>: 1GB (mem_limit)</li>
+<li><strong>예약</strong>: 768MB (mem_reservation)</li>
+<li><strong>JVM 설정</strong>: MaxRAMPercentage=75% (약 750MB)</li>
+</ul>
+<h2 id="️-환경-변수-커스터마이징">⚙️ 환경 변수 커스터마이징</h2>
+<p><code>docker-compose.unified.yml</code> 파일에서 다음 환경 변수를 수정할 수 있습니다:</p>
+<pre><code class="language-yaml"><span class="hljs-attr">environment:</span>
+  <span class="hljs-comment"># 프로파일</span>
+  <span class="hljs-attr">SPRING_PROFILES_ACTIVE:</span> <span class="hljs-string">docker</span>
+  
+  <span class="hljs-comment"># 데이터베이스</span>
+  <span class="hljs-attr">DB_HOST:</span> <span class="hljs-string">mysql</span>
+  <span class="hljs-attr">DB_PORT:</span> <span class="hljs-number">3306</span>
+  <span class="hljs-attr">DB_NAME:</span> <span class="hljs-string">db_akc_b2c</span>
+  <span class="hljs-attr">DB_USERNAME:</span> <span class="hljs-string">antsome</span>
+  <span class="hljs-attr">DB_PASSWORD:</span> <span class="hljs-string">Q1w2e3r4%^</span>
+  
+  <span class="hljs-comment"># Redis</span>
+  <span class="hljs-attr">REDIS_HOST:</span> <span class="hljs-string">redis</span>
+  <span class="hljs-attr">REDIS_PORT:</span> <span class="hljs-number">6379</span>
+  
+  <span class="hljs-comment"># External API</span>
+  <span class="hljs-attr">EXTERNAL_PARKING_API_URL:</span> <span class="hljs-string">https://api.dev.amanocloud.co.kr</span>
+  <span class="hljs-attr">EXTERNAL_PARKING_API_TOKEN:</span> <span class="hljs-string">your-token-here</span>
+  
+  <span class="hljs-comment"># JWT</span>
+  <span class="hljs-attr">JWT_SECRET:</span> <span class="hljs-string">akc-b2c-jwt-secret-key-2024-very-long-and-secure</span>
+</code></pre>
+<h2 id="-개발-서버-배포-시나리오">🔄 개발 서버 배포 시나리오</h2>
+<h3 id="시나리오-1-로컬-개발--docker-테스트">시나리오 1: 로컬 개발 → Docker 테스트</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># 1. 로컬에서 개발 및 테스트</span>
+./gradlew :UnifiedService:bootRun
+
+<span class="hljs-comment"># 2. Docker로 빌드 및 실행</span>
+docker-compose -f docker-compose.unified.yml up --build -d
+
+<span class="hljs-comment"># 3. 로그 모니터링</span>
+docker-compose -f docker-compose.unified.yml logs -f unified-service
+</code></pre>
+<h3 id="시나리오-2-원격-서버-배포">시나리오 2: 원격 서버 배포</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># 1. 프로젝트를 원격 서버로 복사</span>
+scp -r . user@remote-server:/path/to/project
+
+<span class="hljs-comment"># 2. 원격 서버 접속</span>
+ssh user@remote-server
+
+<span class="hljs-comment"># 3. Docker Compose 실행</span>
+<span class="hljs-built_in">cd</span> /path/to/project
+docker-compose -f docker-compose.unified.yml up -d
+
+<span class="hljs-comment"># 4. 서비스 확인</span>
+curl http://localhost:8089/actuator/health
+</code></pre>
+<h3 id="시나리오-3-docker-이미지만-빌드하여-배포">시나리오 3: Docker 이미지만 빌드하여 배포</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># 1. 이미지 빌드</span>
+docker build -f UnifiedService/Dockerfile -t akc-unified-service:latest .
+
+<span class="hljs-comment"># 2. 이미지 저장 (tar 파일로)</span>
+docker save akc-unified-service:latest -o akc-unified-service.tar
+
+<span class="hljs-comment"># 3. 원격 서버로 전송</span>
+scp akc-unified-service.tar user@remote-server:/tmp/
+
+<span class="hljs-comment"># 4. 원격 서버에서 이미지 로드</span>
+ssh user@remote-server
+docker load -i /tmp/akc-unified-service.tar
+
+<span class="hljs-comment"># 5. docker-compose.yml 수정하여 빌드 대신 이미지 사용</span>
+<span class="hljs-comment"># image: akc-unified-service:latest 로 변경</span>
+
+<span class="hljs-comment"># 6. 실행</span>
+docker-compose -f docker-compose.unified.yml up -d
+</code></pre>
+<h2 id="-성능-모니터링">🎯 성능 모니터링</h2>
+<h3 id="1-실시간-리소스-모니터링">1. 실시간 리소스 모니터링</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># 모든 컨테이너 모니터링</span>
+docker stats
+
+<span class="hljs-comment"># UnifiedService만 모니터링</span>
+docker stats akc-unified-service
+</code></pre>
+<h3 id="2-메모리-사용량-확인">2. 메모리 사용량 확인</h3>
+<pre><code class="language-bash">docker <span class="hljs-built_in">exec</span> akc-unified-service sh -c <span class="hljs-string">&quot;ps aux | head -1 &amp;&amp; ps aux | grep java&quot;</span>
+</code></pre>
+<h3 id="3-jvm-힙-메모리-상태">3. JVM 힙 메모리 상태</h3>
+<p>UnifiedService 컨테이너 내에서:</p>
+<pre><code class="language-bash">docker <span class="hljs-built_in">exec</span> akc-unified-service sh -c <span class="hljs-string">&quot;jstat -gc 1 1000 5&quot;</span>
+</code></pre>
+<h2 id="-주의사항">📌 주의사항</h2>
+<ol>
+<li><strong>초기 실행 시간</strong>: 첫 실행 시 데이터베이스 초기화 때문에 약 1-2분 소요</li>
+<li><strong>Health Check</strong>: 서비스 시작 후 60초간 준비 시간 필요 (start_period: 60s)</li>
+<li><strong>포트 충돌</strong>: 8089, 3306, 6379 포트가 이미 사용 중이면 docker-compose.yml에서 포트 변경 필요</li>
+<li><strong>메모리 제한</strong>: 1GB로 제한되어 있으므로 대용량 처리 시 조정 필요</li>
+</ol>
+<h2 id="-성공-확인">✅ 성공 확인</h2>
+<p>다음 명령어로 모든 것이 정상인지 확인:</p>
+<pre><code class="language-bash"><span class="hljs-comment"># 1. 컨테이너 상태</span>
+docker-compose -f docker-compose.unified.yml ps
+
+<span class="hljs-comment"># 2. Health Check</span>
+curl http://localhost:8089/actuator/health | jq .
+
+<span class="hljs-comment"># 3. 로그 확인 (에러 없는지)</span>
+docker-compose -f docker-compose.unified.yml logs --<span class="hljs-built_in">tail</span>=50 unified-service
+
+<span class="hljs-comment"># 4. API 테스트</span>
+curl http://localhost:8089/api/auth/health
+</code></pre>
+<p>정상적으로 실행되면 다음과 같은 응답을 받을 수 있습니다:</p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;UP&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;components&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;db&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;UP&quot;</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;diskSpace&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;UP&quot;</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;ping&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;status&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;UP&quot;</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h2 id="️-유용한-명령어-모음">🛠️ 유용한 명령어 모음</h2>
+<pre><code class="language-bash"><span class="hljs-comment"># 전체 재시작</span>
+docker-compose -f docker-compose.unified.yml restart
+
+<span class="hljs-comment"># 서비스별 재시작</span>
+docker-compose -f docker-compose.unified.yml restart unified-service
+docker-compose -f docker-compose.unified.yml restart mysql
+docker-compose -f docker-compose.unified.yml restart redis
+
+<span class="hljs-comment"># 로그 클리어 후 재시작</span>
+docker-compose -f docker-compose.unified.yml down
+docker system prune -f
+docker-compose -f docker-compose.unified.yml up -d
+
+<span class="hljs-comment"># 볼륨 확인</span>
+docker volume <span class="hljs-built_in">ls</span> | grep akc
+
+<span class="hljs-comment"># 네트워크 확인</span>
+docker network <span class="hljs-built_in">ls</span> | grep akc
+
+<span class="hljs-comment"># 이미지 확인</span>
+docker images | grep akc
+</code></pre>
+
+            
+            
+        </body>
+        </html>
