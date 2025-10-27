@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#x1f4ca; &#xd68c;&#xc6d0; &#xad00;&#xb9ac; &#xd14c;&#xc774;&#xbe14; &#xad00;&#xacc4;&#xb3c4; &lpar;&#xcd5c;&#xc885;&rpar;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <p>네! 새로 변경된 회원 관리 테이블 관계도를 정리해드리겠습니다.</p>
+<h2 id="-회원-관리-테이블-관계도-최종">📊 회원 관리 테이블 관계도 (최종)</h2>
+<h3 id="1-테이블-구조">1. 테이블 구조</h3>
+<pre><code>┌─────────────────────────────────────────────────────────────────┐
+│                          members                                 │
+│─────────────────────────────────────────────────────────────────│
+│ PK  id                  BIGINT                                   │
+│ UK  member_uuid         VARCHAR(36)                              │
+│ UK  email               VARCHAR(100)                             │
+│ UK  user_id             VARCHAR(50)                              │
+│ UK  phone_number        VARCHAR(20)  ← 중복 방지 키              │
+│     password            VARCHAR(255)                             │
+│     name                VARCHAR(50)                              │
+│     member_type         ENUM (DIRECT, SOCIAL_KAKAO, ...)        │
+│     status              ENUM (ACTIVE, SUSPENDED, WITHDRAWN)      │
+│     @Deprecated company_name, business_number, ...               │
+│     created_at          DATETIME                                 │
+│     updated_at          DATETIME                                 │
+└─────────────────────────────────────────────────────────────────┘
+                    │
+                    │ 1
+                    │
+        ┌───────────┴───────────┐
+        │                       │
+        │ N                     │ 1
+        ▼                       ▼
+┌─────────────────────┐  ┌──────────────────────────────┐
+│   member_roles      │  │     corporate_info           │
+│─────────────────────│  │──────────────────────────────│
+│ PK  member_id       │  │ PK  id          BIGINT       │
+│ PK  role            │  │ UK  member_id   BIGINT       │
+│     (복합키)         │  │     company_name             │
+│                     │  │     business_number          │
+│ role VALUES:        │  │     business_address         │
+│ - INDIVIDUAL_USER   │  │     business_phone           │
+│ - CORPORATE_USER    │  │     approval_status  ENUM    │
+│                     │  │     applied_at               │
+│                     │  │     approved_at              │
+│                     │  │     approved_by              │
+│                     │  │     approval_note            │
+└─────────────────────┘  └──────────────────────────────┘
+
+approval_status VALUES:
+- PENDING    (승인 대기)
+- APPROVED   (승인 완료)
+- REJECTED   (승인 거부)
+- SUSPENDED  (자격 정지)
+</code></pre>
+<h3 id="2-관계-설명">2. 관계 설명</h3>
+<h4 id="members--member_roles-1n"><strong>members ↔ member_roles (1:N)</strong></h4>
+<ul>
+<li><strong>관계</strong>: <code>@ElementCollection</code> (JPA)</li>
+<li><strong>목적</strong>: 한 회원이 여러 역할을 가질 수 있음</li>
+<li><strong>제약</strong>:
+<ul>
+<li><code>member_id</code> + <code>role</code>이 복합 PK</li>
+<li>같은 회원이 같은 역할을 중복으로 가질 수 없음</li>
+</ul>
+</li>
+</ul>
+<h4 id="members--corporate_info-11"><strong>members ↔ corporate_info (1:1)</strong></h4>
+<ul>
+<li><strong>관계</strong>: <code>@OneToOne</code> (JPA)</li>
+<li><strong>목적</strong>: 법인 회원 정보 저장</li>
+<li><strong>제약</strong>:
+<ul>
+<li><code>member_id</code>가 FK이자 UK (unique)</li>
+<li><code>business_number</code>도 unique (사업자등록번호 중복 방지)</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-데이터-예시">3. 데이터 예시</h3>
+<h4 id="일반-회원">일반 회원</h4>
+<pre><code>members:
+┌────┬──────────────────────────────────────┬─────────────────────┬──────────────┐
+│ id │ member_uuid                          │ email               │ phone_number │
+├────┼──────────────────────────────────────┼─────────────────────┼──────────────┤
+│ 17 │ 0abd52f3-68f6-4768-abbb-e4f90ff8cba4 │ fresh_individual@.. │ 010-9000-0001│
+└────┴──────────────────────────────────────┴─────────────────────┴──────────────┘
+
+member_roles:
+┌───────────┬─────────────────┐
+│ member_id │ role            │
+├───────────┼─────────────────┤
+│ 17        │ INDIVIDUAL_USER │
+└───────────┴─────────────────┘
+
+corporate_info:
+(없음)
+</code></pre>
+<h4 id="법인-회원">법인 회원</h4>
+<pre><code>members:
+┌────┬──────────────────────────────────────┬─────────────────────┬──────────────┐
+│ id │ member_uuid                          │ email               │ phone_number │
+├────┼──────────────────────────────────────┼─────────────────────┼──────────────┤
+│ 18 │ 957f5c3d-91c8-4c1a-8ea8-eb7762654cf9 │ fresh_corporate@..  │ 010-9000-0002│
+└────┴──────────────────────────────────────┴─────────────────────┴──────────────┘
+
+member_roles:
+┌───────────┬─────────────────┐
+│ member_id │ role            │
+├───────────┼─────────────────┤
+│ 18        │ INDIVIDUAL_USER │ ← 일반 기능도 사용 가능
+│ 18        │ CORPORATE_USER  │ ← 법인 전용 기능 사용
+└───────────┴─────────────────┘
+
+corporate_info:
+┌────┬───────────┬──────────────────┬─────────────────┬─────────────────┐
+│ id │ member_id │ company_name     │ business_number │ approval_status │
+├────┼───────────┼──────────────────┼─────────────────┼─────────────────┤
+│ 2  │ 18        │ 테스트주식회사    │ 999-88-77777    │ PENDING         │
+└────┴───────────┴──────────────────┴─────────────────┴─────────────────┘
+</code></pre>
+<h4 id="듀얼-역할-회원-일반--법인-역할-추가">듀얼 역할 회원 (일반 → 법인 역할 추가)</h4>
+<pre><code>members:
+┌────┬──────────────────────────────────────┬─────────────────────┬──────────────┐
+│ id │ member_uuid                          │ email               │ phone_number │
+├────┼──────────────────────────────────────┼─────────────────────┼──────────────┤
+│ 17 │ 0abd52f3-68f6-4768-abbb-e4f90ff8cba4 │ fresh_individual@.. │ 010-9000-0001│
+└────┴──────────────────────────────────────┴─────────────────────┴──────────────┘
+         ↑ 같은 행 (중복 생성 X)
+
+member_roles:
+┌───────────┬─────────────────┐
+│ member_id │ role            │
+├───────────┼─────────────────┤
+│ 17        │ INDIVIDUAL_USER │ ← 기존 역할
+│ 17        │ CORPORATE_USER  │ ← 추가된 역할
+└───────────┴─────────────────┘
+
+corporate_info:
+┌────┬───────────┬──────────────────┬─────────────────┬─────────────────┐
+│ id │ member_id │ company_name     │ business_number │ approval_status │
+├────┼───────────┼──────────────────┼─────────────────┼─────────────────┤
+│ 3  │ 17        │ 추가법인주식회사  │ 111-22-33333    │ REJECTED        │
+└────┴───────────┴──────────────────┴─────────────────┴─────────────────┘
+</code></pre>
+<h3 id="4-핵심-특징">4. 핵심 특징</h3>
+<h4 id="-개선된-점">✅ 개선된 점</h4>
+<ol>
+<li><strong>중복 방지</strong>: 전화번호 기준으로 1인 = 1 Member 행</li>
+<li><strong>다중 역할</strong>: member_roles 테이블로 N개 역할 관리</li>
+<li><strong>법인 분리</strong>: corporate_info 별도 테이블로 법인 정보 관리</li>
+<li><strong>승인 워크플로우</strong>: approval_status로 상태 관리</li>
+</ol>
+<h4 id="-비즈니스-로직">✅ 비즈니스 로직</h4>
+<pre><code>회원가입 시:
+1. phone_number로 기존 회원 검색
+2. 존재하면 → 역할만 추가 (member_roles INSERT)
+3. 없으면 → 새 회원 생성 + 역할 추가
+4. CORPORATE 타입이면 → corporate_info 생성 (PENDING 상태)
+</code></pre>
+<h4 id="-로그인-응답">✅ 로그인 응답</h4>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;userInfo&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;roles&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;INDIVIDUAL_USER&quot;</span><span class="hljs-punctuation">,</span> <span class="hljs-string">&quot;CORPORATE_USER&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;corporateInfo&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;approvalStatus&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;PENDING&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;approvalMessage&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;법인 회원 승인 대기 중입니다...&quot;</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;hasIndividualAccess&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;hasCorporateAccess&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="5-sql-쿼리-예시">5. SQL 쿼리 예시</h3>
+<h4 id="회원-역할-조회">회원 역할 조회</h4>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    m.id, 
+    m.name, 
+    m.email,
+    GROUP_CONCAT(mr.role) <span class="hljs-keyword">as</span> roles
+<span class="hljs-keyword">FROM</span> members m
+<span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> member_roles mr <span class="hljs-keyword">ON</span> m.id <span class="hljs-operator">=</span> mr.member_id
+<span class="hljs-keyword">WHERE</span> m.phone_number <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;010-9000-0001&#x27;</span>
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> m.id;
+</code></pre>
+<h4 id="법인-회원-조회-승인-상태-포함">법인 회원 조회 (승인 상태 포함)</h4>
+<pre><code class="language-sql"><span class="hljs-keyword">SELECT</span> 
+    m.<span class="hljs-operator">*</span>, 
+    ci.company_name,
+    ci.approval_status
+<span class="hljs-keyword">FROM</span> members m
+<span class="hljs-keyword">JOIN</span> member_roles mr <span class="hljs-keyword">ON</span> m.id <span class="hljs-operator">=</span> mr.member_id <span class="hljs-keyword">AND</span> mr.role <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;CORPORATE_USER&#x27;</span>
+<span class="hljs-keyword">LEFT</span> <span class="hljs-keyword">JOIN</span> corporate_info ci <span class="hljs-keyword">ON</span> m.id <span class="hljs-operator">=</span> ci.member_id
+<span class="hljs-keyword">WHERE</span> ci.approval_status <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;PENDING&#x27;</span>;
+</code></pre>
+<p>이 구조로 <strong>1인 다역할</strong> 시스템이 완벽하게 구현되었습니다! 🎉</p>
+
+            
+            
+        </body>
+        </html>
