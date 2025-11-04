@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>PaymentService &#xad00;&#xb9ac;&#xc790; &#xba54;&#xb274; &#xc124;&#xacc4;&#xc11c;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="paymentservice-관리자-메뉴-설계서">PaymentService 관리자 메뉴 설계서</h1>
+<p>AKC B2C의 결제/주문 도메인을 운영자가 효율적으로 관리할 수 있도록, PaymentService를 중심으로 관리자 페이지 메뉴와 API 요구사항을 정의합니다.<br>
+소비자용 API와의 연계를 기반으로, Admin 전용 기능 및 워크플로우를 제안합니다.</p>
+<p>참고: 소비자용 주문/결제 주요 엔드포인트는 <code>OrderController</code>에 정의되어 있습니다.</p>
+<ul>
+<li>파일: <a href="../src/main/java/com/akc/b2c/paymentservice/controller/OrderController.java">PaymentService/src/main/java/com/akc/b2c/paymentservice/controller/OrderController.java</a></li>
+</ul>
+<hr>
+<h2 id="목차">목차</h2>
+<ul>
+<li><a href="#paymentservice-%EA%B4%80%EB%A6%AC%EC%9E%90-%EB%A9%94%EB%89%B4-%EC%84%A4%EA%B3%84%EC%84%9C">PaymentService 관리자 메뉴 설계서</a>
+<ul>
+<li><a href="#%EB%AA%A9%EC%B0%A8">목차</a></li>
+<li><a href="#1-%EC%A3%BC%EB%AC%B8-%EC%8A%B9%EC%9D%B8%EA%B1%B0%EB%B6%80-%EA%B4%80%EB%A6%AC">1. 주문 승인/거부 관리</a></li>
+<li><a href="#2-%ED%99%98%EB%B6%88-%EA%B4%80%EB%A6%AC">2. 환불 관리</a></li>
+<li><a href="#3-%EA%B2%B0%EC%A0%9C-%ED%8A%B8%EB%9E%9C%EC%9E%AD%EC%85%98-%EA%B4%80%EB%A6%AC">3. 결제 트랜잭션 관리</a></li>
+<li><a href="#4-%EA%B5%AC%EB%8F%85-%EA%B4%80%EB%A6%AC">4. 구독 관리</a></li>
+<li><a href="#5-%EC%98%81%EC%88%98%EC%A6%9D%ED%98%84%EA%B8%88%EC%98%81%EC%88%98%EC%A6%9D%EC%84%B8%EA%B8%88%EA%B3%84%EC%82%B0%EC%84%9C-%EA%B4%80%EB%A6%AC">5. 영수증/현금영수증/세금계산서 관리</a></li>
+<li><a href="#6-%EC%A0%95%EC%82%B0%EB%A7%A4%EC%B6%9C-%EB%A6%AC%ED%8F%AC%ED%8A%B8">6. 정산/매출 리포트</a></li>
+<li><a href="#7-%EA%B2%AC%EC%A0%81%EC%84%9C-%EA%B4%80%EB%A6%AC">7. 견적서 관리</a></li>
+<li><a href="#8-%EC%8B%A4%ED%8C%A8%EC%98%88%EC%99%B8-%EB%AA%A8%EB%8B%88%ED%84%B0%EB%A7%81">8. 실패/예외 모니터링</a></li>
+<li><a href="#9-%EA%B0%90%EC%82%AC-%EB%A1%9C%EA%B7%B8audit-%EB%B0%8F-%ED%83%80%EC%9E%84%EB%9D%BC%EC%9D%B8">9. 감사 로그(Audit) 및 타임라인</a></li>
+<li><a href="#admin-%EC%A0%84%EC%9A%A9-api-%EC%9A%94%EC%95%BD%EC%A0%9C%EC%95%88">Admin 전용 API 요약(제안)</a></li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="1-주문-승인거부-관리">1. 주문 승인/거부 관리</h2>
+<ul>
+<li>
+<p>목적</p>
+<ul>
+<li>소비자가 생성한 승인 요청 큐를 처리하여 주문을 승인하거나 거부</li>
+<li>금액/정책 검증 후 내부 메모와 사유를 남김</li>
+</ul>
+</li>
+<li>
+<p>주요 화면</p>
+<ol>
+<li>승인 대기 목록
+<ul>
+<li>필터: 주차장, 주문유형(REGULAR/SUBSCRIPTION/PARKING), 결제수단, 금액 범위, 요청일자, 사용자, 상태(PENDING_APPROVAL)</li>
+<li>컬럼: 주문ID, 사용자, 주차장/상품, 금액, 요청일시, 현재상태, 메모 유무</li>
+</ul>
+</li>
+<li>상세 보기
+<ul>
+<li>주문 기본 정보 + 차량 목록</li>
+<li>결제 예정 정보/가격 검증 결과 호출 버튼</li>
+<li>승인/거부 액션(사유, 내부 메모 입력)</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>상태 전이(예시)</p>
+<ul>
+<li>PENDING_APPROVAL → APPROVED → (결제 진행) → PAID</li>
+<li>PENDING_APPROVAL → REJECTED</li>
+</ul>
+</li>
+<li>
+<p>감사</p>
+<ul>
+<li>모든 승인/거부 액션은 감사로그에 기록(누가, 언제, 무엇을, 사유)</li>
+</ul>
+</li>
+<li>
+<p>관련 소비자 API(참고)</p>
+<ul>
+<li>POST <code>/api/payments/orders/{orderId}/approval-requests</code> (승인 요청)</li>
+<li>POST <code>/api/payments/orders/{orderId}/approval-rerequests</code> (재요청)</li>
+</ul>
+</li>
+<li>
+<p>필요 Admin API(제안)</p>
+<ul>
+<li>GET <code>/api/admin/payments/orders/approval-queue</code></li>
+<li>POST <code>/api/admin/payments/orders/{orderId}/approve</code> (body: memo)</li>
+<li>POST <code>/api/admin/payments/orders/{orderId}/reject</code> (body: reason, memo)</li>
+</ul>
+</li>
+<li>
+<p>운영 필드(권장)</p>
+<ul>
+<li>approverId, approvedAt, rejectedAt, rejectReason, adminMemo</li>
+</ul>
+</li>
+<li>
+<p>예외/엣지</p>
+<ul>
+<li>이미 APPROVED/REJECTED 상태 재처리 방지</li>
+<li>가격 검증 실패 시 승인 차단 옵션</li>
+<li>사용자 재요청과 교차 타이밍 경쟁 제어(낙관적 잠금/상태 체크)</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="2-환불-관리">2. 환불 관리</h2>
+<ul>
+<li>
+<p>목적</p>
+<ul>
+<li>주문 단위 환불 요청 접수/승인/거절 처리</li>
+<li>부분 환불 가능 정책 지원, 전표/영수증 처리 연동</li>
+</ul>
+</li>
+<li>
+<p>주요 화면</p>
+<ol>
+<li>환불 대기 목록
+<ul>
+<li>필터: 주차장, 주문ID, 차량번호, 요청사유, 요청일자, 상태(REFUND_REQUESTED)</li>
+<li>컬럼: 주문ID, 차량번호, 금액(가능/요청/예상환불), 요청사유, 요청일시</li>
+</ul>
+</li>
+<li>상세 보기
+<ul>
+<li>기존 결제 트랜잭션/승인번호, 환불 가능액, 수수료 정책</li>
+<li>승인/거절(사유) 및 부분 금액 입력</li>
+</ul>
+</li>
+</ol>
+</li>
+<li>
+<p>상태 전이(예시)</p>
+<ul>
+<li>REFUND_REQUESTED → REFUND_APPROVED → REFUNDED</li>
+<li>REFUND_REQUESTED → REFUND_REJECTED</li>
+</ul>
+</li>
+<li>
+<p>감사</p>
+<ul>
+<li>환불 결정/금액/사유 로그 기록</li>
+</ul>
+</li>
+<li>
+<p>예외/엣지</p>
+<ul>
+<li>PG 환불 실패 시 재시도/보류, 부분 환불 합계 검증, 이미 환불 완료 건 재처리 방지</li>
+<li>USED 상태 환불 정책(부분/불가) 반영</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="3-결제-트랜잭션-관리">3. 결제 트랜잭션 관리</h2>
+<ul>
+<li>
+<p>목적</p>
+<ul>
+<li>결제 시도/성공/실패 이력을 조회하고, 수동 캡처/취소/재시도 등 운영 개입</li>
+</ul>
+</li>
+<li>
+<p>주요 화면</p>
+<ul>
+<li>트랜잭션 목록: 상태(AUTHORIZED/CAPTURED/VOID/FAILED), 수단, PG사, 금액, 기간</li>
+<li>상세: 승인번호, 원거래ID, 실패코드/메시지, 영수증 링크</li>
+<li>액션: 캡처, 취소(VOID/REFUND), 재시도</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="4-구독-관리">4. 구독 관리</h2>
+<ul>
+<li>
+<p>목적</p>
+<ul>
+<li>활성/만료 예정 구독 조회, 해지/연장</li>
+</ul>
+</li>
+<li>
+<p>주요 화면</p>
+<ul>
+<li>구독 목록(활성/만료예정/만료)</li>
+<li>상세: 차량, 변경 이력, 결제/환불 히스토리</li>
+<li>액션: 해지, 연장</li>
+</ul>
+</li>
+<li>
+<p>예외/엣지</p>
+<ul>
+<li>사용기간 경과/개시 전 정책, 중도해지 환불 계산</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="5-영수증현금영수증세금계산서-관리">5. 영수증/현금영수증/세금계산서 관리</h2>
+<ul>
+<li>
+<p>목적</p>
+<ul>
+<li>영수증(증빙용), 현금영수증, 세금계산서 발행 신청/재전송/취소 및 상태 조회</li>
+<li>현금영수증/세금계산서는 외부 API에 &quot;신청만&quot; 수행하며, 실제 발행되었는지 여부를 동기화 해야하는지는 미정.</li>
+</ul>
+</li>
+<li>
+<p>주요 화면</p>
+<ul>
+<li>발행 이력: 유형(증빙/현금/세금), 상태(신청/발행/취소/실패), 고객 연락처</li>
+<li>액션: 발행(또는 발행 신청), 재전송, 취소</li>
+</ul>
+</li>
+<li>
+<p>예외/엣지</p>
+<ul>
+<li>PG/현금영수증 발행 실패 재시도, 국세청 연동 지연 케이스 핸들링</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="6-정산매출-리포트">6. 정산/매출 리포트</h2>
+<ul>
+<li>
+<p>목적</p>
+<ul>
+<li>기간/주차장/상품/결제수단 별 매출·환불 집계 및 내보내기</li>
+</ul>
+</li>
+<li>
+<p>주요 화면</p>
+<ul>
+<li>일/주/월 집계, 드릴다운(주차장/상품)</li>
+<li>CSV/XLS 내보내기</li>
+</ul>
+</li>
+<li>
+<p>지표 정의(예)</p>
+<ul>
+<li>총매출, 환불액, 순매출, 수수료, 미수/보류</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="7-견적서-관리">7. 견적서 관리</h2>
+<ul>
+<li>
+<p>목적</p>
+<ul>
+<li>견적서 번호(quote_no)를 서버(DB)에서 발급/저장하고, 견적서 기반 주문 전환을 지원</li>
+</ul>
+</li>
+<li>
+<p>주요 화면</p>
+<ul>
+<li>견적 목록/상세(상태: DRAFT/ISSUED/EXPIRED/CONVERTED/CANCELED)</li>
+<li>액션: 조회/다운로드, 재전송, 재랜더(서버 템플릿 기반), 무효 처리(사유)</li>
+</ul>
+</li>
+<li>
+<p>정책/모델(요약)</p>
+<ul>
+<li>quote_no는 고유 일련번호(예: <code>Q-YYYY-MM-######</code>)로 서버에서 생성/보관</li>
+<li>가격 스냅샷(JSON)과 템플릿 버전을 함께 저장하여 동일 출력 재현</li>
+<li>템플릿은 서버에서 버전 관리하며, 렌더링도 서버에서 수행(프론트는 뷰어/전달 역할)</li>
+<li>견적은 주문 생성 시 자동 발급되며, 만료일 보정 기능은 제공하지 않음</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="8-실패예외-모니터링">8. 실패/예외 모니터링</h2>
+<ul>
+<li>
+<p>목적</p>
+<ul>
+<li>결제/웹훅/동기화 실패를 유형별로 수집, 재시도/무시 처리</li>
+</ul>
+</li>
+<li>
+<p>주요 화면</p>
+<ul>
+<li>실패 큐: 유형, 에러코드, 최초/최종 발생, 재시도 횟수</li>
+<li>액션: 재시도, 무시, 메모</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="9-감사-로그audit-및-타임라인">9. 감사 로그(Audit) 및 타임라인</h2>
+<ul>
+<li>
+<p>목적</p>
+<ul>
+<li>주문/결제/환불/승인 등 이벤트 타임라인으로 추적</li>
+</ul>
+</li>
+<li>
+<p>주요 화면</p>
+<ul>
+<li>타임라인: at, actor(USER/ADMIN/SYSTEM), action, details, memo</li>
+<li>필터: 주문ID, 기간, actorType, action</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="admin-전용-api-요약제안">Admin 전용 API 요약(제안)</h2>
+<ul>
+<li>
+<p>주문 승인/거부</p>
+<ul>
+<li>승인 대기 목록 조회: GET  <code>/api/admin/payments/orders/approval-queue?status=PENDING_APPROVAL&amp;parkingLotId=&amp;type=&amp;from=&amp;to=&amp;q=</code></li>
+<li>주문 승인: POST <code>/api/admin/payments/orders/{orderId}/approve</code>
+<ul>
+<li>body: <code>{ &quot;memo&quot;: &quot;string&quot; }</code></li>
+<li>result: <code>{ &quot;status&quot;: &quot;APPROVED&quot;, &quot;approvedAt&quot;: &quot;...&quot;, &quot;approverId&quot;: &quot;...&quot; }</code></li>
+</ul>
+</li>
+<li>주문 거절: POST <code>/api/admin/payments/orders/{orderId}/reject</code>
+<ul>
+<li>body: <code>{ &quot;reason&quot;: &quot;string&quot;, &quot;memo&quot;: &quot;string&quot; }</code></li>
+<li>result: <code>{ &quot;status&quot;: &quot;REJECTED&quot;, &quot;rejectedAt&quot;: &quot;...&quot;, &quot;approverId&quot;: &quot;...&quot;, &quot;reason&quot;: &quot;...&quot; }</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>환불</p>
+<ul>
+<li>환불 요청 목록 조회: GET  <code>/api/admin/payments/refunds?status=REFUND_REQUESTED&amp;parkingLotId=&amp;from=&amp;to=&amp;q=</code></li>
+<li>차량 환불 승인: POST <code>/api/admin/payments/orders/{orderId}/cars/{orderCarId}/refund-approve</code>
+<ul>
+<li>body: <code>{ &quot;amount&quot;: 10000, &quot;reason&quot;: &quot;string&quot; }</code> (amount 생략 시 전액)</li>
+</ul>
+</li>
+<li>차량 환불 거절: POST <code>/api/admin/payments/orders/{orderId}/cars/{orderCarId}/refund-reject</code>
+<ul>
+<li>body: <code>{ &quot;reason&quot;: &quot;string&quot; }</code></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>결제 트랜잭션</p>
+<ul>
+<li>결제 트랜잭션 목록 조회: GET  <code>/api/admin/payments/transactions?status=&amp;method=&amp;pg=&amp;from=&amp;to=&amp;q=</code></li>
+<li>결제 캡처(매입): POST <code>/api/admin/payments/transactions/{paymentId}/capture</code></li>
+<li>결제 취소(VOID): POST <code>/api/admin/payments/transactions/{paymentId}/void</code></li>
+<li>결제 재시도: POST <code>/api/admin/payments/transactions/{paymentId}/retry</code></li>
+</ul>
+</li>
+<li>
+<p>구독</p>
+<ul>
+<li>구독 목록 조회: GET  <code>/api/admin/payments/subscriptions?status=&amp;parkingLotId=&amp;from=&amp;to=&amp;q=</code></li>
+<li>구독 해지: POST <code>/api/admin/payments/subscriptions/{subscriptionId}/cancel</code></li>
+<li>구독 기간 연장: POST <code>/api/admin/payments/subscriptions/{subscriptionId}/extend</code></li>
+</ul>
+</li>
+<li>
+<p>영수증</p>
+<ul>
+<li>영수증 이력 조회: GET  <code>/api/admin/payments/receipts?orderId=&amp;type=CARD|CASH|TAX&amp;status=&amp;from=&amp;to=</code></li>
+<li>영수증 발행: POST <code>/api/admin/payments/orders/{orderId}/receipts/issue</code></li>
+<li>영수증 재전송: POST <code>/api/admin/payments/orders/{orderId}/receipts/resend</code></li>
+<li>영수증 취소: POST <code>/api/admin/payments/orders/{orderId}/receipts/cancel</code></li>
+</ul>
+</li>
+<li>
+<p>견적서</p>
+<ul>
+<li>견적 목록 조회: GET  <code>/api/admin/payments/quotes?orderId=&amp;quoteNo=&amp;status=</code></li>
+<li>견적 조회: GET  <code>/api/admin/payments/quotes/{quoteNo}</code></li>
+<li>견적 재전송: POST <code>/api/admin/payments/quotes/{quoteNo}/resend</code></li>
+<li>견적 재렌더: POST <code>/api/admin/payments/quotes/{quoteNo}/rerender</code></li>
+<li>견적 무효 처리: POST <code>/api/admin/payments/quotes/{quoteNo}/invalidate</code></li>
+</ul>
+</li>
+<li>
+<p>리포트/정산</p>
+<ul>
+<li>매출 리포트 조회(기간): GET  <code>/api/admin/payments/reports/sales?from=&amp;to=</code></li>
+<li>주차장별 리포트 조회: GET  <code>/api/admin/payments/reports/by-parking-lot?from=&amp;to=</code></li>
+<li>리포트 CSV 내보내기: GET  <code>/api/admin/payments/reports/export.csv?from=&amp;to=</code></li>
+</ul>
+</li>
+<li>
+<p>실패/예외</p>
+<ul>
+<li>실패 이벤트 목록 조회: GET  <code>/api/admin/payments/errors?type=&amp;code=&amp;from=&amp;to=</code></li>
+<li>실패 이벤트 재시도: POST <code>/api/admin/payments/errors/{errorId}/retry</code></li>
+</ul>
+</li>
+<li>
+<p>타임라인</p>
+<ul>
+<li>주문 타임라인 조회: GET  <code>/api/admin/payments/orders/{orderId}/timeline</code></li>
+</ul>
+</li>
+</ul>
+
+            
+            
+        </body>
+        </html>
