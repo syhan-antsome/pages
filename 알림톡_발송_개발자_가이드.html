@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#xc54c;&#xb9bc;&#xd1a1; &#xbc1c;&#xc1a1; &#xac1c;&#xbc1c;&#xc790; &#xac00;&#xc774;&#xb4dc;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex/dist/katex.min.css">
+<link href="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="알림톡-발송-개발자-가이드">알림톡 발송 개발자 가이드</h1>
+<h2 id="-개요">📌 개요</h2>
+<p>NotificationService를 통해 카카오 알림톡을 쉽게 발송할 수 있습니다.<br>
+다른 MSA 서비스(MemberService, AuthService 등)에서 REST API를 호출하여 알림톡을 발송하세요.</p>
+<hr>
+<h2 id="-빠른-시작-5분-완성">🚀 빠른 시작 (5분 완성)</h2>
+<h3 id="1단계-사용-가능한-템플릿-확인">1단계: 사용 가능한 템플릿 확인</h3>
+<pre><code class="language-bash"><span class="hljs-comment"># 활성화된 템플릿 목록 조회</span>
+curl -X GET <span class="hljs-string">&quot;http://localhost/api/alimtalk/templates?activeOnly=true&quot;</span>
+</code></pre>
+<p><strong>응답 예시:</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span>
+    <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;templateId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;amano_hub_member_registered&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;templateName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;회원가입 완료&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;[아마노파킹]\n회원가입을 축하합니다!\n...\n아이디: #{아이디명}\n가입 일시: #{가입날짜}&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;requiredParams&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;아이디명,가입날짜&quot;</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">]</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<h3 id="2단계-알림톡-발송">2단계: 알림톡 발송</h3>
+<pre><code class="language-bash">curl -X POST http://localhost/api/alimtalk/send \
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -H <span class="hljs-string">&quot;X-Service-Name: MemberService&quot;</span> \
+  -d <span class="hljs-string">&#x27;{
+    &quot;templateId&quot;: &quot;amano_hub_member_registered&quot;,
+    &quot;phoneNumber&quot;: &quot;010-1234-5678&quot;,
+    &quot;templateParams&quot;: {
+      &quot;아이디명&quot;: &quot;hong@example.com&quot;,
+      &quot;가입날짜&quot;: &quot;2025-11-16 14:30&quot;
+    }
+  }&#x27;</span>
+</code></pre>
+<hr>
+<h2 id="-서비스-코드에서-사용하기">💻 서비스 코드에서 사용하기</h2>
+<h3 id="방법-1-resttemplate-사용-권장">방법 1: RestTemplate 사용 (권장)</h3>
+<h4 id="step-1-resttemplate-bean-등록">Step 1: RestTemplate Bean 등록</h4>
+<pre><code class="language-java"><span class="hljs-meta">@Configuration</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">RestTemplateConfig</span> {
+    
+    <span class="hljs-meta">@Bean</span>
+    <span class="hljs-keyword">public</span> RestTemplate <span class="hljs-title function_">restTemplate</span><span class="hljs-params">()</span> {
+        <span class="hljs-type">RestTemplate</span> <span class="hljs-variable">restTemplate</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">RestTemplate</span>();
+        
+        <span class="hljs-comment">// X-Service-Name 헤더 자동 추가 (서비스명은 application.yml에서 관리)</span>
+        restTemplate.getInterceptors().add((request, body, execution) -&gt; {
+            request.getHeaders().set(<span class="hljs-string">&quot;X-Service-Name&quot;</span>, <span class="hljs-string">&quot;MemberService&quot;</span>); <span class="hljs-comment">// 서비스명 변경 필요</span>
+            <span class="hljs-keyword">return</span> execution.execute(request, body);
+        });
+        
+        <span class="hljs-keyword">return</span> restTemplate;
+    }
+}
+</code></pre>
+<h4 id="step-2-알림톡-발송-클라이언트-작성">Step 2: 알림톡 발송 클라이언트 작성</h4>
+<pre><code class="language-java"><span class="hljs-keyword">package</span> com.akc.b2c.memberservice.client;
+
+<span class="hljs-keyword">import</span> lombok.RequiredArgsConstructor;
+<span class="hljs-keyword">import</span> lombok.extern.slf4j.Slf4j;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Value;
+<span class="hljs-keyword">import</span> org.springframework.http.*;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Component;
+<span class="hljs-keyword">import</span> org.springframework.web.client.RestTemplate;
+
+<span class="hljs-keyword">import</span> java.time.LocalDateTime;
+<span class="hljs-keyword">import</span> java.time.format.DateTimeFormatter;
+<span class="hljs-keyword">import</span> java.util.HashMap;
+<span class="hljs-keyword">import</span> java.util.Map;
+
+<span class="hljs-comment">/**
+ * 알림톡 발송 클라이언트
+ */</span>
+<span class="hljs-meta">@Slf4j</span>
+<span class="hljs-meta">@Component</span>
+<span class="hljs-meta">@RequiredArgsConstructor</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AlimtalkClient</span> {
+    
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> RestTemplate restTemplate;
+    
+    <span class="hljs-meta">@Value(&quot;${notification-service.url:http://localhost}&quot;)</span>
+    <span class="hljs-keyword">private</span> String notificationServiceUrl;
+    
+    <span class="hljs-comment">/**
+     * 회원가입 환영 알림톡 발송
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sendWelcomeMessage</span><span class="hljs-params">(String phoneNumber, String email)</span> {
+        <span class="hljs-type">String</span> <span class="hljs-variable">url</span> <span class="hljs-operator">=</span> notificationServiceUrl + <span class="hljs-string">&quot;/api/alimtalk/send&quot;</span>;
+        
+        <span class="hljs-comment">// 요청 데이터 생성</span>
+        Map&lt;String, Object&gt; request = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();
+        request.put(<span class="hljs-string">&quot;templateId&quot;</span>, <span class="hljs-string">&quot;amano_hub_member_registered&quot;</span>);
+        request.put(<span class="hljs-string">&quot;phoneNumber&quot;</span>, phoneNumber);
+        
+        <span class="hljs-comment">// 템플릿 파라미터</span>
+        Map&lt;String, String&gt; params = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();
+        params.put(<span class="hljs-string">&quot;아이디명&quot;</span>, email);
+        params.put(<span class="hljs-string">&quot;가입날짜&quot;</span>, LocalDateTime.now()
+            .format(DateTimeFormatter.ofPattern(<span class="hljs-string">&quot;yyyy-MM-dd HH:mm&quot;</span>)));
+        request.put(<span class="hljs-string">&quot;templateParams&quot;</span>, params);
+        
+        <span class="hljs-keyword">try</span> {
+            <span class="hljs-comment">// NotificationService 호출</span>
+            ResponseEntity&lt;Map&gt; response = restTemplate.postForEntity(
+                url, 
+                request, 
+                Map.class
+            );
+            
+            log.info(<span class="hljs-string">&quot;알림톡 발송 성공: phoneNumber={}, response={}&quot;</span>, 
+                     phoneNumber, response.getBody());
+        } <span class="hljs-keyword">catch</span> (Exception e) {
+            <span class="hljs-comment">// 알림톡 실패는 핵심 비즈니스에 영향 주지 않도록</span>
+            log.error(<span class="hljs-string">&quot;알림톡 발송 실패: phoneNumber={}, error={}&quot;</span>, 
+                      phoneNumber, e.getMessage(), e);
+        }
+    }
+    
+    <span class="hljs-comment">/**
+     * 동호수 승인 알림톡 발송
+     */</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sendUnitApprovalMessage</span><span class="hljs-params">(String phoneNumber, String parkingLotName, 
+                                        String dong, String ho, LocalDateTime approvedAt)</span> {
+        <span class="hljs-type">String</span> <span class="hljs-variable">url</span> <span class="hljs-operator">=</span> notificationServiceUrl + <span class="hljs-string">&quot;/api/alimtalk/send&quot;</span>;
+        
+        Map&lt;String, Object&gt; request = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();
+        request.put(<span class="hljs-string">&quot;templateId&quot;</span>, <span class="hljs-string">&quot;member_unit_approved&quot;</span>);
+        request.put(<span class="hljs-string">&quot;phoneNumber&quot;</span>, phoneNumber);
+        
+        Map&lt;String, String&gt; params = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();
+        params.put(<span class="hljs-string">&quot;주차장명&quot;</span>, parkingLotName);
+        params.put(<span class="hljs-string">&quot;동&quot;</span>, dong);
+        params.put(<span class="hljs-string">&quot;호&quot;</span>, ho);
+        params.put(<span class="hljs-string">&quot;승인일시&quot;</span>, approvedAt.format(DateTimeFormatter.ofPattern(<span class="hljs-string">&quot;yyyy-MM-dd HH:mm&quot;</span>)));
+        request.put(<span class="hljs-string">&quot;templateParams&quot;</span>, params);
+        
+        <span class="hljs-keyword">try</span> {
+            restTemplate.postForEntity(url, request, Map.class);
+            log.info(<span class="hljs-string">&quot;동호수 승인 알림톡 발송 성공: phoneNumber={}&quot;</span>, phoneNumber);
+        } <span class="hljs-keyword">catch</span> (Exception e) {
+            log.error(<span class="hljs-string">&quot;동호수 승인 알림톡 발송 실패: phoneNumber={}, error={}&quot;</span>, 
+                      phoneNumber, e.getMessage());
+        }
+    }
+}
+</code></pre>
+<h4 id="step-3-서비스에서-사용">Step 3: 서비스에서 사용</h4>
+<pre><code class="language-java"><span class="hljs-meta">@Service</span>
+<span class="hljs-meta">@RequiredArgsConstructor</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">MemberService</span> {
+    
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> AlimtalkClient alimtalkClient;
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> MemberRepository memberRepository;
+    
+    <span class="hljs-meta">@Transactional</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">signUp</span><span class="hljs-params">(SignUpRequest request)</span> {
+        <span class="hljs-comment">// 1. 회원 등록</span>
+        <span class="hljs-type">Member</span> <span class="hljs-variable">member</span> <span class="hljs-operator">=</span> Member.builder()
+            .email(request.getEmail())
+            .phoneNumber(request.getPhoneNumber())
+            .build();
+        
+        memberRepository.save(member);
+        
+        <span class="hljs-comment">// 2. 알림톡 발송 (비동기 권장)</span>
+        <span class="hljs-keyword">try</span> {
+            alimtalkClient.sendWelcomeMessage(
+                member.getPhoneNumber(), 
+                member.getEmail()
+            );
+        } <span class="hljs-keyword">catch</span> (Exception e) {
+            <span class="hljs-comment">// 알림톡 실패해도 회원가입은 성공 처리</span>
+            log.warn(<span class="hljs-string">&quot;알림톡 발송 실패했지만 회원가입은 완료: memberId={}&quot;</span>, member.getId());
+        }
+    }
+}
+</code></pre>
+<hr>
+<h3 id="방법-2-webclient-사용-reactive">방법 2: WebClient 사용 (Reactive)</h3>
+<pre><code class="language-java"><span class="hljs-meta">@Component</span>
+<span class="hljs-meta">@RequiredArgsConstructor</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AlimtalkWebClient</span> {
+    
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> WebClient webClient;
+    
+    <span class="hljs-meta">@Value(&quot;${notification-service.url:http://localhost}&quot;)</span>
+    <span class="hljs-keyword">private</span> String notificationServiceUrl;
+    
+    <span class="hljs-keyword">public</span> Mono&lt;Map&gt; <span class="hljs-title function_">sendAlimtalk</span><span class="hljs-params">(String templateId, String phoneNumber, 
+                                   Map&lt;String, String&gt; templateParams)</span> {
+        
+        Map&lt;String, Object&gt; request = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();
+        request.put(<span class="hljs-string">&quot;templateId&quot;</span>, templateId);
+        request.put(<span class="hljs-string">&quot;phoneNumber&quot;</span>, phoneNumber);
+        request.put(<span class="hljs-string">&quot;templateParams&quot;</span>, templateParams);
+        
+        <span class="hljs-keyword">return</span> webClient.post()
+            .uri(notificationServiceUrl + <span class="hljs-string">&quot;/api/alimtalk/send&quot;</span>)
+            .header(<span class="hljs-string">&quot;X-Service-Name&quot;</span>, <span class="hljs-string">&quot;MemberService&quot;</span>) <span class="hljs-comment">// 서비스명 변경 필요</span>
+            .contentType(MediaType.APPLICATION_JSON)
+            .bodyValue(request)
+            .retrieve()
+            .bodyToMono(Map.class)
+            .doOnSuccess(response -&gt; 
+                log.info(<span class="hljs-string">&quot;알림톡 발송 성공: response={}&quot;</span>, response))
+            .doOnError(error -&gt; 
+                log.error(<span class="hljs-string">&quot;알림톡 발송 실패: error={}&quot;</span>, error.getMessage()));
+    }
+}
+</code></pre>
+<hr>
+<h3 id="방법-3-feignclient-사용">방법 3: FeignClient 사용</h3>
+<pre><code class="language-java"><span class="hljs-meta">@FeignClient(name = &quot;notification-service&quot;, url = &quot;${notification-service.url:http://localhost}&quot;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">NotificationServiceClient</span> {
+    
+    <span class="hljs-meta">@PostMapping(&quot;/api/alimtalk/send&quot;)</span>
+    Map&lt;String, Object&gt; <span class="hljs-title function_">sendAlimtalk</span><span class="hljs-params">(
+        <span class="hljs-meta">@RequestHeader(&quot;X-Service-Name&quot;)</span> String serviceName,
+        <span class="hljs-meta">@RequestBody</span> AlimtalkSendRequest request
+    )</span>;
+}
+
+<span class="hljs-comment">// 사용 예시</span>
+<span class="hljs-meta">@Service</span>
+<span class="hljs-meta">@RequiredArgsConstructor</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">SomeService</span> {
+    
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> NotificationServiceClient notificationClient;
+    
+    <span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sendAlimtalk</span><span class="hljs-params">()</span> {
+        <span class="hljs-type">AlimtalkSendRequest</span> <span class="hljs-variable">request</span> <span class="hljs-operator">=</span> AlimtalkSendRequest.builder()
+            .templateId(<span class="hljs-string">&quot;amano_hub_member_registered&quot;</span>)
+            .phoneNumber(<span class="hljs-string">&quot;010-1234-5678&quot;</span>)
+            .templateParams(Map.of(<span class="hljs-string">&quot;아이디명&quot;</span>, <span class="hljs-string">&quot;test@example.com&quot;</span>))
+            .build();
+        
+        notificationClient.sendAlimtalk(<span class="hljs-string">&quot;MemberService&quot;</span>, request);
+    }
+}
+</code></pre>
+<hr>
+<h2 id="-사용-가능한-템플릿">📋 사용 가능한 템플릿</h2>
+<h3 id="1-회원가입-완료-amano_hub_member_registered">1. 회원가입 완료 (amano_hub_member_registered)</h3>
+<p><strong>필수 파라미터:</strong></p>
+<ul>
+<li><code>아이디명</code>: 사용자 이메일 또는 아이디</li>
+<li><code>가입날짜</code>: 가입 일시 (예: &quot;2025-11-16 14:30&quot;)</li>
+</ul>
+<p><strong>사용 예시:</strong></p>
+<pre><code class="language-java">Map&lt;String, String&gt; params = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();
+params.put(<span class="hljs-string">&quot;아이디명&quot;</span>, <span class="hljs-string">&quot;hong@example.com&quot;</span>);
+params.put(<span class="hljs-string">&quot;가입날짜&quot;</span>, <span class="hljs-string">&quot;2025-11-16 14:30&quot;</span>);
+</code></pre>
+<hr>
+<h3 id="2-동호수-승인-완료-member_unit_approved">2. 동호수 승인 완료 (member_unit_approved)</h3>
+<p><strong>필수 파라미터:</strong></p>
+<ul>
+<li><code>주차장명</code>: 주차장 이름</li>
+<li><code>동</code>: 동 번호</li>
+<li><code>호</code>: 호 번호</li>
+<li><code>승인일시</code>: 승인 일시</li>
+</ul>
+<p><strong>사용 예시:</strong></p>
+<pre><code class="language-java">Map&lt;String, String&gt; params = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();
+params.put(<span class="hljs-string">&quot;주차장명&quot;</span>, <span class="hljs-string">&quot;종암우림카이저&quot;</span>);
+params.put(<span class="hljs-string">&quot;동&quot;</span>, <span class="hljs-string">&quot;101&quot;</span>);
+params.put(<span class="hljs-string">&quot;호&quot;</span>, <span class="hljs-string">&quot;1503&quot;</span>);
+params.put(<span class="hljs-string">&quot;승인일시&quot;</span>, <span class="hljs-string">&quot;2025-11-16 15:00&quot;</span>);
+</code></pre>
+<hr>
+<h3 id="3-동호수-승인-거부-member_unit_rejected">3. 동호수 승인 거부 (member_unit_rejected)</h3>
+<p><strong>필수 파라미터:</strong></p>
+<ul>
+<li><code>주차장명</code>: 주차장 이름</li>
+<li><code>동</code>: 동 번호</li>
+<li><code>호</code>: 호 번호</li>
+<li><code>거부사유</code>: 거부 사유</li>
+</ul>
+<p><strong>사용 예시:</strong></p>
+<pre><code class="language-java">Map&lt;String, String&gt; params = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();
+params.put(<span class="hljs-string">&quot;주차장명&quot;</span>, <span class="hljs-string">&quot;종암우림카이저&quot;</span>);
+params.put(<span class="hljs-string">&quot;동&quot;</span>, <span class="hljs-string">&quot;101&quot;</span>);
+params.put(<span class="hljs-string">&quot;호&quot;</span>, <span class="hljs-string">&quot;1503&quot;</span>);
+params.put(<span class="hljs-string">&quot;거부사유&quot;</span>, <span class="hljs-string">&quot;등록 서류 불일치&quot;</span>);
+</code></pre>
+<hr>
+<h2 id="-설정-applicationyml">🔧 설정 (application.yml)</h2>
+<pre><code class="language-yaml"><span class="hljs-comment"># NotificationService URL 설정</span>
+<span class="hljs-attr">notification-service:</span>
+  <span class="hljs-attr">url:</span> <span class="hljs-string">http://localhost</span>  <span class="hljs-comment"># 로컬 개발 환경</span>
+  <span class="hljs-comment"># url: http://notification-service:8080  # Docker 환경</span>
+</code></pre>
+<hr>
+<h2 id="-발송-이력-확인">📊 발송 이력 확인</h2>
+<h3 id="1-전체-로그-조회">1. 전체 로그 조회</h3>
+<pre><code class="language-bash">curl -X GET <span class="hljs-string">&quot;http://localhost/api/alimtalk/logs?page=0&amp;size=20&quot;</span>
+</code></pre>
+<h3 id="2-특정-전화번호-이력-조회">2. 특정 전화번호 이력 조회</h3>
+<pre><code class="language-bash">curl -X GET <span class="hljs-string">&quot;http://localhost/api/alimtalk/logs/phone/010-1234-5678&quot;</span>
+</code></pre>
+<h3 id="3-실패한-알림톡만-조회">3. 실패한 알림톡만 조회</h3>
+<pre><code class="language-bash">curl -X GET <span class="hljs-string">&quot;http://localhost/api/alimtalk/logs?sendStatus=FAILED&quot;</span>
+</code></pre>
+<h3 id="4-특정-서비스의-발송-이력">4. 특정 서비스의 발송 이력</h3>
+<pre><code class="language-bash">curl -X GET <span class="hljs-string">&quot;http://localhost/api/alimtalk/logs?serviceName=MemberService&quot;</span>
+</code></pre>
+<hr>
+<h2 id="️-주의사항">⚠️ 주의사항</h2>
+<h3 id="1-에러-처리">1. 에러 처리</h3>
+<p>알림톡 발송 실패는 <strong>핵심 비즈니스 로직에 영향을 주지 않도록</strong> 처리하세요.</p>
+<pre><code class="language-java"><span class="hljs-comment">// ❌ 나쁜 예: 알림톡 실패 시 회원가입 롤백</span>
+<span class="hljs-meta">@Transactional</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">signUp</span><span class="hljs-params">(SignUpRequest request)</span> {
+    <span class="hljs-type">Member</span> <span class="hljs-variable">member</span> <span class="hljs-operator">=</span> memberRepository.save(newMember);
+    alimtalkClient.sendWelcomeMessage(...); <span class="hljs-comment">// 예외 발생 시 롤백됨</span>
+}
+
+<span class="hljs-comment">// ✅ 좋은 예: 알림톡 실패해도 회원가입은 성공</span>
+<span class="hljs-meta">@Transactional</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">signUp</span><span class="hljs-params">(SignUpRequest request)</span> {
+    <span class="hljs-type">Member</span> <span class="hljs-variable">member</span> <span class="hljs-operator">=</span> memberRepository.save(newMember);
+    
+    <span class="hljs-keyword">try</span> {
+        alimtalkClient.sendWelcomeMessage(...);
+    } <span class="hljs-keyword">catch</span> (Exception e) {
+        log.warn(<span class="hljs-string">&quot;알림톡 발송 실패 (회원가입은 완료): memberId={}&quot;</span>, member.getId());
+    }
+}
+</code></pre>
+<h3 id="2-비동기-발송-권장">2. 비동기 발송 권장</h3>
+<p>대량 발송이나 성능이 중요한 경우 비동기 처리를 권장합니다.</p>
+<pre><code class="language-java"><span class="hljs-meta">@Service</span>
+<span class="hljs-meta">@RequiredArgsConstructor</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">AlimtalkAsyncClient</span> {
+    
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> AlimtalkClient alimtalkClient;
+    
+    <span class="hljs-meta">@Async</span>
+    <span class="hljs-keyword">public</span> CompletableFuture&lt;Void&gt; <span class="hljs-title function_">sendAsync</span><span class="hljs-params">(String phoneNumber, String email)</span> {
+        <span class="hljs-keyword">return</span> CompletableFuture.runAsync(() -&gt; 
+            alimtalkClient.sendWelcomeMessage(phoneNumber, email)
+        );
+    }
+}
+</code></pre>
+<h3 id="3-재시도-로직-선택사항">3. 재시도 로직 (선택사항)</h3>
+<p>실패 시 재시도를 원하면 Spring Retry를 사용하세요.</p>
+<pre><code class="language-java"><span class="hljs-meta">@Retryable(
+    value = {HttpClientErrorException.class},
+    maxAttempts = 3,
+    backoff = @Backoff(delay = 2000)
+)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">sendAlimtalk</span><span class="hljs-params">(...)</span> {
+    <span class="hljs-comment">// 발송 로직</span>
+}
+</code></pre>
+<h3 id="4-전화번호-형식">4. 전화번호 형식</h3>
+<ul>
+<li><strong>하이픈 포함</strong>: <code>010-1234-5678</code> (권장)</li>
+<li><strong>하이픈 없음</strong>: <code>01012345678</code> (지원)</li>
+</ul>
+<hr>
+<h2 id="-새-템플릿-추가-요청">🆕 새 템플릿 추가 요청</h2>
+<p>새로운 알림톡 템플릿이 필요하면 다음 정보를 포함해서 요청하세요:</p>
+<ol>
+<li><strong>템플릿 ID</strong>: 영문 소문자 + 언더스코어 (예: <code>password_reset</code>)</li>
+<li><strong>템플릿 명칭</strong>: 한글 명칭 (예: &quot;비밀번호 재설정&quot;)</li>
+<li><strong>메시지 내용</strong>: 실제 발송될 메시지</li>
+<li><strong>필수 파라미터</strong>: 치환될 파라미터 목록 (예: <code>인증번호,유효시간</code>)</li>
+<li><strong>사용 시나리오</strong>: 언제 발송되는지 설명</li>
+</ol>
+<p><strong>예시:</strong></p>
+<pre><code>템플릿 ID: password_reset
+템플릿 명칭: 비밀번호 재설정
+메시지 내용:
+[아마노파킹]
+비밀번호 재설정 요청
+
+인증번호: #{인증번호}
+유효시간: #{유효시간}
+
+필수 파라미터: 인증번호, 유효시간
+사용 시나리오: 사용자가 비밀번호 재설정을 요청할 때
+</code></pre>
+<hr>
+<h2 id="-문제-해결">🐛 문제 해결</h2>
+<h3 id="문제-1-템플릿을-찾을-수-없습니다">문제 1: &quot;템플릿을 찾을 수 없습니다&quot;</h3>
+<p><strong>원인</strong>: 템플릿 ID가 잘못되었거나 비활성화 상태</p>
+<p><strong>해결책:</strong></p>
+<pre><code class="language-bash"><span class="hljs-comment"># 활성화된 템플릿 확인</span>
+curl -X GET <span class="hljs-string">&quot;http://localhost/api/alimtalk/templates?activeOnly=true&quot;</span>
+</code></pre>
+<h3 id="문제-2-필수-파라미터-누락">문제 2: &quot;필수 파라미터 누락&quot;</h3>
+<p><strong>원인</strong>: <code>templateParams</code>에 필수 파라미터가 없음</p>
+<p><strong>해결책:</strong> 템플릿의 <code>requiredParams</code>를 확인하고 모든 파라미터를 전달하세요.</p>
+<pre><code class="language-java"><span class="hljs-comment">// ❌ 나쁜 예: 필수 파라미터 누락</span>
+Map&lt;String, String&gt; params = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();
+params.put(<span class="hljs-string">&quot;아이디명&quot;</span>, <span class="hljs-string">&quot;hong@example.com&quot;</span>);
+<span class="hljs-comment">// 가입날짜 누락!</span>
+
+<span class="hljs-comment">// ✅ 좋은 예: 모든 필수 파라미터 포함</span>
+Map&lt;String, String&gt; params = <span class="hljs-keyword">new</span> <span class="hljs-title class_">HashMap</span>&lt;&gt;();
+params.put(<span class="hljs-string">&quot;아이디명&quot;</span>, <span class="hljs-string">&quot;hong@example.com&quot;</span>);
+params.put(<span class="hljs-string">&quot;가입날짜&quot;</span>, <span class="hljs-string">&quot;2025-11-16 14:30&quot;</span>);
+</code></pre>
+<h3 id="문제-3-발송은-성공했는데-로그에-발송-대기-중">문제 3: 발송은 성공했는데 로그에 &quot;발송 대기 중...&quot;</h3>
+<p><strong>원인</strong>: 이전 버전 코드 사용 중 (메시지 업데이트 안 됨)</p>
+<p><strong>해결책:</strong> NotificationService를 최신 버전으로 업데이트하세요.</p>
+
+            <script async src="https://cdn.jsdelivr.net/npm/katex-copytex@latest/dist/katex-copytex.min.js"></script>
+            
+        </body>
+        </html>
