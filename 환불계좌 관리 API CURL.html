@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#xd658;&#xbd88;&#xacc4;&#xc88c; &#xad00;&#xb9ac; API CURL</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h2 id="환불계좌-관리-api-curl">환불계좌 관리 API CURL</h2>
+<h3 id="1️⃣-환불계좌-등록-통장사본-이미지-포함">1️⃣ 환불계좌 등록 (통장사본 이미지 포함)</h3>
+<pre><code class="language-bash">curl -X POST <span class="hljs-string">&quot;http://localhost:8082/api/members/refund-accounts&quot;</span> \
+  -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span> \
+  -F <span class="hljs-string">&quot;bankName=신한은행&quot;</span> \
+  -F <span class="hljs-string">&quot;accountNumber=110-123-456789&quot;</span> \
+  -F <span class="hljs-string">&quot;accountHolder=홍길동&quot;</span> \
+  -F <span class="hljs-string">&quot;memo=주 계좌&quot;</span> \
+  -F <span class="hljs-string">&quot;bankStatementFile=@/path/to/bank_statement.jpg&quot;</span>
+</code></pre>
+<h3 id="2️⃣-환불계좌-등록-파일-없이">2️⃣ 환불계좌 등록 (파일 없이)</h3>
+<pre><code class="language-bash">curl -X POST <span class="hljs-string">&quot;http://localhost:8082/api/members/refund-accounts&quot;</span> \
+  -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span> \
+  -F <span class="hljs-string">&quot;bankName=국민은행&quot;</span> \
+  -F <span class="hljs-string">&quot;accountNumber=123-456-789012&quot;</span> \
+  -F <span class="hljs-string">&quot;accountHolder=김영희&quot;</span> \
+  -F <span class="hljs-string">&quot;memo=예비 계좌&quot;</span>
+</code></pre>
+<h3 id="3️⃣-내-환불계좌-조회">3️⃣ 내 환불계좌 조회</h3>
+<pre><code class="language-bash">curl -X GET <span class="hljs-string">&quot;http://localhost:8082/api/members/refund-accounts&quot;</span> \
+  -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span>
+</code></pre>
+<h3 id="4️⃣-환불계좌-상세-조회">4️⃣ 환불계좌 상세 조회</h3>
+<pre><code class="language-bash">curl -X GET <span class="hljs-string">&quot;http://localhost:8082/api/members/refund-accounts/1&quot;</span> \
+  -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span>
+</code></pre>
+<h3 id="5️⃣-환불계좌-수정-계좌정보만-변경">5️⃣ 환불계좌 수정 (계좌정보만 변경)</h3>
+<pre><code class="language-bash">curl -X PUT <span class="hljs-string">&quot;http://localhost:8082/api/members/refund-accounts/1&quot;</span> \
+  -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span> \
+  -F <span class="hljs-string">&quot;accountHolder=홍길동수정&quot;</span> \
+  -F <span class="hljs-string">&quot;memo=수정된 메모&quot;</span>
+</code></pre>
+<h3 id="6️⃣-환불계좌-수정-파일-변경">6️⃣ 환불계좌 수정 (파일 변경)</h3>
+<pre><code class="language-bash">curl -X PUT <span class="hljs-string">&quot;http://localhost:8082/api/members/refund-accounts/1&quot;</span> \
+  -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span> \
+  -F <span class="hljs-string">&quot;bankName=우리은행&quot;</span> \
+  -F <span class="hljs-string">&quot;accountNumber=999-888-777666&quot;</span> \
+  -F <span class="hljs-string">&quot;accountHolder=이순신&quot;</span> \
+  -F <span class="hljs-string">&quot;memo=파일 변경됨&quot;</span> \
+  -F <span class="hljs-string">&quot;bankStatementFile=@/path/to/new_bank_statement.jpg&quot;</span>
+</code></pre>
+<h3 id="7️⃣-환불계좌-개별-삭제">7️⃣ 환불계좌 개별 삭제</h3>
+<pre><code class="language-bash">curl -X DELETE <span class="hljs-string">&quot;http://localhost:8082/api/members/refund-accounts/1&quot;</span> \
+  -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span>
+</code></pre>
+<h3 id="8️⃣-환불계좌-전체-삭제">8️⃣ 환불계좌 전체 삭제</h3>
+<pre><code class="language-bash">curl -X DELETE <span class="hljs-string">&quot;http://localhost:8082/api/members/refund-accounts&quot;</span> \
+  -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span>
+</code></pre>
+<h3 id="9️⃣-환불계좌-존재-여부-확인">9️⃣ 환불계좌 존재 여부 확인</h3>
+<pre><code class="language-bash">curl -X GET <span class="hljs-string">&quot;http://localhost:8082/api/members/refund-accounts/exists&quot;</span> \
+  -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span>
+</code></pre>
+<hr>
+<h2 id="-테스트-시-주의사항">📝 테스트 시 주의사항</h2>
+<ol>
+<li><strong>JWT 토큰 대체</strong>: <code>YOUR_JWT_TOKEN</code>을 실제 JWT 토큰으로 변경하세요</li>
+<li><strong>파일 경로</strong>: <code>/path/to/bank_statement.jpg</code>를 실제 이미지 파일 경로로 변경하세요</li>
+<li><strong>포트 확인</strong>: 서버 포트가 <code>8082</code>가 아니면 수정하세요</li>
+<li><strong>테스트 순서</strong>:
+<ul>
+<li>먼저 <strong>1️⃣ 등록</strong>으로 환불계좌 생성</li>
+<li><strong>3️⃣ 조회</strong>로 등록 확인</li>
+<li><strong>5️⃣ 수정</strong>으로 정보 변경 테스트</li>
+<li><strong>7️⃣ 삭제</strong>로 최종 테스트</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="-json-응답-예시">🔍 JSON 응답 예시</h2>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;code&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">null</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;환불계좌가 등록되었습니다.&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;refundAccountId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;memberId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">123</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;bankName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;신한은행&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;accountNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;110-123-456789&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;accountHolder&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;홍길동&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;isActive&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;memo&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;주 계좌&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;bankStatementFileId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">456</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;bankStatementFileName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">null</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;bankStatementFileUrl&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">null</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;createdAt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025-11-27T10:30:00&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;updatedAt&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;2025-11-27T10:30:00&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+
+            
+            
+        </body>
+        </html>
