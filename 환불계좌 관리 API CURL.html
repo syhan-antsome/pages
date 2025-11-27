@@ -140,7 +140,7 @@
         <body class="vscode-body vscode-light">
             <h2 id="환불계좌-관리-api-curl">환불계좌 관리 API CURL</h2>
 <h3 id="1️⃣-환불계좌-등록-통장사본-이미지-포함">1️⃣ 환불계좌 등록 (통장사본 이미지 포함)</h3>
-<pre><code class="language-bash">curl -X POST <span class="hljs-string">&quot;http://localhost:8082/api/members/refund-accounts&quot;</span> \
+<pre><code class="language-bash">curl -X POST <span class="hljs-string">&quot;http://182.162.142.248:8089/api/members/refund-accounts&quot;</span> \
   -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span> \
   -F <span class="hljs-string">&quot;bankName=신한은행&quot;</span> \
   -F <span class="hljs-string">&quot;accountNumber=110-123-456789&quot;</span> \
@@ -149,7 +149,7 @@
   -F <span class="hljs-string">&quot;bankStatementFile=@/path/to/bank_statement.jpg&quot;</span>
 </code></pre>
 <h3 id="2️⃣-환불계좌-등록-파일-없이">2️⃣ 환불계좌 등록 (파일 없이)</h3>
-<pre><code class="language-bash">curl -X POST <span class="hljs-string">&quot;http://localhost:8082/api/members/refund-accounts&quot;</span> \
+<pre><code class="language-bash">curl -X POST <span class="hljs-string">&quot;http://182.162.142.248:8089/api/members/refund-accounts&quot;</span> \
   -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span> \
   -F <span class="hljs-string">&quot;bankName=국민은행&quot;</span> \
   -F <span class="hljs-string">&quot;accountNumber=123-456-789012&quot;</span> \
@@ -157,21 +157,21 @@
   -F <span class="hljs-string">&quot;memo=예비 계좌&quot;</span>
 </code></pre>
 <h3 id="3️⃣-내-환불계좌-조회">3️⃣ 내 환불계좌 조회</h3>
-<pre><code class="language-bash">curl -X GET <span class="hljs-string">&quot;http://localhost:8082/api/members/refund-accounts&quot;</span> \
+<pre><code class="language-bash">curl -X GET <span class="hljs-string">&quot;http://182.162.142.248:8089/api/members/refund-accounts&quot;</span> \
   -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span>
 </code></pre>
 <h3 id="4️⃣-환불계좌-상세-조회">4️⃣ 환불계좌 상세 조회</h3>
-<pre><code class="language-bash">curl -X GET <span class="hljs-string">&quot;http://localhost:8082/api/members/refund-accounts/1&quot;</span> \
+<pre><code class="language-bash">curl -X GET <span class="hljs-string">&quot;http://182.162.142.248:8089/api/members/refund-accounts/1&quot;</span> \
   -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span>
 </code></pre>
 <h3 id="5️⃣-환불계좌-수정-계좌정보만-변경">5️⃣ 환불계좌 수정 (계좌정보만 변경)</h3>
-<pre><code class="language-bash">curl -X PUT <span class="hljs-string">&quot;http://localhost:8082/api/members/refund-accounts/1&quot;</span> \
+<pre><code class="language-bash">curl -X PUT <span class="hljs-string">&quot;http://182.162.142.248:8089/api/members/refund-accounts/1&quot;</span> \
   -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span> \
   -F <span class="hljs-string">&quot;accountHolder=홍길동수정&quot;</span> \
   -F <span class="hljs-string">&quot;memo=수정된 메모&quot;</span>
 </code></pre>
 <h3 id="6️⃣-환불계좌-수정-파일-변경">6️⃣ 환불계좌 수정 (파일 변경)</h3>
-<pre><code class="language-bash">curl -X PUT <span class="hljs-string">&quot;http://localhost:8082/api/members/refund-accounts/1&quot;</span> \
+<pre><code class="language-bash">curl -X PUT <span class="hljs-string">&quot;http://182.162.142.248:8089/api/members/refund-accounts/1&quot;</span> \
   -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span> \
   -F <span class="hljs-string">&quot;bankName=우리은행&quot;</span> \
   -F <span class="hljs-string">&quot;accountNumber=999-888-777666&quot;</span> \
@@ -180,15 +180,15 @@
   -F <span class="hljs-string">&quot;bankStatementFile=@/path/to/new_bank_statement.jpg&quot;</span>
 </code></pre>
 <h3 id="7️⃣-환불계좌-개별-삭제">7️⃣ 환불계좌 개별 삭제</h3>
-<pre><code class="language-bash">curl -X DELETE <span class="hljs-string">&quot;http://localhost:8082/api/members/refund-accounts/1&quot;</span> \
+<pre><code class="language-bash">curl -X DELETE <span class="hljs-string">&quot;http://182.162.142.248:8089/api/members/refund-accounts/1&quot;</span> \
   -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span>
 </code></pre>
 <h3 id="8️⃣-환불계좌-전체-삭제">8️⃣ 환불계좌 전체 삭제</h3>
-<pre><code class="language-bash">curl -X DELETE <span class="hljs-string">&quot;http://localhost:8082/api/members/refund-accounts&quot;</span> \
+<pre><code class="language-bash">curl -X DELETE <span class="hljs-string">&quot;http://182.162.142.248:8089/api/members/refund-accounts&quot;</span> \
   -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span>
 </code></pre>
 <h3 id="9️⃣-환불계좌-존재-여부-확인">9️⃣ 환불계좌 존재 여부 확인</h3>
-<pre><code class="language-bash">curl -X GET <span class="hljs-string">&quot;http://localhost:8082/api/members/refund-accounts/exists&quot;</span> \
+<pre><code class="language-bash">curl -X GET <span class="hljs-string">&quot;http://182.162.142.248:8089/api/members/refund-accounts/exists&quot;</span> \
   -H <span class="hljs-string">&quot;Authorization: Bearer YOUR_JWT_TOKEN&quot;</span>
 </code></pre>
 <hr>
