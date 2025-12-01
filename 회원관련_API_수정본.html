@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <title>&#xd68c;&#xc6d0; &#xce74;&#xd14c;&#xace0;&#xb9ac; &#xbd84;&#xb9ac; API &#xbb38;&#xc11c;</title>
+            <style>
+/* From extension vscode.github */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+.vscode-dark img[src$=\#gh-light-mode-only],
+.vscode-light img[src$=\#gh-dark-mode-only],
+.vscode-high-contrast:not(.vscode-high-contrast-light) img[src$=\#gh-light-mode-only],
+.vscode-high-contrast-light img[src$=\#gh-dark-mode-only] {
+	display: none;
+}
+
+</style>
+            
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/markdown.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Microsoft/vscode/extensions/markdown-language-features/media/highlight.css">
+<style>
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, 'Segoe WPC', 'Segoe UI', system-ui, 'Ubuntu', 'Droid Sans', sans-serif;
+                font-size: 14px;
+                line-height: 1.6;
+            }
+        </style>
+        <style>
+.task-list-item {
+    list-style-type: none;
+}
+
+.task-list-item-checkbox {
+    margin-left: -20px;
+    vertical-align: middle;
+    pointer-events: none;
+}
+</style>
+<style>
+:root {
+  --color-note: #0969da;
+  --color-tip: #1a7f37;
+  --color-warning: #9a6700;
+  --color-severe: #bc4c00;
+  --color-caution: #d1242f;
+  --color-important: #8250df;
+}
+
+</style>
+<style>
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-note: #2f81f7;
+    --color-tip: #3fb950;
+    --color-warning: #d29922;
+    --color-severe: #db6d28;
+    --color-caution: #f85149;
+    --color-important: #a371f7;
+  }
+}
+
+</style>
+<style>
+.markdown-alert {
+  padding: 0.5rem 1rem;
+  margin-bottom: 16px;
+  color: inherit;
+  border-left: .25em solid #888;
+}
+
+.markdown-alert>:first-child {
+  margin-top: 0
+}
+
+.markdown-alert>:last-child {
+  margin-bottom: 0
+}
+
+.markdown-alert .markdown-alert-title {
+  display: flex;
+  font-weight: 500;
+  align-items: center;
+  line-height: 1
+}
+
+.markdown-alert .markdown-alert-title .octicon {
+  margin-right: 0.5rem;
+  display: inline-block;
+  overflow: visible !important;
+  vertical-align: text-bottom;
+  fill: currentColor;
+}
+
+.markdown-alert.markdown-alert-note {
+  border-left-color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-note .markdown-alert-title {
+  color: var(--color-note);
+}
+
+.markdown-alert.markdown-alert-important {
+  border-left-color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-important .markdown-alert-title {
+  color: var(--color-important);
+}
+
+.markdown-alert.markdown-alert-warning {
+  border-left-color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-warning .markdown-alert-title {
+  color: var(--color-warning);
+}
+
+.markdown-alert.markdown-alert-tip {
+  border-left-color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-tip .markdown-alert-title {
+  color: var(--color-tip);
+}
+
+.markdown-alert.markdown-alert-caution {
+  border-left-color: var(--color-caution);
+}
+
+.markdown-alert.markdown-alert-caution .markdown-alert-title {
+  color: var(--color-caution);
+}
+
+</style>
+        
+        </head>
+        <body class="vscode-body vscode-light">
+            <h1 id="회원-카테고리-분리-api-문서">회원 카테고리 분리 API 문서</h1>
+<p><strong>작성일</strong>: 2025-12-01<br>
+<strong>버전</strong>: 1.0<br>
+<strong>상태</strong>: ✅ 구현 완료 (빌드 성공)</p>
+<hr>
+<h2 id="-개요">📋 개요</h2>
+<p>AKC B2C 서비스는 <strong>같은 이메일, 아이디, 전화번호로도 일반회원과 법인회원을 구분하여 등록</strong>할 수 있도록 회원 시스템을 개선했습니다.</p>
+<h3 id="핵심-변경사항">핵심 변경사항</h3>
+<ul>
+<li>✅ 같은 전화번호 → 일반회원 + 법인회원 이중 가입 가능</li>
+<li>✅ 같은 이메일 → 일반회원 + 법인회원 이중 가입 가능</li>
+<li>✅ 같은 아이디 → 일반회원 + 법인회원 이중 가입 가능</li>
+<li>✅ 로그인/회원가입 엔드포인트 분리</li>
+<li>✅ 중복 검사 엔드포인트 분리</li>
+</ul>
+<hr>
+<h2 id="-인증-api-authentication">🔐 인증 API (Authentication)</h2>
+<h3 id="1-회원가입---일반회원">1. 회원가입 - 일반회원</h3>
+<pre><code>POST /api/auth/signup/individual
+</code></pre>
+<p><strong>요청 본문:</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;userId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;testuser001&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;email&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;user@example.com&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;password&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;SecurePass123!&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;홍길동&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;phone&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;010-1234-5678&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;ageOver14Agreed&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;termsAgreed&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;privacyAgreed&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;locationPolicyAgreed&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;marketingEmailAgreed&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;marketingSmsAgreed&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;marketingPushAgreed&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>응답 (성공):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;memberUuid&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;email&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;user@example.com&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;홍길동&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;memberType&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;DIRECT&quot;</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;일반회원 가입이 완료되었습니다&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 200 OK</p>
+<hr>
+<h3 id="2-회원가입---법인회원">2. 회원가입 - 법인회원</h3>
+<pre><code>POST /api/auth/signup/corporate
+</code></pre>
+<p><strong>요청 본문:</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;userId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;corpuser001&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;email&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;corp@example.com&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;password&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;SecurePass123!&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;김기업&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;phone&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;010-1234-5678&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;companyName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;테스트 법인&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;businessNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;123-45-67890&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;businessRegistration&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;&lt;MultipartFile&gt;&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;ageOver14Agreed&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;termsAgreed&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;privacyAgreed&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;locationPolicyAgreed&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;marketingEmailAgreed&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;marketingSmsAgreed&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;marketingPushAgreed&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>응답 (성공):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;memberUuid&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;550e8400-e29b-41d4-a716-446655440001&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;email&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;corp@example.com&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;김기업&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;memberType&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;DIRECT&quot;</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;법인회원 가입이 신청되었습니다. 승인 대기 중입니다&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 200 OK</p>
+<p><strong>📌 주의</strong>:</p>
+<ul>
+<li>같은 전화번호로 일반회원과 법인회원 모두 가입 가능</li>
+<li>법인회원은 <code>businessNumber</code>와 <code>businessRegistration</code> 필수</li>
+<li>법인회원은 관리자 승인 후 사용 가능 (PENDING → APPROVED)</li>
+</ul>
+<hr>
+<h3 id="3-로그인---통합-기존">3. 로그인 - 통합 (기존)</h3>
+<pre><code>POST /api/auth/login
+</code></pre>
+<p><strong>요청 본문:</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;userId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;testuser001&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;password&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;SecurePass123!&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>응답 (성공):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;accessToken&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;refreshToken&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;tokenType&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Bearer&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;expiresIn&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3600</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;userInfo&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;userId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;testuser001&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;email&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;user@example.com&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;홍길동&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;memberType&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;DIRECT&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;memberCategory&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;INDIVIDUAL&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;isIndividualUser&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;isCorporateUser&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;roles&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;INDIVIDUAL_USER&quot;</span><span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 200 OK</p>
+<hr>
+<h3 id="4-로그인---일반회원-전용">4. 로그인 - 일반회원 전용</h3>
+<pre><code>POST /api/auth/login/individual
+</code></pre>
+<p><strong>요청 본문:</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;userId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;testuser001&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;password&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;SecurePass123!&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>응답 (성공):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;accessToken&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;refreshToken&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;tokenType&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Bearer&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;expiresIn&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3600</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;userInfo&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;550e8400-e29b-41d4-a716-446655440000&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;userId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;testuser001&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;email&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;user@example.com&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;홍길동&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;memberType&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;DIRECT&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;memberCategory&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;INDIVIDUAL&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;isIndividualUser&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;isCorporateUser&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;roles&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;INDIVIDUAL_USER&quot;</span><span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;corporateInfo&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">null</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 200 OK</p>
+<p><strong>오류 응답 (법인회원으로 로그인 시도):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">null</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;errorCode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;UNAUTHORIZED&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;아이디 또는 비밀번호가 일치하지 않습니다&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 401 Unauthorized</p>
+<hr>
+<h3 id="5-로그인---법인회원-전용">5. 로그인 - 법인회원 전용</h3>
+<pre><code>POST /api/auth/login/corporate
+</code></pre>
+<p><strong>요청 본문:</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;userId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;corpuser001&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;password&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;SecurePass123!&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>응답 (성공):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;accessToken&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;refreshToken&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;tokenType&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Bearer&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;expiresIn&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">3600</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;userInfo&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;550e8400-e29b-41d4-a716-446655440001&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;userId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;corpuser001&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;email&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;corp@example.com&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;김기업&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;memberType&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;DIRECT&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;memberCategory&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;CORPORATE&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;isIndividualUser&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;isCorporateUser&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;roles&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">[</span><span class="hljs-string">&quot;CORPORATE_USER&quot;</span><span class="hljs-punctuation">]</span>
+    <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;corporateInfo&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+      <span class="hljs-attr">&quot;companyName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;테스트 법인&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;businessNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;123-45-67890&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;approvalStatus&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;APPROVED&quot;</span><span class="hljs-punctuation">,</span>
+      <span class="hljs-attr">&quot;approvalMessage&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;승인되었습니다&quot;</span>
+    <span class="hljs-punctuation">}</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 200 OK</p>
+<p><strong>오류 응답 (일반회원으로 로그인 시도):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">null</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;errorCode&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;UNAUTHORIZED&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;아이디 또는 비밀번호가 일치하지 않습니다&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 401 Unauthorized</p>
+<hr>
+<h2 id="-중복-검사-api-duplicate-validation">✅ 중복 검사 API (Duplicate Validation)</h2>
+<h3 id="6-아이디-중복-검사---통합-기존">6. 아이디 중복 검사 - 통합 (기존)</h3>
+<pre><code>GET /api/auth/check-userid
+</code></pre>
+<p><strong>요청 파라미터:</strong></p>
+<pre><code>userId=testuser001
+</code></pre>
+<p><strong>응답 (사용 가능):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;사용 가능한 아이디입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>응답 (중복):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;이미 사용중인 아이디입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 200 OK</p>
+<hr>
+<h3 id="7-아이디-중복-검사---일반회원">7. 아이디 중복 검사 - 일반회원</h3>
+<pre><code>GET /api/auth/check-userid/individual
+</code></pre>
+<p><strong>요청 파라미터:</strong></p>
+<pre><code>userId=testuser001
+</code></pre>
+<p><strong>응답 (사용 가능):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;사용 가능한 아이디입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>응답 (일반회원으로 중복):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;이미 일반회원으로 사용중인 아이디입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>응답 (법인회원으로는 사용 가능):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;사용 가능한 아이디입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 200 OK</p>
+<hr>
+<h3 id="8-아이디-중복-검사---법인회원">8. 아이디 중복 검사 - 법인회원</h3>
+<pre><code>GET /api/auth/check-userid/corporate
+</code></pre>
+<p><strong>요청 파라미터:</strong></p>
+<pre><code>userId=corpuser001
+</code></pre>
+<p><strong>응답 (사용 가능):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;사용 가능한 아이디입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>응답 (법인회원으로 중복):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;이미 법인회원으로 사용중인 아이디입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 200 OK</p>
+<hr>
+<h3 id="9-이메일-중복-검사---통합-기존">9. 이메일 중복 검사 - 통합 (기존)</h3>
+<pre><code>GET /api/auth/check-email
+</code></pre>
+<p><strong>요청 파라미터:</strong></p>
+<pre><code>email=user@example.com
+</code></pre>
+<p><strong>응답 (사용 가능):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;사용 가능한 이메일입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>응답 (중복):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;이미 사용중인 이메일입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 200 OK</p>
+<hr>
+<h3 id="10-이메일-중복-검사---일반회원">10. 이메일 중복 검사 - 일반회원</h3>
+<pre><code>GET /api/auth/check-email/individual
+</code></pre>
+<p><strong>요청 파라미터:</strong></p>
+<pre><code>email=user@example.com
+</code></pre>
+<p><strong>응답 (일반회원으로 사용 가능):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;사용 가능한 이메일입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>응답 (일반회원으로 중복):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;이미 일반회원으로 사용중인 이메일입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 200 OK</p>
+<hr>
+<h3 id="11-이메일-중복-검사---법인회원">11. 이메일 중복 검사 - 법인회원</h3>
+<pre><code>GET /api/auth/check-email/corporate
+</code></pre>
+<p><strong>요청 파라미터:</strong></p>
+<pre><code>email=corp@example.com
+</code></pre>
+<p><strong>응답 (법인회원으로 사용 가능):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;사용 가능한 이메일입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>응답 (법인회원으로 중복):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;이미 법인회원으로 사용중인 이메일입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 200 OK</p>
+<hr>
+<h3 id="12-전화번호-중복-검사---통합-기존">12. 전화번호 중복 검사 - 통합 (기존)</h3>
+<pre><code>GET /api/auth/check-phone
+</code></pre>
+<p><strong>요청 파라미터:</strong></p>
+<pre><code>phone=010-1234-5678
+</code></pre>
+<p><strong>응답 (사용 가능):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;사용 가능한 전화번호입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>응답 (중복):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;이미 등록된 전화번호입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 200 OK</p>
+<hr>
+<h3 id="13-전화번호-중복-검사---일반회원">13. 전화번호 중복 검사 - 일반회원</h3>
+<pre><code>GET /api/auth/check-phone/individual
+</code></pre>
+<p><strong>요청 파라미터:</strong></p>
+<pre><code>phone=010-1234-5678
+</code></pre>
+<p><strong>응답 (일반회원으로 사용 가능):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;사용 가능한 전화번호입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>응답 (일반회원으로 중복):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;이미 일반회원으로 등록된 전화번호입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 200 OK</p>
+<hr>
+<h3 id="14-전화번호-중복-검사---법인회원">14. 전화번호 중복 검사 - 법인회원</h3>
+<pre><code>GET /api/auth/check-phone/corporate
+</code></pre>
+<p><strong>요청 파라미터:</strong></p>
+<pre><code>phone=010-1234-5678
+</code></pre>
+<p><strong>응답 (법인회원으로 사용 가능):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;사용 가능한 전화번호입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>응답 (법인회원으로 중복):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;available&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">false</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;이미 법인회원으로 등록된 전화번호입니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 200 OK</p>
+<hr>
+<h2 id="-회원-찾기-api-이전-구현---이미-분리됨">🔍 회원 찾기 API (이전 구현 - 이미 분리됨)</h2>
+<h3 id="15-일반회원-아이디-찾기">15. 일반회원 아이디 찾기</h3>
+<pre><code>POST /api/members/individual/find-id
+</code></pre>
+<p><strong>요청 본문:</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;홍길동&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;phoneNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;010-1234-5678&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>응답 (성공):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;maskedUserId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;te***01&quot;</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">null</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 200 OK</p>
+<hr>
+<h3 id="16-법인회원-아이디-찾기">16. 법인회원 아이디 찾기</h3>
+<pre><code>POST /api/members/corporate/find-id
+</code></pre>
+<p><strong>요청 본문:</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;businessNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;123-45-67890&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;phoneNumber&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;010-1234-5678&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>응답 (성공):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;maskedUserId&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;co***01&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;companyName&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;테스트 법인&quot;</span>
+  <span class="hljs-punctuation">}</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">null</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 200 OK</p>
+<hr>
+<h2 id="-회원-정보-관리-api">💼 회원 정보 관리 API</h2>
+<h3 id="17-이메일-수정">17. 이메일 수정</h3>
+<pre><code>PUT /api/members/myinfo/email
+</code></pre>
+<p><strong>요청 헤더:</strong></p>
+<pre><code>Authorization: Bearer &lt;accessToken&gt;
+Content-Type: application/json
+</code></pre>
+<p><strong>요청 본문:</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;newEmail&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;newemail@example.com&quot;</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>응답 (성공):</strong></p>
+<pre><code class="language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;success&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-keyword">true</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;data&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-punctuation">{</span>
+    <span class="hljs-attr">&quot;email&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;new***l@example.com&quot;</span><span class="hljs-punctuation">,</span>
+    <span class="hljs-attr">&quot;message&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;이메일이 변경되었습니다&quot;</span>
+  <span class="hljs-punctuation">}</span>
+<span class="hljs-punctuation">}</span>
+</code></pre>
+<p><strong>HTTP Status</strong>: 200 OK</p>
+<hr>
+<h2 id="-엔드포인트-비교표">📊 엔드포인트 비교표</h2>
+<table>
+<thead>
+<tr>
+<th>기능</th>
+<th>통합 (기존)</th>
+<th>일반회원 (NEW)</th>
+<th>법인회원 (NEW)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>회원가입</strong></td>
+<td>-</td>
+<td><code>POST /api/auth/signup/individual</code></td>
+<td><code>POST /api/auth/signup/corporate</code></td>
+</tr>
+<tr>
+<td><strong>로그인</strong></td>
+<td><code>POST /api/auth/login</code></td>
+<td><code>POST /api/auth/login/individual</code></td>
+<td><code>POST /api/auth/login/corporate</code></td>
+</tr>
+<tr>
+<td><strong>아이디 중복 검사</strong></td>
+<td><code>GET /api/auth/check-userid</code></td>
+<td><code>GET /api/auth/check-userid/individual</code></td>
+<td><code>GET /api/auth/check-userid/corporate</code></td>
+</tr>
+<tr>
+<td><strong>이메일 중복 검사</strong></td>
+<td><code>GET /api/auth/check-email</code></td>
+<td><code>GET /api/auth/check-email/individual</code></td>
+<td><code>GET /api/auth/check-email/corporate</code></td>
+</tr>
+<tr>
+<td><strong>전화번호 중복 검사</strong></td>
+<td><code>GET /api/auth/check-phone</code></td>
+<td><code>GET /api/auth/check-phone/individual</code></td>
+<td><code>GET /api/auth/check-phone/corporate</code></td>
+</tr>
+<tr>
+<td><strong>회원 찾기</strong></td>
+<td>-</td>
+<td><code>POST /api/members/individual/find-id</code></td>
+<td><code>POST /api/members/corporate/find-id</code></td>
+</tr>
+<tr>
+<td><strong>이메일 수정</strong></td>
+<td><code>PUT /api/members/myinfo/email</code></td>
+<td>(JWT 기반, 동일)</td>
+<td>(JWT 기반, 동일)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="-사용-시나리오">🎯 사용 시나리오</h2>
+<h3 id="시나리오-1-같은-전화번호로-일반--법인-회원가입">시나리오 1: 같은 전화번호로 일반 + 법인 회원가입</h3>
+<pre><code>1️⃣ 일반회원 가입
+   POST /api/auth/signup/individual
+   phone: &quot;010-1234-5678&quot;
+   userId: &quot;individual001&quot;
+   → 성공 ✅
+
+2️⃣ 법인회원 가입 (같은 전화번호)
+   POST /api/auth/signup/corporate
+   phone: &quot;010-1234-5678&quot;  ← 같은 전화번호
+   userId: &quot;corporate001&quot;
+   → 성공 ✅ (memberCategory 다르므로 중복 아님)
+</code></pre>
+<h3 id="시나리오-2-회원-찾기">시나리오 2: 회원 찾기</h3>
+<pre><code>일반회원이 아이디를 잊은 경우:
+  POST /api/members/individual/find-id
+  name: &quot;홍길동&quot;
+  phone: &quot;010-1234-5678&quot;
+  → maskedUserId: &quot;in***01&quot; 반환
+
+법인회원이 아이디를 잊은 경우:
+  POST /api/members/corporate/find-id
+  businessNumber: &quot;123-45-67890&quot;
+  phone: &quot;010-1234-5678&quot;
+  → maskedUserId: &quot;co***01&quot;, companyName 반환
+</code></pre>
+<h3 id="시나리오-3-로그인-선택">시나리오 3: 로그인 선택</h3>
+<pre><code>통합 로그인 (기존):
+  POST /api/auth/login (memberCategory 구분 안 함)
+  
+분리된 로그인 (새로운):
+  - 일반회원 전용: POST /api/auth/login/individual
+  - 법인회원 전용: POST /api/auth/login/corporate
+</code></pre>
+<hr>
+<h2 id="️-주의사항">⚠️ 주의사항</h2>
+<ol>
+<li>
+<p><strong>memberCategory 필드</strong></p>
+<ul>
+<li>모든 회원은 <code>INDIVIDUAL</code> 또는 <code>CORPORATE</code> 중 하나의 카테고리를 가짐</li>
+<li>회원가입 시 자동 설정됨</li>
+<li>변경 불가</li>
+</ul>
+</li>
+<li>
+<p><strong>중복 검사</strong></p>
+<ul>
+<li>통합 API: 모든 회원 중복 검사</li>
+<li>카테고리별 API: 해당 카테고리 내에서만 중복 검사</li>
+<li>예: <code>check-userid/individual</code>에서 사용 가능해도 <code>check-userid/corporate</code>에서는 중복일 수 있음</li>
+</ul>
+</li>
+<li>
+<p><strong>로그인 선택</strong></p>
+<ul>
+<li>클라이언트가 회원 타입을 알고 있으면 분리 API 사용 권장</li>
+<li>회원 타입을 모를 경우 통합 API 사용</li>
+</ul>
+</li>
+<li>
+<p><strong>법인회원 승인</strong></p>
+<ul>
+<li>법인회원은 <code>businessNumber</code>와 <code>businessRegistration</code> 파일 필수</li>
+<li>관리자 승인 전: <code>approvalStatus = PENDING</code></li>
+<li>관리자 승인 후: <code>approvalStatus = APPROVED</code> → 서비스 이용 가능</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h2 id="-curl-테스트-예제">🔗 cURL 테스트 예제</h2>
+<h3 id="일반회원-가입">일반회원 가입</h3>
+<pre><code class="language-bash">curl -X POST http://localhost:8089/api/auth/signup/individual \
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -d <span class="hljs-string">&#x27;{
+    &quot;userId&quot;: &quot;testuser001&quot;,
+    &quot;email&quot;: &quot;user@example.com&quot;,
+    &quot;password&quot;: &quot;SecurePass123!&quot;,
+    &quot;name&quot;: &quot;홍길동&quot;,
+    &quot;phone&quot;: &quot;010-1234-5678&quot;,
+    &quot;ageOver14Agreed&quot;: true,
+    &quot;termsAgreed&quot;: true,
+    &quot;privacyAgreed&quot;: true,
+    &quot;locationPolicyAgreed&quot;: true,
+    &quot;marketingEmailAgreed&quot;: true,
+    &quot;marketingSmsAgreed&quot;: false,
+    &quot;marketingPushAgreed&quot;: false
+  }&#x27;</span>
+</code></pre>
+<h3 id="일반회원-로그인">일반회원 로그인</h3>
+<pre><code class="language-bash">curl -X POST http://localhost:8089/api/auth/login/individual \
+  -H <span class="hljs-string">&quot;Content-Type: application/json&quot;</span> \
+  -d <span class="hljs-string">&#x27;{
+    &quot;userId&quot;: &quot;testuser001&quot;,
+    &quot;password&quot;: &quot;SecurePass123!&quot;
+  }&#x27;</span>
+</code></pre>
+<h3 id="아이디-중복-검사-일반회원">아이디 중복 검사 (일반회원)</h3>
+<pre><code class="language-bash">curl -X GET <span class="hljs-string">&quot;http://localhost:8089/api/auth/check-userid/individual?userId=testuser001&quot;</span>
+</code></pre>
+<h3 id="이메일-중복-검사-법인회원">이메일 중복 검사 (법인회원)</h3>
+<pre><code class="language-bash">curl -X GET <span class="hljs-string">&quot;http://localhost:8089/api/auth/check-email/corporate?email=corp@example.com&quot;</span>
+</code></pre>
+<h3 id="전화번호-중복-검사-일반회원">전화번호 중복 검사 (일반회원)</h3>
+<pre><code class="language-bash">curl -X GET <span class="hljs-string">&quot;http://localhost:8089/api/auth/check-phone/individual?phone=010-1234-5678&quot;</span>
+</code></pre>
+<hr>
+<h2 id="-버전-히스토리">📝 버전 히스토리</h2>
+<table>
+<thead>
+<tr>
+<th>버전</th>
+<th>날짜</th>
+<th>변경사항</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0</td>
+<td>2025-12-01</td>
+<td>초기 작성 - 회원 카테고리 분리 API 문서화</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="-지원">💬 지원</h2>
+<p>API 관련 문의 사항이 있으시면 백엔드 팀에 연락 주시기 바랍니다.</p>
+<p><strong>마지막 업데이트</strong>: 2025-12-01</p>
+
+            
+            
+        </body>
+        </html>
