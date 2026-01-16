@@ -379,7 +379,7 @@ code {
 </head>
 
 <body>
-    <h1 id="%EC%95%8C%EB%A6%BC%ED%86%A1-%EC%BD%94%EB%93%9C-%EC%82%AC%EC%9A%A9%EB%B2%95-%EA%B0%80%EC%9D%B4%EB%93%9C">알림톡 코드 사용법 가이드</h1>
+    <h1 id="%EC%95%8C%EB%A6%BC%ED%86%A1-%EC%82%AC%EC%9A%A9%EB%B2%95-%EA%B0%80%EC%9D%B4%EB%93%9C">알림톡 사용법 가이드</h1>
 <h2 id="%EA%B0%9C%EC%9A%94">개요</h2>
 <p>알림톡은 **CommonModule의 <code>IAlimtalkService</code>**를 통해 간단하게 발송할 수 있습니다.</p>
 <h3 id="%ED%8A%B9%EC%A7%95">특징</h3>
@@ -405,7 +405,7 @@ code {
     <span class="hljs-comment">// 나머지 코드...</span>
 }
 </div></code></pre>
-<h3 id="2%EF%B8%8F%E2%83%A3-%EC%95%8C%EB%A6%BC%ED%86%A1-%EB%B0%9C%EC%86%A1">2️⃣ 알림톡 발송</h3>
+<h3 id="2%EF%B8%8F%E2%83%A3-%EC%95%8C%EB%A6%BC%ED%86%A1-%EB%B0%9C%EC%86%A1-2%EA%B0%80%EC%A7%80-%EB%B0%A9%EB%B2%95%EC%A4%91-%EC%84%A0%ED%83%9D-%EC%82%AC%EC%9A%A9">2️⃣ 알림톡 발송 (2가지 방법중 선택 사용)</h3>
 <p><strong>방식 1️⃣: 편의 메서드</strong> - 더 간단하고 직관적</p>
 <pre class="hljs"><code><div>alimtalkService.send(
     memberId,                                   <span class="hljs-comment">// 회원 ID (또는 null)</span>
@@ -433,6 +433,8 @@ code {
 <hr>
 <h2 id="%ED%85%9C%ED%94%8C%EB%A6%BF-id-%EB%AA%A9%EB%A1%9D">템플릿 ID 목록</h2>
 <h3 id="%F0%9F%93%8B-%EB%93%B1%EB%A1%9D%EB%90%9C-%EC%95%8C%EB%A6%BC%ED%86%A1-%ED%85%9C%ED%94%8C%EB%A6%BF-%EC%B4%9D-24%EA%B0%9C">📋 등록된 알림톡 템플릿 (총 24개)</h3>
+<p><strong><code>탬플릿아이디</code></strong> | 필수로 포함할 파라미터들,<br>
+알림 메세지 내용 일부분</p>
 <h4 id="%ED%9A%8C%EC%9B%90-%EA%B4%80%EB%A0%A8-%ED%85%9C%ED%94%8C%EB%A6%BF---aph-%EA%B0%9C%EC%9D%B8%ED%9A%8C%EC%9B%90-8%EA%B0%9C">회원 관련 템플릿 - APH (개인회원, 8개)</h4>
 <p><strong><code>APH0001</code></strong> | 전화번호, 가입일시<br>
 [아마노파킹허브] 회원가입을 축하합니다! 든든한 파킹 파트너, 아마노파킹에 오신 것을...</p>
