@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>06-02_알림톡_코드_사용법.md</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+html,footer,header{
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Base16 Atelier Cave Light - Theme */
+/* by Bram de Haan (http://atelierbram.github.io/syntax-highlighting/atelier-schemes/cave) */
+/* Original Base16 color scheme by Chris Kempson (https://github.com/chriskempson/base16) */
+
+/* Atelier-Cave Comment */
+.hljs-comment,
+.hljs-quote {
+  color: #655f6d;
+}
+
+/* Atelier-Cave Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-tag,
+.hljs-name,
+.hljs-regexp,
+.hljs-link,
+.hljs-name,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #be4678;
+}
+
+/* Atelier-Cave Orange */
+.hljs-number,
+.hljs-meta,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+  color: #aa573c;
+}
+
+/* Atelier-Cave Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet {
+  color: #2a9292;
+}
+
+/* Atelier-Cave Blue */
+.hljs-title,
+.hljs-section {
+  color: #576ddb;
+}
+
+/* Atelier-Cave Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #955ae7;
+}
+
+.hljs-deletion,
+.hljs-addition {
+  color: #19171c;
+  display: inline-block;
+  width: 100%;
+}
+
+.hljs-deletion {
+  background-color: #be4678;
+}
+
+.hljs-addition {
+  background-color: #2a9292;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  background: #efecf4;
+  color: #585260;
+  padding: 0.5em;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+</style>
+
+<style>
+/*
+ * Custom MD PDF CSS
+ */
+html,footer,header{
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+
+ }
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///Users/sangyonghan/development/Amano/akc-b2c/R%3A%5C2.Travail%5C1.Enseignement%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css"><link rel="stylesheet" href="file:///Users/sangyonghan/development/Amano/akc-b2c/D%3A%5Crdaros%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css">
+</head>
+
+<body>
+    <h1 id="%EC%95%8C%EB%A6%BC%ED%86%A1-%EC%BD%94%EB%93%9C-%EC%82%AC%EC%9A%A9%EB%B2%95-%EA%B0%80%EC%9D%B4%EB%93%9C">알림톡 코드 사용법 가이드</h1>
+<h2 id="%EA%B0%9C%EC%9A%94">개요</h2>
+<p>알림톡은 **CommonModule의 <code>IAlimtalkService</code>**를 통해 간단하게 발송할 수 있습니다.</p>
+<h3 id="%ED%8A%B9%EC%A7%95">특징</h3>
+<ul>
+<li>✅ 간단한 메서드 호출만으로 발송 가능</li>
+<li>✅ 자동으로 발송 이력 저장</li>
+<li>✅ 템플릿 기반 발송으로 안정적</li>
+<li>✅ 서비스 간 의존성 최소화</li>
+</ul>
+<hr>
+<h2 id="%EA%B8%B0%EB%B3%B8-%EC%82%AC%EC%9A%A9%EB%B2%95">기본 사용법</h2>
+<h3 id="1%EF%B8%8F%E2%83%A3-service%EC%97%90-ialimtalkservice-%EC%A3%BC%EC%9E%85">1️⃣ Service에 IAlimtalkService 주입</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> com.akc.b2c.common.service.IAlimtalkService;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Service;
+
+<span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">YourService</span> </span>{
+    
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> IAlimtalkService alimtalkService;
+    
+    <span class="hljs-comment">// 나머지 코드...</span>
+}
+</div></code></pre>
+<h3 id="2%EF%B8%8F%E2%83%A3-%EC%95%8C%EB%A6%BC%ED%86%A1-%EB%B0%9C%EC%86%A1">2️⃣ 알림톡 발송</h3>
+<p><strong>방식 1️⃣: 편의 메서드</strong> - 더 간단하고 직관적</p>
+<pre class="hljs"><code><div>alimtalkService.send(
+    memberId,                                   <span class="hljs-comment">// 회원 ID (또는 null)</span>
+    <span class="hljs-string">"01012345678"</span>,                              <span class="hljs-comment">// 수신자 전화번호</span>
+    <span class="hljs-string">"APH0001"</span>,                                  <span class="hljs-comment">// 템플릿 ID</span>
+    Map.of(
+        <span class="hljs-string">"전화번호"</span>, <span class="hljs-string">"01012345678"</span>,
+        <span class="hljs-string">"가입일시"</span>, LocalDateTime.now().toString()
+    )
+);
+</div></code></pre>
+<p><strong>방식 2️⃣: AlimtalkRequest 빌더</strong> - 더 명확하고 확장성 좋음</p>
+<pre class="hljs"><code><div>alimtalkService.send(
+    AlimtalkRequest.builder()
+        .memberId(<span class="hljs-number">1L</span>)                           <span class="hljs-comment">// 회원 ID</span>
+        .phoneNumber(<span class="hljs-string">"01012345678"</span>)             <span class="hljs-comment">// 수신자 전화번호</span>
+        .templateId(<span class="hljs-string">"APH0001"</span>)                  <span class="hljs-comment">// 템플릿 ID</span>
+        .templateParams(Map.of(
+            <span class="hljs-string">"전화번호"</span>, <span class="hljs-string">"01012345678"</span>,
+            <span class="hljs-string">"가입일시"</span>, LocalDateTime.now().toString()
+        ))
+        .build()
+);
+</div></code></pre>
+<hr>
+<h2 id="%ED%85%9C%ED%94%8C%EB%A6%BF-id-%EB%AA%A9%EB%A1%9D">템플릿 ID 목록</h2>
+<h3 id="%F0%9F%93%8B-%EB%93%B1%EB%A1%9D%EB%90%9C-%EC%95%8C%EB%A6%BC%ED%86%A1-%ED%85%9C%ED%94%8C%EB%A6%BF-%EC%B4%9D-24%EA%B0%9C">📋 등록된 알림톡 템플릿 (총 24개)</h3>
+<h4 id="%ED%9A%8C%EC%9B%90-%EA%B4%80%EB%A0%A8-%ED%85%9C%ED%94%8C%EB%A6%BF---aph-%EA%B0%9C%EC%9D%B8%ED%9A%8C%EC%9B%90-8%EA%B0%9C">회원 관련 템플릿 - APH (개인회원, 8개)</h4>
+<p><strong><code>APH0001</code></strong> | 전화번호, 가입일시<br>
+[아마노파킹허브] 회원가입을 축하합니다! 든든한 파킹 파트너, 아마노파킹에 오신 것을...</p>
+<p><strong><code>APH0002</code></strong> | 상품명, 차량번호, 주차장명, 이용날짜, 이용가능시간, 결제일시, 결제금액, 주의안내<br>
+[아마노파킹허브] 상품구매 완료 주차장 이용권을 구매하셨습니다. [구매내역] 상품명...</p>
+<p><strong><code>APH0003</code></strong> | 상품명, 차량번호, 주차장명, 이용날짜, 이용가능시간, 결제일시, 결제금액, 환불정책<br>
+[아마노파킹허브] 상품 환불 승인 안내 요청하신 상품의 환불이 승인되었습니다. 환불은...</p>
+<p><strong><code>APH0004</code></strong> | 거절사유, 상품명, 차량번호, 주차장명, 이용날짜, 이용가능시간, 결제일시, 결제금액, 환불정책<br>
+[아마노파킹허브] 상품 환불 거절 안내 [거절사유] [구매내역] 상품명: #{상품명}...</p>
+<p><strong><code>APH0005</code></strong> | 취소사유, 상품명, 차량번호, 주차장명, 이용날짜, 이용가능시간, 결제일시, 결제금액, 환불정책<br>
+[아마노파킹허브] 강제 취소사유 안내 [취소사유] [구매내역] 상품명: #{상품명} 차량번호...</p>
+<p><strong><code>APH0006</code></strong> | 상품명, 차량번호, 주차장명, 이용날짜<br>
+[아마노파킹허브] 상품 만료 전 안내 이용 중인 정기권이 7일 후 만료될 예정입니다.</p>
+<p><strong><code>APH0007</code></strong> | 결제실패사유, 상품명, 사용종료일, 주차장명, 차량번호<br>
+[아마노파킹허브] 자동연장 - 만료 7일 전 안내! 정기권 사용 기간이 곧 만료됩니다.</p>
+<p><strong><code>APH0008</code></strong> | 주차장명, 동/호수<br>
+아마노파킹 허브 [동/호수 사용자 승인 안내] 신청하신 주차장의 내부정기권 사용자 승인이...</p>
+<h4 id="%EC%9D%B8%EC%A6%9D%EA%B3%84%EC%A0%95-%EA%B4%80%EB%A0%A8-%ED%85%9C%ED%94%8C%EB%A6%BF---apha-5%EA%B0%9C">인증/계정 관련 템플릿 - APHA (5개)</h4>
+<p><strong><code>APHA0001</code></strong> | 유저타입, 주문번호, 상품명, 상품유형, 신청구분, 차량번호, 신청차량수, 주차장명, 회사명<br>
+아마노파킹 허브(관리자) 새로운 상품 취소가 발생 했습니다. 유저타입: #{유저타입}...</p>
+<p><strong><code>APHA0002</code></strong> | 유저타입, 주문번호, 상품명, 상품유형, 신청구분, 차량번호, 신청차량수, 주차장명, 회사명<br>
+아마노파킹 허브(관리자) 새로운 환불요청건이 대기중 입니다. 유저타입: #{유저타입}...</p>
+<p><strong><code>APHA0003</code></strong> | 유저타입, 주차장명, 동/호수, 회사명, 아이디<br>
+아마노파킹 허브(관리자) 새로운 [동/호수 승인 요청] 요청이 등록되었습니다. 유저타입...</p>
+<p><strong><code>APHA0004</code></strong> | 유저타입, 주문번호, 상품명, 상품유형, 신청구분, 차량번호, 신청차량수, 주차장명, 회사명<br>
+아마노파킹 허브(관리자) 새로운 장바구니 승인요청건이 등록 되었습니다. 유저타입...</p>
+<p><strong><code>APHA0005</code></strong> | 유저타입, 주문번호, 상품명, 기존차량번호, 변경차량번호, 주차장명, 회사명<br>
+[관리자아마노파킹]차량변경 신청 새로운 차량 변경 신청건 입니다. 유저타입: #{유저타입}...</p>
+<h4 id="%EB%B2%95%EC%9D%B8%ED%9A%8C%EC%9B%90-%EA%B4%80%EB%A0%A8-%ED%85%9C%ED%94%8C%EB%A6%BF---aphb-11%EA%B0%9C">법인회원 관련 템플릿 - APHB (11개)</h4>
+<p><strong><code>APHB0001</code></strong> | 법인명, 아이디, 가입일시<br>
+아마노 파킹 허브(기업전용) 법인 회원가입을 환영합니다! 귀사의 든든한 파킹 파트너,...</p>
+<p><strong><code>APHB0002</code></strong> | 상품명, 차량번호, 신청차량수, 주차장명, 승인요청일<br>
+아마노 파킹 허브(기업전용) [장바구니 상품 승인 안내] 요청하신 상품이 승인되었습니다....</p>
+<p><strong><code>APHB0003</code></strong> | 거절사유, 상품명, 차량번호, 신청차량수, 주차장명, 승인요청일<br>
+아마노 파킹 허브(기업전용) [장바구니 상품 승인 거절 안내] 요청하신 상품의 승인이...</p>
+<p><strong><code>APHB0004</code></strong> | 주차장명, 동/호수<br>
+아마노파킹 허브(기업전용) [동/호수 사용자 승인 안내] 신청하신 주차장의 내부정기권...</p>
+<p><strong><code>APHB0005</code></strong> | 주차장명, 동/호수, 거절사유<br>
+아마노파킹 허브(기업전용) [동/호수 사용자 거절 사유 안내] 신청하신 주차장에 내부정기권...</p>
+<p><strong><code>APHB0006</code></strong> | 상품명, 기존차량번호, 변경차량번호, 주차장명<br>
+아마노파킹 허브(기업전용) [차량변경 거절 사유 안내] 신청하신 차량번호 변경이 거절되었습니다....</p>
+<p><strong><code>APHB0007</code></strong> | 상품명, 차량번호, 차량신청대수, 주차장명, 이용날짜, 이용가능시간, 결제일시, 결제금액, 환불정책<br>
+아마노파킹 허브(기업전용) [상품 환불 승인 안내] 요청하신 상품의 환불이 승인되었습니다....</p>
+<p><strong><code>APHB0008</code></strong> | 거절사유, 상품명, 차량번호, 차량신청대수, 주차장명, 이용날짜, 이용가능시간, 결제일시, 결제금액, 환불정책<br>
+아마노파킹 허브(기업전용) [상품 환불 거절 안내] #{거절사유} [구매내역] 상품명...</p>
+<p><strong><code>APHB0009</code></strong> | 취소사유, 상품명, 차량번호, 차량신청대수, 주차장명, 이용날짜, 이용가능시간, 결제일시, 결제금액, 환불정책<br>
+아마노파킹 허브(기업전용) [강제 취소사유 안내] #{취소사유} [구매내역] 상품명...</p>
+<p><strong><code>APHB0010</code></strong> | 상품명, 사용종료일, 주차장명, 차량번호, 차량신청대수<br>
+아마노파킹 허브(기업전용) [상품 만료 전 안내] 이용 중인 정기권이 3일 후 만료될...</p>
+<p><strong><code>APHB0011</code></strong> | 결제실패사유, 상품명, 사용종료일, 주차장명, 차량번호, 차량신청대수<br>
+아마노파킹 허브(기업전용) [자동연장 결제 실패 안내] 정기권 사용 기간이 곧 만료됩니다.</p>
+<hr>
+<h2 id="%EC%BD%94%EB%93%9C-%EC%98%88%EC%8B%9C">코드 예시</h2>
+<h3 id="%EC%98%88%EC%8B%9C-1-%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85-%EC%99%84%EB%A3%8C-%EC%95%8C%EB%A6%BC">예시 1: 회원가입 완료 알림</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AuthService</span> </span>{
+    
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> IAlimtalkService alimtalkService;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> UserResponse <span class="hljs-title">registerUser</span><span class="hljs-params">(UserRegisterRequest request)</span> </span>{
+        <span class="hljs-comment">// 회원가입 로직</span>
+        User newUser = createUser(request);
+        
+        <span class="hljs-comment">// 알림톡 발송</span>
+        <span class="hljs-keyword">try</span> {
+            alimtalkService.send(
+                newUser.getId(),
+                newUser.getPhoneNumber(),
+                <span class="hljs-string">"APH0001"</span>,                          <span class="hljs-comment">// 개인회원 가입 완료 템플릿</span>
+                Map.of(
+                    <span class="hljs-string">"전화번호"</span>, newUser.getPhoneNumber(),
+                    <span class="hljs-string">"가입일시"</span>, LocalDateTime.now().toString()
+                )
+            );
+        } <span class="hljs-keyword">catch</span> (Exception e) {
+            log.error(<span class="hljs-string">"알림톡 발송 실패"</span>, e);
+            <span class="hljs-comment">// 알림톡 실패해도 회원가입은 진행</span>
+        }
+        
+        <span class="hljs-keyword">return</span> UserResponse.from(newUser);
+    }
+}
+</div></code></pre>
+<h3 id="%EC%98%88%EC%8B%9C-2-%EC%98%88%EC%95%BD-%ED%99%95%EC%A0%95-%EC%95%8C%EB%A6%BC">예시 2: 예약 확정 알림</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ReservationService</span> </span>{
+    
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> IAlimtalkService alimtalkService;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> ReservationResponse <span class="hljs-title">confirmReservation</span><span class="hljs-params">(Long reservationId)</span> </span>{
+        Reservation reservation = getReservationById(reservationId);
+        
+        <span class="hljs-comment">// 예약 상태 업데이트</span>
+        reservation.setStatus(ReservationStatus.CONFIRMED);
+        save(reservation);
+        
+        <span class="hljs-comment">// 알림톡 발송</span>
+        alimtalkService.send(
+            reservation.getMemberId(),
+            reservation.getMemberPhone(),
+            <span class="hljs-string">"APH0002"</span>,              <span class="hljs-comment">// 상품구매 완료 템플릿</span>
+            Map.of(
+                <span class="hljs-string">"상품명"</span>, reservation.getParkingLotName(),
+                <span class="hljs-string">"차량번호"</span>, reservation.getVehicleNo(),
+                <span class="hljs-string">"주차장명"</span>, reservation.getParkingLotName(),
+                <span class="hljs-string">"이용날짜"</span>, reservation.getUsageDate().toString(),
+                <span class="hljs-string">"결제금액"</span>, reservation.getPrice().toString()
+            )
+        );
+        
+        <span class="hljs-keyword">return</span> ReservationResponse.from(reservation);
+    }
+}
+</div></code></pre>
+<h3 id="%EC%98%88%EC%8B%9C-3-%EA%B2%B0%EC%A0%9C-%EC%99%84%EB%A3%8C-%EC%95%8C%EB%A6%BC">예시 3: 결제 완료 알림</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PaymentService</span> </span>{
+    
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> IAlimtalkService alimtalkService;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> PaymentResponse <span class="hljs-title">processPayment</span><span class="hljs-params">(PaymentRequest request)</span> </span>{
+        <span class="hljs-comment">// 결제 처리</span>
+        Payment payment = createPayment(request);
+        payment.setStatus(PaymentStatus.COMPLETED);
+        save(payment);
+        
+        <span class="hljs-comment">// 알림톡 발송</span>
+        alimtalkService.send(
+            payment.getMemberId(),
+            payment.getMemberPhone(),
+            <span class="hljs-string">"APP0002"</span>,               <span class="hljs-comment">// 결제 완료 안내 템플릿</span>
+            Map.of(
+                <span class="hljs-string">"주차장명"</span>, payment.getParkingLotName(),
+                <span class="hljs-string">"금액"</span>, payment.getAmount().toString(),
+                <span class="hljs-string">"결제일시"</span>, payment.getPaymentTime().toString()
+            )
+        );
+        
+        <span class="hljs-keyword">return</span> PaymentResponse.from(payment);
+    }
+}
+</div></code></pre>
+<h3 id="%EC%98%88%EC%8B%9C-4-%EC%A0%84%ED%99%94%EB%B2%88%ED%98%B8-%EB%B3%80%EA%B2%BD-%EC%95%8C%EB%A6%BC">예시 4: 전화번호 변경 알림</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MemberService</span> </span>{
+    
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">private</span> IAlimtalkService alimtalkService;
+    
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">updatePhoneNumber</span><span class="hljs-params">(Long memberId, String newPhoneNumber)</span> </span>{
+        Member member = getMemberById(memberId);
+        String oldPhoneNumber = member.getPhoneNumber();
+        
+        <span class="hljs-comment">// 전화번호 업데이트</span>
+        member.setPhoneNumber(newPhoneNumber);
+        save(member);
+        
+        <span class="hljs-comment">// 알림톡 발송 (기존 전화번호로)</span>
+        alimtalkService.send(
+            memberId,
+            oldPhoneNumber,
+            <span class="hljs-string">"APH0002"</span>,            <span class="hljs-comment">// 전화번호 변경 안내 템플릿</span>
+            Map.of(
+                <span class="hljs-string">"기존전화번호"</span>, oldPhoneNumber,
+                <span class="hljs-string">"신규전화번호"</span>, newPhoneNumber,
+                <span class="hljs-string">"변경일시"</span>, LocalDateTime.now().toString()
+            )
+        );
+    }
+}
+</div></code></pre>
+<hr>
+<h2 id="%EC%9E%90%EC%A3%BC-%EC%82%AC%EC%9A%A9%ED%95%98%EB%8A%94-%ED%8C%A8%ED%84%B4">자주 사용하는 패턴</h2>
+<h3 id="%ED%8C%A8%ED%84%B4-1-%EB%B9%84%EB%8F%99%EA%B8%B0-%EB%B0%9C%EC%86%A1-%EA%B6%8C%EC%9E%A5">패턴 1: 비동기 발송 (권장)</h3>
+<pre class="hljs"><code><div><span class="hljs-meta">@Async</span>
+<span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendAlimtalkAsync</span><span class="hljs-params">(Long memberId, String phoneNumber, String templateId, Map&lt;String, String&gt; params)</span> </span>{
+    <span class="hljs-keyword">try</span> {
+        alimtalkService.send(memberId, phoneNumber, templateId, params);
+    } <span class="hljs-keyword">catch</span> (Exception e) {
+        log.error(<span class="hljs-string">"비동기 알림톡 발송 실패 - Phone: {}, Template: {}"</span>, phoneNumber, templateId, e);
+    }
+}
+
+<span class="hljs-comment">// 사용</span>
+sendAlimtalkAsync(
+    member.getId(),
+    member.getPhoneNumber(),
+    <span class="hljs-string">"APH0001"</span>,
+    Map.of(<span class="hljs-string">"전화번호"</span>, member.getPhoneNumber(), <span class="hljs-string">"가입일시"</span>, LocalDateTime.now().toString())
+);
+</div></code></pre>
+<h3 id="%ED%8C%A8%ED%84%B4-2-%EC%97%AC%EB%9F%AC-%EB%AA%85%EC%97%90%EA%B2%8C-%EB%B0%9C%EC%86%A1">패턴 2: 여러 명에게 발송</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendBulkAlimtalk</span><span class="hljs-params">(List&lt;MemberInfo&gt; members, String templateId, Map&lt;String, String&gt; params)</span> </span>{
+    <span class="hljs-keyword">for</span> (MemberInfo member : members) {
+        <span class="hljs-keyword">try</span> {
+            alimtalkService.send(
+                member.getId(),
+                member.getPhoneNumber(),
+                templateId,
+                params
+            );
+        } <span class="hljs-keyword">catch</span> (Exception e) {
+            log.warn(<span class="hljs-string">"알림톡 발송 실패: {} ({})"</span>, member.getId(), member.getPhoneNumber(), e);
+        }
+    }
+}
+
+<span class="hljs-comment">// 사용: 법인회원 신청 목록에 알림 발송</span>
+List&lt;MemberInfo&gt; newMembers = memberRepository.findNewCorporateMembers(LocalDate.now());
+sendBulkAlimtalk(newMembers, <span class="hljs-string">"APHB0001"</span>, <span class="hljs-keyword">null</span>);
+</div></code></pre>
+<h3 id="%ED%8C%A8%ED%84%B4-3-%EC%A1%B0%EA%B1%B4%EB%B6%80-%EB%B0%9C%EC%86%A1">패턴 3: 조건부 발송</h3>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">sendConditionalAlimtalk</span><span class="hljs-params">(Member member, String templateId, Map&lt;String, String&gt; params)</span> </span>{
+    <span class="hljs-comment">// 알림 수신 동의 확인</span>
+    <span class="hljs-keyword">if</span> (member.isAlimtalkNotificationEnabled()) {
+        alimtalkService.send(
+            member.getId(),
+            member.getPhoneNumber(),
+            templateId,
+            params
+        );
+    } <span class="hljs-keyword">else</span> {
+        log.info(<span class="hljs-string">"회원 {} - 알림톡 수신 비동의"</span>, member.getId());
+    }
+}
+
+<span class="hljs-comment">// 사용: 예약 확정 시 회원 수신 의사 확인 후 발송</span>
+Reservation reservation = confirmReservation(reservationId);
+sendConditionalAlimtalk(
+    reservation.getMember(),
+    <span class="hljs-string">"APP0001"</span>,
+    Map.of(<span class="hljs-string">"예약번호"</span>, reservation.getNo(), <span class="hljs-string">"주차장명"</span>, reservation.getParkingLot().getName())
+);
+</div></code></pre>
+<hr>
+
+</body>
+
+</html>
