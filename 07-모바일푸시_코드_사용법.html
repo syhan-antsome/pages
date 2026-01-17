@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>07-모바일푸시_코드_사용법.md</title>
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+    
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+html,footer,header{
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Base16 Atelier Cave Light - Theme */
+/* by Bram de Haan (http://atelierbram.github.io/syntax-highlighting/atelier-schemes/cave) */
+/* Original Base16 color scheme by Chris Kempson (https://github.com/chriskempson/base16) */
+
+/* Atelier-Cave Comment */
+.hljs-comment,
+.hljs-quote {
+  color: #655f6d;
+}
+
+/* Atelier-Cave Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-attribute,
+.hljs-tag,
+.hljs-name,
+.hljs-regexp,
+.hljs-link,
+.hljs-name,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class {
+  color: #be4678;
+}
+
+/* Atelier-Cave Orange */
+.hljs-number,
+.hljs-meta,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params {
+  color: #aa573c;
+}
+
+/* Atelier-Cave Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet {
+  color: #2a9292;
+}
+
+/* Atelier-Cave Blue */
+.hljs-title,
+.hljs-section {
+  color: #576ddb;
+}
+
+/* Atelier-Cave Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+  color: #955ae7;
+}
+
+.hljs-deletion,
+.hljs-addition {
+  color: #19171c;
+  display: inline-block;
+  width: 100%;
+}
+
+.hljs-deletion {
+  background-color: #be4678;
+}
+
+.hljs-addition {
+  background-color: #2a9292;
+}
+
+.hljs {
+  display: block;
+  overflow-x: auto;
+  background: #efecf4;
+  color: #585260;
+  padding: 0.5em;
+}
+
+.hljs-emphasis {
+  font-style: italic;
+}
+
+.hljs-strong {
+  font-weight: bold;
+}
+
+</style>
+
+<style>
+/*
+ * Custom MD PDF CSS
+ */
+html,footer,header{
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+
+ }
+body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+<link rel="stylesheet" href="file:///Users/sangyonghan/development/Amano/akc-b2c/R%3A%5C2.Travail%5C1.Enseignement%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css"><link rel="stylesheet" href="file:///Users/sangyonghan/development/Amano/akc-b2c/D%3A%5Crdaros%5CCours%5C_1.Outils%5C2.Developpement%5C1.SCSS%5Cmain.css" type="text/css">
+</head>
+
+<body>
+    <h1 id="%F0%9F%94%94-%EB%AA%A8%EB%B0%94%EC%9D%BC-%ED%91%B8%EC%8B%9C-%EC%95%8C%EB%A6%BC-%EC%82%AC%EC%9A%A9-%EA%B0%80%EC%9D%B4%EB%93%9C">🔔 모바일 푸시 알림 사용 가이드</h1>
+<hr>
+<h3 id="1-%EC%9D%98%EC%A1%B4%EC%84%B1-%EC%A3%BC%EC%9E%85">1. 의존성 주입</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> com.akc.b2c.common.push.service.IPushNotificationService;
+<span class="hljs-keyword">import</span> com.akc.b2c.common.push.dto.PushNotificationResponse;
+<span class="hljs-keyword">import</span> lombok.RequiredArgsConstructor;
+<span class="hljs-keyword">import</span> lombok.extern.slf4j.Slf4j;
+<span class="hljs-keyword">import</span> org.springframework.stereotype.Service;
+
+<span class="hljs-meta">@Slf</span>4j
+<span class="hljs-meta">@Service</span>
+<span class="hljs-meta">@RequiredArgsConstructor</span>
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">YourService</span> </span>{
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> IPushNotificationService pushNotificationService;
+}
+</div></code></pre>
+<h3 id="2-%ED%91%B8%EC%8B%9C-%EC%A0%84%EC%86%A1">2. 푸시 전송</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// 회원 ID만 알면 끝!</span>
+PushNotificationResponse response = pushNotificationService.sendByMemberId(
+    <span class="hljs-number">222L</span>,  <span class="hljs-comment">// 회원 ID</span>
+    <span class="hljs-string">"주문 확정"</span>,
+    <span class="hljs-string">"주문번호 #12345가 확정되었습니다"</span>,
+    <span class="hljs-keyword">null</span>
+);
+</div></code></pre>
+<h3 id="3-%EA%B2%B0%EA%B3%BC-%ED%99%95%EC%9D%B8">3. 결과 확인</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">if</span> (response.isSuccess()) {
+    log.info(<span class="hljs-string">"전송 성공: {}"</span>, response.getMessageId());
+}
+</div></code></pre>
+<hr>
+<h2 id="%F0%9F%93%9A-%EA%B5%AC%ED%98%84%EB%90%9C-8%EA%B0%80%EC%A7%80-api-%EC%A0%84%EC%B2%B4-%EC%99%84%EB%A3%8C">📚 구현된 8가지 API (전체 완료!)</h2>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>사용 시점</th>
+<th>커버리지</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>#1 Token 단일</strong></td>
+<td>특정 디바이스 지정 전송</td>
+<td>3%</td>
+</tr>
+<tr>
+<td><strong>#2 Token 다수</strong></td>
+<td>여러 디바이스 동시 전송</td>
+<td>2%</td>
+</tr>
+<tr>
+<td><strong>#3 Token + 템플릿</strong></td>
+<td>템플릿 기반 단일 전송</td>
+<td>3%</td>
+</tr>
+<tr>
+<td><strong>#4 Token 다수 + 템플릿</strong></td>
+<td>템플릿 멀티캐스트</td>
+<td>2%</td>
+</tr>
+<tr>
+<td><strong>#5 회원 ID 단일</strong> ⭐</td>
+<td>개인화 알림 (가장 많이 사용)</td>
+<td>50%</td>
+</tr>
+<tr>
+<td><strong>#6 회원 ID 다수</strong></td>
+<td>대량 발송 (공지, 이벤트)</td>
+<td>20%</td>
+</tr>
+<tr>
+<td><strong>#7 회원 ID 단일 + 템플릿</strong></td>
+<td>템플릿 개인화 알림</td>
+<td>15%</td>
+</tr>
+<tr>
+<td><strong>#8 회원 ID 다수 + 템플릿</strong></td>
+<td>템플릿 대량 발송</td>
+<td>5%</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2 id="1%EF%B8%8F%E2%83%A3-token-%EB%8B%A8%EC%9D%BC-%EC%A0%84%EC%86%A1">1️⃣ Token 단일 전송</h2>
+<h3 id="java-%EC%BD%94%EB%93%9C">Java 코드</h3>
+<pre class="hljs"><code><div>PushNotificationRequest request = PushNotificationRequest.builder()
+    .deviceToken(<span class="hljs-string">"dpanRX1ZSkw...FCM_토큰"</span>)
+    .title(<span class="hljs-string">"주문 확정"</span>)
+    .body(<span class="hljs-string">"주문번호 #12345가 확정되었습니다"</span>)
+    .data(Map.of(
+        <span class="hljs-string">"orderId"</span>, <span class="hljs-string">"12345"</span>,
+        <span class="hljs-string">"deepLink"</span>, <span class="hljs-string">"amano://order/12345"</span>
+    ))
+    .build();
+
+PushNotificationResponse response = pushNotificationService.send(request);
+</div></code></pre>
+<h3 id="rest-api-test-%EC%9A%A9%EB%8F%84%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%A0%EC%88%98-%EC%9E%88%EC%9D%8C">REST API (test 용도로 사용할수 있음)</h3>
+<pre class="hljs"><code><div>POST /api/notifications/push/send?memberId=222
+Content-Type: application/json
+
+{
+  <span class="hljs-string">"deviceToken"</span>: <span class="hljs-string">"dpanRX1ZSkw...FCM_토큰"</span>,
+  <span class="hljs-string">"title"</span>: <span class="hljs-string">"주문 확정"</span>,
+  <span class="hljs-string">"body"</span>: <span class="hljs-string">"주문번호 #12345가 확정되었습니다"</span>,
+  <span class="hljs-string">"data"</span>: {
+    <span class="hljs-string">"orderId"</span>: <span class="hljs-string">"12345"</span>,
+    <span class="hljs-string">"deepLink"</span>: <span class="hljs-string">"amano://order/12345"</span>
+  }
+}
+</div></code></pre>
+<hr>
+<h2 id="2%EF%B8%8F%E2%83%A3-token-%EB%8B%A4%EC%88%98-%EC%A0%84%EC%86%A1-%EB%A9%80%ED%8B%B0%EC%BA%90%EC%8A%A4%ED%8A%B8">2️⃣ Token 다수 전송 (멀티캐스트)</h2>
+<h3 id="java-%EC%BD%94%EB%93%9C">Java 코드</h3>
+<pre class="hljs"><code><div>PushNotificationRequest request = PushNotificationRequest.builder()
+    .deviceTokens(List.of(<span class="hljs-string">"token1"</span>, <span class="hljs-string">"token2"</span>, <span class="hljs-string">"token3"</span>))
+    .title(<span class="hljs-string">"시스템 점검 안내"</span>)
+    .body(<span class="hljs-string">"오늘 밤 11시부터 점검이 진행됩니다"</span>)
+    .build();
+
+PushNotificationResponse response = pushNotificationService.send(request);
+log.info(<span class="hljs-string">"성공: {}, 실패: {}"</span>, response.getSuccessCount(), response.getFailureCount());
+</div></code></pre>
+<h3 id="rest-api-test-%EC%9A%A9%EB%8F%84%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%A0%EC%88%98-%EC%9E%88%EC%9D%8C">REST API (test 용도로 사용할수 있음)</h3>
+<pre class="hljs"><code><div>POST /api/notifications/push/send-multicast?memberId=222
+Content-Type: application/json
+
+{
+  <span class="hljs-string">"deviceTokens"</span>: [<span class="hljs-string">"token1"</span>, <span class="hljs-string">"token2"</span>, <span class="hljs-string">"token3"</span>],
+  <span class="hljs-string">"title"</span>: <span class="hljs-string">"시스템 점검 안내"</span>,
+  <span class="hljs-string">"body"</span>: <span class="hljs-string">"오늘 밤 11시부터 점검이 진행됩니다"</span>
+}
+</div></code></pre>
+<hr>
+<h2 id="3%EF%B8%8F%E2%83%A3-token--%ED%85%9C%ED%94%8C%EB%A6%BF-%EC%A0%84%EC%86%A1">3️⃣ Token + 템플릿 전송</h2>
+<p><strong>특징</strong>:</p>
+<ul>
+<li>✅ title, body, data 모두 변수 치환 가능</li>
+<li>✅ <code>${변수명}</code> 형태로 사용</li>
+<li>✅ 일관된 메시지 관리 용이</li>
+</ul>
+<h3 id="java-%EC%BD%94%EB%93%9C">Java 코드</h3>
+<pre class="hljs"><code><div>Map&lt;String, String&gt; params = Map.of(
+    <span class="hljs-string">"orderNo"</span>, <span class="hljs-string">"20260117-001"</span>,
+    <span class="hljs-string">"orderDate"</span>, <span class="hljs-string">"2026-01-17"</span>,
+    <span class="hljs-string">"amount"</span>, <span class="hljs-string">"50,000"</span>
+);
+
+PushNotificationResponse response = pushNotificationService.sendByTemplate(
+    <span class="hljs-string">"dpanRX1ZSkw...FCM_토큰"</span>,
+    <span class="hljs-string">"PUSH0001"</span>,  <span class="hljs-comment">// 템플릿 ID</span>
+    params
+);
+</div></code></pre>
+<h3 id="rest-api-test-%EC%9A%A9%EB%8F%84%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%A0%EC%88%98-%EC%9E%88%EC%9D%8C">REST API (test 용도로 사용할수 있음)</h3>
+<pre class="hljs"><code><div>POST /api/notifications/push/send-by-template?memberId=222
+Content-Type: application/json
+
+{
+  <span class="hljs-string">"deviceToken"</span>: <span class="hljs-string">"dpanRX1ZSkw...FCM_토큰"</span>,
+  <span class="hljs-string">"templateId"</span>: <span class="hljs-string">"PUSH0001"</span>,
+  <span class="hljs-string">"params"</span>: {
+    <span class="hljs-string">"orderNo"</span>: <span class="hljs-string">"20260117-001"</span>,
+    <span class="hljs-string">"orderDate"</span>: <span class="hljs-string">"2026-01-17"</span>,
+    <span class="hljs-string">"amount"</span>: <span class="hljs-string">"50,000"</span>
+  }
+}
+</div></code></pre>
+<h3 id="%ED%85%9C%ED%94%8C%EB%A6%BF-%EC%98%88%EC%8B%9C-%EC%8B%A4%EC%A0%9C-%EB%8D%B0%EC%9D%B4%ED%83%80-%EC%95%84%EB%8B%98">템플릿 예시  (실제 데이타 아님)</h3>
+<table>
+<thead>
+<tr>
+<th>템플릿 ID</th>
+<th>제목</th>
+<th>내용</th>
+<th>파라미터</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PUSH0001</td>
+<td>주문 확정</td>
+<td>주문번호 ${orderNo}가 확정되었습니다</td>
+<td>orderNo, amount</td>
+</tr>
+<tr>
+<td>PUSH0002</td>
+<td>이벤트 알림</td>
+<td>${eventName} - ${discount} 할인!</td>
+<td>eventName, discount</td>
+</tr>
+<tr>
+<td>PUSH0003</td>
+<td>결제 완료</td>
+<td>${amount}원 결제가 완료되었습니다</td>
+<td>amount, method</td>
+</tr>
+</tbody>
+</table>
+<h3 id="%F0%9F%94%A5-%EB%B3%80%EC%88%98-%EC%B9%98%ED%99%98-%EC%83%81%EC%84%B8-%EC%98%88%EC%8B%9C">🔥 변수 치환 상세 예시</h3>
+<p>**템플릿 (PUSH0001) DB 저장 내용 **:</p>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">"templateId"</span>: <span class="hljs-string">"PUSH0001"</span>,
+  <span class="hljs-attr">"title"</span>: <span class="hljs-string">"주문 확정"</span>,
+  <span class="hljs-attr">"body"</span>: <span class="hljs-string">"주문번호 ${orderNo}가 확정되었습니다. 금액: ${amount}원"</span>,
+  <span class="hljs-attr">"dataKeys"</span>: {
+    <span class="hljs-attr">"orderId"</span>: <span class="hljs-string">"${orderNo}"</span>,
+    <span class="hljs-attr">"deepLink"</span>: <span class="hljs-string">"amano://order/${orderNo}"</span>,
+    <span class="hljs-attr">"amount"</span>: <span class="hljs-string">"${amount}"</span>
+  }
+}
+</div></code></pre>
+<p><strong>전송 코드</strong>:</p>
+<pre class="hljs"><code><div>Map&lt;String, String&gt; params = Map.of(
+    <span class="hljs-string">"orderNo"</span>, <span class="hljs-string">"20260117-001"</span>,
+    <span class="hljs-string">"amount"</span>, <span class="hljs-string">"50,000"</span>
+);
+
+pushNotificationService.sendByTemplate(token, <span class="hljs-string">"PUSH0001"</span>, params);
+</div></code></pre>
+<p><strong>실제 전송되는 메시지</strong>:</p>
+<pre class="hljs"><code><div>{
+  <span class="hljs-attr">"title"</span>: <span class="hljs-string">"주문 확정"</span>,
+  <span class="hljs-attr">"body"</span>: <span class="hljs-string">"주문번호 20260117-001가 확정되었습니다. 금액: 50,000원"</span>,
+  <span class="hljs-attr">"data"</span>: {
+    <span class="hljs-attr">"orderId"</span>: <span class="hljs-string">"20260117-001"</span>,
+    <span class="hljs-attr">"deepLink"</span>: <span class="hljs-string">"amano://order/20260117-001"</span>,
+    <span class="hljs-attr">"amount"</span>: <span class="hljs-string">"50,000"</span>
+  }
+}
+</div></code></pre>
+<blockquote>
+<p>💡 <strong>중요</strong>: title, body뿐만 아니라 <strong>data 필드의 값들도 모두 변수 치환</strong>됩니다!</p>
+</blockquote>
+<hr>
+<h2 id="4%EF%B8%8F%E2%83%A3-token-%EB%8B%A4%EC%88%98--%ED%85%9C%ED%94%8C%EB%A6%BF-%EC%A0%84%EC%86%A1">4️⃣ Token 다수 + 템플릿 전송</h2>
+<p><strong>언제?</strong> 특정 디바이스 그룹에 템플릿 메시지 전송</p>
+<h3 id="java-%EC%BD%94%EB%93%9C">Java 코드</h3>
+<pre class="hljs"><code><div>List&lt;String&gt; deviceTokens = List.of(<span class="hljs-string">"token1"</span>, <span class="hljs-string">"token2"</span>, <span class="hljs-string">"token3"</span>);
+Map&lt;String, String&gt; params = Map.of(
+    <span class="hljs-string">"eventName"</span>, <span class="hljs-string">"VIP 전용 이벤트"</span>,
+    <span class="hljs-string">"discount"</span>, <span class="hljs-string">"30%"</span>
+);
+
+PushNotificationResponse response = pushNotificationService.sendMulticastByTemplate(
+    deviceTokens,
+    <span class="hljs-string">"PUSH0002"</span>,  <span class="hljs-comment">// 템플릿 ID</span>
+    params
+);
+</div></code></pre>
+<h3 id="rest-api-test-%EC%9A%A9%EB%8F%84%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%A0%EC%88%98-%EC%9E%88%EC%9D%8C">REST API (test 용도로 사용할수 있음)</h3>
+<pre class="hljs"><code><div>POST /api/notifications/push/send-multicast-by-template?memberId=222
+Content-Type: application/json
+
+{
+  <span class="hljs-string">"deviceTokens"</span>: [<span class="hljs-string">"token1"</span>, <span class="hljs-string">"token2"</span>, <span class="hljs-string">"token3"</span>],
+  <span class="hljs-string">"templateId"</span>: <span class="hljs-string">"PUSH0002"</span>,
+  <span class="hljs-string">"params"</span>: {
+    <span class="hljs-string">"eventName"</span>: <span class="hljs-string">"VIP 전용 이벤트"</span>,
+    <span class="hljs-string">"discount"</span>: <span class="hljs-string">"30%"</span>
+  }
+}
+</div></code></pre>
+<hr>
+<h2 id="5%EF%B8%8F%E2%83%A3-%ED%9A%8C%EC%9B%90-id-%EB%8B%A8%EC%9D%BC-%EC%A0%84%EC%86%A1-%E2%AD%90-%EA%B0%80%EC%9E%A5-%EB%A7%8E%EC%9D%B4-%EC%82%AC%EC%9A%A9">5️⃣ 회원 ID 단일 전송 ⭐ (가장 많이 사용)</h2>
+<p><strong>언제?</strong> 주문, 결제, 쿠폰 지급 등 개인화 알림</p>
+<p><strong>장점</strong>:</p>
+<ul>
+<li>✅ 토큰 관리 불필요</li>
+<li>✅ 회원의 모든 디바이스(아이폰+안드로이드)에 자동 전송</li>
+<li>✅ 비활성 토큰 자동 필터링</li>
+</ul>
+<h3 id="java-%EC%BD%94%EB%93%9C">Java 코드</h3>
+<pre class="hljs"><code><div>Map&lt;String, String&gt; data = Map.of(
+    <span class="hljs-string">"couponId"</span>, <span class="hljs-string">"CP001"</span>,
+    <span class="hljs-string">"deepLink"</span>, <span class="hljs-string">"amano://coupon/CP001"</span>
+);
+
+PushNotificationResponse response = pushNotificationService.sendByMemberId(
+    <span class="hljs-number">222L</span>,  <span class="hljs-comment">// 회원 ID</span>
+    <span class="hljs-string">"🎁 쿠폰 지급 완료"</span>,
+    <span class="hljs-string">"5,000원 할인 쿠폰이 지급되었습니다"</span>,
+    data
+);
+</div></code></pre>
+<h3 id="rest-api-test-%EC%9A%A9%EB%8F%84%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%A0%EC%88%98-%EC%9E%88%EC%9D%8C">REST API (test 용도로 사용할수 있음)</h3>
+<pre class="hljs"><code><div>POST /api/notifications/push/send-to-all-devices?memberId=222
+Content-Type: application/json
+
+{
+  <span class="hljs-string">"title"</span>: <span class="hljs-string">"🎁 쿠폰 지급 완료"</span>,
+  <span class="hljs-string">"body"</span>: <span class="hljs-string">"5,000원 할인 쿠폰이 지급되었습니다"</span>,
+  <span class="hljs-string">"data"</span>: {
+    <span class="hljs-string">"couponId"</span>: <span class="hljs-string">"CP001"</span>,
+    <span class="hljs-string">"deepLink"</span>: <span class="hljs-string">"amano://coupon/CP001"</span>
+  }
+}
+</div></code></pre>
+<h3 id="%EC%8B%A4%EC%A0%84-%EC%98%88%EC%8B%9C">실전 예시</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// 주문 확정 시</span>
+orderService.confirmOrder(orderId);
+pushNotificationService.sendByMemberId(
+    order.getMemberId(),
+    <span class="hljs-string">"주문 확정"</span>,
+    <span class="hljs-string">"주문번호 #"</span> + orderId + <span class="hljs-string">"가 확정되었습니다"</span>,
+    Map.of(<span class="hljs-string">"orderId"</span>, orderId.toString())
+);
+
+<span class="hljs-comment">// 결제 완료 시</span>
+paymentService.completePayment(paymentId);
+pushNotificationService.sendByMemberId(
+    payment.getMemberId(),
+    <span class="hljs-string">"결제 완료"</span>,
+    payment.getAmount() + <span class="hljs-string">"원 결제가 완료되었습니다"</span>,
+    Map.of(<span class="hljs-string">"paymentId"</span>, paymentId.toString())
+);
+</div></code></pre>
+<hr>
+<h2 id="6%EF%B8%8F%E2%83%A3-%ED%9A%8C%EC%9B%90-id-%EB%8B%A4%EC%88%98-%EC%A0%84%EC%86%A1-%E2%AD%90-%EB%8C%80%EB%9F%89-%EB%B0%9C%EC%86%A1">6️⃣ 회원 ID 다수 전송 ⭐ (대량 발송)</h2>
+<p><strong>언제?</strong> 공지사항, 이벤트, VIP 혜택 등 여러 회원에게 일괄 전송</p>
+<h3 id="java-%EC%BD%94%EB%93%9C">Java 코드</h3>
+<pre class="hljs"><code><div>List&lt;Long&gt; vipMembers = memberRepository.findVipMemberIds();
+
+PushNotificationResponse response = pushNotificationService.sendByMemberIds(
+    vipMembers,
+    <span class="hljs-string">"💎 VIP 전용 혜택"</span>,
+    <span class="hljs-string">"VIP 회원님께 특별 할인 쿠폰을 드립니다"</span>,
+    Map.of(<span class="hljs-string">"vipLevel"</span>, <span class="hljs-string">"GOLD"</span>)
+);
+</div></code></pre>
+<h3 id="rest-api-test-%EC%9A%A9%EB%8F%84%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%A0%EC%88%98-%EC%9E%88%EC%9D%8C">REST API (test 용도로 사용할수 있음)</h3>
+<pre class="hljs"><code><div>POST /api/notifications/push/send-to-multiple-users
+Content-Type: application/json
+
+{
+  <span class="hljs-string">"memberIds"</span>: [100, 200, 300],
+  <span class="hljs-string">"title"</span>: <span class="hljs-string">"시스템 점검 안내"</span>,
+  <span class="hljs-string">"body"</span>: <span class="hljs-string">"금일 23:00 ~ 01:00 시스템 점검이 진행됩니다"</span>
+}
+</div></code></pre>
+<h3 id="%EC%8B%A4%EC%A0%84-%EC%98%88%EC%8B%9C">실전 예시</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// 이벤트 당첨자 발표</span>
+List&lt;Long&gt; winners = eventService.getWinners(eventId);
+pushNotificationService.sendByMemberIds(
+    winners,
+    <span class="hljs-string">"🎉 축하합니다! 당첨되셨습니다"</span>,
+    <span class="hljs-string">"신년 이벤트 추첨 결과 당첨되셨습니다"</span>,
+    Map.of(<span class="hljs-string">"eventId"</span>, eventId.toString())
+);
+
+<span class="hljs-comment">// 쿠폰 만료 알림 (만료 7일 전)</span>
+List&lt;Long&gt; expiringMembers = couponService.getMembersWithExpiringCoupons();
+pushNotificationService.sendByMemberIds(
+    expiringMembers,
+    <span class="hljs-string">"⏰ 쿠폰 만료 임박"</span>,
+    <span class="hljs-string">"7일 후 쿠폰이 만료됩니다. 지금 사용하세요!"</span>,
+    <span class="hljs-keyword">null</span>
+);
+</div></code></pre>
+<hr>
+<h2 id="7%EF%B8%8F%E2%83%A3-%ED%9A%8C%EC%9B%90-id-%EB%8B%A8%EC%9D%BC--%ED%85%9C%ED%94%8C%EB%A6%BF-%EC%A0%84%EC%86%A1-%E2%AD%90">7️⃣ 회원 ID 단일 + 템플릿 전송 ⭐</h2>
+<p><strong>언제?</strong> 템플릿을 사용한 개인화 알림 (주문, 결제 등)</p>
+<h3 id="java-%EC%BD%94%EB%93%9C">Java 코드</h3>
+<pre class="hljs"><code><div>Map&lt;String, String&gt; params = Map.of(
+    <span class="hljs-string">"orderNo"</span>, <span class="hljs-string">"20260117-001"</span>,
+    <span class="hljs-string">"amount"</span>, <span class="hljs-string">"50,000"</span>
+);
+
+PushNotificationResponse response = pushNotificationService.sendByMemberIdWithTemplate(
+    <span class="hljs-number">222L</span>,  <span class="hljs-comment">// 회원 ID</span>
+    <span class="hljs-string">"PUSH0001"</span>,  <span class="hljs-comment">// 템플릿 ID</span>
+    params
+);
+</div></code></pre>
+<h3 id="rest-api-test-%EC%9A%A9%EB%8F%84%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%A0%EC%88%98-%EC%9E%88%EC%9D%8C">REST API (test 용도로 사용할수 있음)</h3>
+<pre class="hljs"><code><div>POST /api/notifications/push/send-by-member-template?memberId=222
+Content-Type: application/json
+
+{
+  <span class="hljs-string">"templateId"</span>: <span class="hljs-string">"PUSH0001"</span>,
+  <span class="hljs-string">"params"</span>: {
+    <span class="hljs-string">"orderNo"</span>: <span class="hljs-string">"20260117-001"</span>,
+    <span class="hljs-string">"amount"</span>: <span class="hljs-string">"50,000"</span>
+  }
+}
+</div></code></pre>
+<h3 id="%EC%8B%A4%EC%A0%84-%EC%98%88%EC%8B%9C">실전 예시</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// 주문 확정 (템플릿 사용)</span>
+Map&lt;String, String&gt; params = Map.of(
+    <span class="hljs-string">"orderNo"</span>, order.getOrderNo(),
+    <span class="hljs-string">"orderDate"</span>, order.getCreatedAt().format(DateTimeFormatter.ISO_DATE),
+    <span class="hljs-string">"amount"</span>, String.valueOf(order.getTotalAmount())
+);
+
+pushNotificationService.sendByMemberIdWithTemplate(
+    order.getMemberId(),
+    <span class="hljs-string">"PUSH0001"</span>,  <span class="hljs-comment">// 주문 확정 템플릿</span>
+    params
+);
+</div></code></pre>
+<hr>
+<h2 id="8%EF%B8%8F%E2%83%A3-%ED%9A%8C%EC%9B%90-id-%EB%8B%A4%EC%88%98--%ED%85%9C%ED%94%8C%EB%A6%BF-%EC%A0%84%EC%86%A1-%E2%AD%90">8️⃣ 회원 ID 다수 + 템플릿 전송 ⭐</h2>
+<p><strong>언제?</strong> 템플릿을 사용한 대량 발송 (이벤트, VIP 혜택 등)</p>
+<h3 id="java-%EC%BD%94%EB%93%9C">Java 코드</h3>
+<pre class="hljs"><code><div>List&lt;Long&gt; vipMembers = memberRepository.findVipMemberIds();
+Map&lt;String, String&gt; params = Map.of(
+    <span class="hljs-string">"eventName"</span>, <span class="hljs-string">"VIP 전용 이벤트"</span>,
+    <span class="hljs-string">"discount"</span>, <span class="hljs-string">"30%"</span>,
+    <span class="hljs-string">"endDate"</span>, <span class="hljs-string">"2026-01-31"</span>
+);
+
+PushNotificationResponse response = pushNotificationService.sendByMemberIdsWithTemplate(
+    vipMembers,
+    <span class="hljs-string">"PUSH0002"</span>,  <span class="hljs-comment">// 이벤트 템플릿</span>
+    params
+);
+</div></code></pre>
+<h3 id="rest-api-test-%EC%9A%A9%EB%8F%84%EB%A1%9C-%EC%82%AC%EC%9A%A9%ED%95%A0%EC%88%98-%EC%9E%88%EC%9D%8C">REST API (test 용도로 사용할수 있음)</h3>
+<pre class="hljs"><code><div>POST /api/notifications/push/send-to-multiple-users-by-template
+Content-Type: application/json
+
+{
+  <span class="hljs-string">"memberIds"</span>: [100, 200, 300],
+  <span class="hljs-string">"templateId"</span>: <span class="hljs-string">"PUSH0002"</span>,
+  <span class="hljs-string">"params"</span>: {
+    <span class="hljs-string">"eventName"</span>: <span class="hljs-string">"VIP 전용 이벤트"</span>,
+    <span class="hljs-string">"discount"</span>: <span class="hljs-string">"30%"</span>,
+    <span class="hljs-string">"endDate"</span>: <span class="hljs-string">"2026-01-31"</span>
+  }
+}
+</div></code></pre>
+<h3 id="%EC%8B%A4%EC%A0%84-%EC%98%88%EC%8B%9C">실전 예시</h3>
+<pre class="hljs"><code><div><span class="hljs-comment">// 쿠폰 만료 알림 (템플릿 사용)</span>
+List&lt;Long&gt; expiringMembers = couponService.getMembersWithExpiringCoupons();
+Map&lt;String, String&gt; params = Map.of(
+    <span class="hljs-string">"days"</span>, <span class="hljs-string">"7"</span>,
+    <span class="hljs-string">"couponName"</span>, <span class="hljs-string">"신규가입 쿠폰"</span>
+);
+
+pushNotificationService.sendByMemberIdsWithTemplate(
+    expiringMembers,
+    <span class="hljs-string">"PUSH0004"</span>,  <span class="hljs-comment">// 쿠폰 만료 템플릿</span>
+    params
+);
+</div></code></pre>
+<hr>
+
+</body>
+
+</html>
